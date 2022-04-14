@@ -1,0 +1,45 @@
+{
+  "name": "@suning/uxcool-graphin",
+  "version": "0.0.5",
+  "description": "okd拓扑图，针对g6功能增强",
+  "author": "Roy <iRoySwift@Gmail.com>",
+  "homepage": "http://opensource.cnsuning.com/uxcool/uxcool-graphin.git",
+  "license": "MIT",
+  "main": "lib/graph.js",
+  "module": "lib/graph.js",
+  "types": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+http://opensource.cnsuning.com/uxcool/uxcool-graphin.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "start": "node ./../../build/rollup.build.js",
+    "build": "rollup -c"
+  },
+  "bugs": {
+    "url": "http://opensource.cnsuning.com/uxcool/uxcool-graphin.git/issues"
+  },
+  "dependencies": {
+    "@antv/g6": "^4.6.4",
+    "@babel/plugin-proposal-decorators": "^7.17.9",
+    "@mui/material": "^5.6.1",
+    "@rollup/plugin-node-resolve": "^13.1.3",
+    "@types/insert-css": "^2.0.1",
+    "insert-css": "^2.0.0",
+    "node-sass": "^7.0.1",
+    "postcss": "^8.4.12",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-typescript2": "^0.31.2"
+  },
+  "gitHead": "ca2321314235de3d289b71da4cf174644be9623d"
+}
