@@ -1,4 +1,5 @@
-import styled, { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from '@emotion/react';
+import styled from '@emotion/styled';
 import Routers from '@/routes/index';
 import { MAINNET_PRIMARY_THEME_COLOR, MAINNET_SECONDARY_THEME_COLOR } from './utils/const';
 import withProviders from './store/providers';

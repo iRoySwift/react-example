@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import Mobile404Image from '@/assets/404/mobile_404.png';
 import Content from '@/components/Content';
 import Page from '@/components/Page';
