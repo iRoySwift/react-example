@@ -1,9 +1,9 @@
-import styled from '@emotion/styled';
+import { styled } from '@mui/material/styles';
 
-export const PagePanel = styled.div`
+export const PagePanel = styled('div')`
   width: 100%;
   min-height: 100%;
-  background-color: #f9f9f9;
+  background-color: #282c34;
   box-sizing: border-box;
   position: relative;
   display: flex;

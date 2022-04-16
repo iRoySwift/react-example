@@ -1,28 +1,18 @@
-import styled from '@emotion/styled';
+import { styled } from '@mui/material/styles';
 
-export const LanguageCompPanel: any = styled.div`
-  display: flex;
-  align-items: center;
-  color: ${(props: { theme: any; showLanguage: boolean }) => (props.showLanguage ? props.theme.secondary : 'white')};
-  position: relative;
+export const LanguageCompPanel: any = styled('div')`
+  width: 100px;
+  color: ${({ theme }) => theme.palette.text.primary};
   .header_language_flag {
     font-size: 14px;
     padding: 10px 0;
   }
   .header_language_content_panel {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    img {
-      width: 7.9px;
-      height: 4.7px;
-      margin-top: 3px;
-      margin-left: 8px;
-    }
+    text-align: right;
   }
 `;
 
-export const LanguageMobileCompPanel = styled.div`
+export const LanguageMobileCompPanel = styled('div')`
   .mobile_menu_button {
     display: flex;
     width: 100%;
@@ -38,7 +28,7 @@ export const LanguageMobileCompPanel = styled.div`
   }
 `;
 
-export const LanguageMobileMenuItem = styled.div`
+export const LanguageMobileMenuItem = styled('div')`
   display: flex;
   align-items: center;
   font-weight: regular;
@@ -46,5 +36,5 @@ export const LanguageMobileMenuItem = styled.div`
   font-size: 12px;
   margin: 0 76px;
   margin-top: 22px;
-  color: #fff;
+  color: ${({ theme }) => theme.palette.text.primary};
 `;

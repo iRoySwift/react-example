@@ -1,12 +1,12 @@
-import styled from '@emotion/styled';
+import { styled } from '@mui/material/styles';
 
-export const MobileMenuPanel = styled.div`
+export const MobileMenuPanel = styled('div')`
   width: 100%;
-  background: #1c1c1c;
+  background: ${({ theme }) => (theme.palette.mode == 'dark' ? theme.palette.background.topBar : '#fff')};
   overflow: hidden;
   position: fixed;
   top: 40px;
   bottom: 0px;
   z-index: 2;
-  color: white;
+  color: ${({ theme }) => theme.palette.text.primary};
 `;

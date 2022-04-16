@@ -1,6 +1,6 @@
 import { useAppState } from '@/store/providers';
 import React, { ReactNode } from 'react';
-import styled from '@emotion/styled';
+import { styled } from '@mui/material/styles';
 import MobileMenu from '../TopBar/MobileMenu';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
   style?: any;
 }
 
-const ContentPanel = styled.div`
+const ContentPanel = styled('div')`
   width: 100%;
   display: flex;
   flex: 1;

@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
-import styled from '@emotion/styled';
+import { styled } from '@mui/material/styles';
 
-const ButtonPanel = styled.div`
+const ButtonPanel = styled('div')`
   cursor: pointer;
 `;
 

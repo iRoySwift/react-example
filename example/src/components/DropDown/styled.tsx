@@ -1,19 +1,19 @@
-import styled from '@emotion/styled';
+import { styled } from '@mui/material/styles';
 
-export const DropDownPanel = styled.div`
+export const DropDownPanel = styled('div')`
   display: flex;
   flex-direction: column;
   width: 70px;
   height: 74px;
-  background: white;
+  background: ${({ theme }) => (theme.palette.mode == 'dark' ? theme.palette.background.topBar : '#fff')};
   border-radius: 5px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
   align-items: center;
   position: fixed;
   position: -webkit-fixed;
   z-index: 1000;
-  color: #000000;
-  left: ${(props: { left: number; top: number }) => props.left}px;
+  color: ${({ theme }) => theme.palette.text.primary};
+  right: ${(props: { left: number; top: number }) => `calc(100% - ${props.left}px)`};
   top: ${(props: { left: number; top: number }) => props.top}px;
 
   .language__selected {
@@ -26,7 +26,7 @@ export const DropDownPanel = styled.div`
     cursor: pointer;
     border-radius: 3px;
     &:hover {
-      background: #f1f1f1;
+      color: #61dafb;
     }
   }
   .language__normal {
@@ -39,7 +39,7 @@ export const DropDownPanel = styled.div`
     cursor: pointer;
     border-radius: 3px;
     &:hover {
-      background: #f1f1f1;
+      color: #61dafb;
     }
   }
 

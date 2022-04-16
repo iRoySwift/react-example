@@ -1,8 +1,10 @@
 declare namespace State {
+  type IMode = 'light' | 'dark';
   export interface App {
     appWidth: number;
     appHeight: number;
     language: 'en' | 'zh';
+    mode: IMode;
   }
 
   export interface AppPayload extends App {}

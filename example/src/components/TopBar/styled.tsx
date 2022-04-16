@@ -1,11 +1,12 @@
-import styled from '@emotion/styled';
+import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import Button from '../Button';
 
-export const TopBarPanel = styled.div`
+export const TopBarPanel = styled('div')`
   width: 100%;
   height: 60px;
-  background-color: #20232a;
+  background-color: ${({ theme }) => (theme.palette.mode == 'dark' ? theme.palette.background.topBar : '#fff')};
+  color: ${({ theme }) => theme.palette.text.primary};
   position: fixed;
   overflow: visible;
   z-index: 10;
@@ -78,7 +79,7 @@ export const TopBarLogoPanel = styled(Link)`
   }
 `;
 
-export const HeaderEmptyPanel = styled.div`
+export const HeaderEmptyPanel = styled('div')`
   flex: 1;
 `;
 
@@ -88,7 +89,7 @@ export const MobileMenuIconCompPanel = styled(Button)`
   .menu__icon__third {
     width: 18px;
     height: 2px;
-    background-color: white;
+    background-color: ${({ theme }) => theme.palette.text.primary};
     margin: 5px 0;
     transition: 0.4s;
   }

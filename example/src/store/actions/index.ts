@@ -1,7 +1,8 @@
 export enum AppActions {
   ResizeWindow = 'resizeWindow',
   UpdateLoading = 'updateLoading',
-  UpdateAppLanguage = 'updateAppLanguage'
+  UpdateAppLanguage = 'updateAppLanguage',
+  TOGGLEMODEL = 'TOGGLEMODEL'
 }
 
 export enum ComponentsActions {

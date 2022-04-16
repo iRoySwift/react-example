@@ -19,6 +19,14 @@ const appReducer = (state: State.AppState, { type, payload }: { type: AppActions
           language: payload.language
         }
       };
+    case AppActions.TOGGLEMODEL:
+      return {
+        ...state,
+        app: {
+          ...state.app,
+          mode: payload.mode
+        }
+      };
     default:
       return state;
   }

@@ -2,9 +2,6 @@ import React, { useLayoutEffect, useState } from 'react';
 import { LanguageCompPanel, LanguageMobileCompPanel, LanguageMobileMenuItem } from './styled';
 import Button from '@/components/Button/index';
 import DropDown from './../../DropDown/index';
-import WhiteDropdownIcon from '@/assets/white_dropdown.png';
-import WhiteDropUpIcon from '@/assets/white_drop_up.png';
-import GreenDropUpIcon from '@/assets/green_drop_up.png';
 import i18n, { changeLanguage, currentLanguage } from '@/utils/i18n';
 import { isMobile } from '@/utils/screen';
 import { MobileMenuItem } from '../MenusComp/styled';
@@ -12,10 +9,13 @@ import { useDispatch } from '@/store/providers';
 import { AppActions, ComponentsActions } from '@/store/actions';
 import { useTranslation } from 'react-i18next';
 import { AppDispatch } from '@/store/reducers';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { useTheme } from '@mui/material';
 
-const getDropdownIcon = (showLanguage: boolean) => {
-  if (!showLanguage) return WhiteDropdownIcon;
-  return GreenDropUpIcon;
+const GetDropdownIcon = (showLanguage: boolean) => {
+  const theme = useTheme();
+  if (!showLanguage) return <ArrowBackIosIcon sx={{ color: theme.palette.text.primary, fontSize: '12px', transform: 'rotate(-90deg) translate(2px, 0px)' }} />;
+  return <ArrowBackIosIcon sx={{ color: theme.palette.text.primary, fontSize: '12px', transform: 'rotate(90deg) translate(2px, 0px)' }} />;
 };
 
 export const hideMibleMenu = (dispatch: AppDispatch) => {
@@ -59,7 +59,7 @@ const LanguageMobileComp = () => {
             setShowSubMenu(!showSubMenu);
           }}>
           <div className="mobile_menu_text">{languageText(currentLanguage())}</div>
-          <img className="mobile_menu_icon" src={!showSubMenu ? WhiteDropdownIcon : WhiteDropUpIcon} alt="dropdown icon" />
+          {GetDropdownIcon(showSubMenu)}
         </Button>
       </MobileMenuItem>
       {showSubMenu && (
@@ -91,7 +91,7 @@ const LanguageMobileComp = () => {
 
 interface Props {}
 const LanguageComp: React.FC<Props> = () => {
-  const [showLanguage, setShowLanguage] = useState(false);
+  const [showLanguage, setShowLanguage] = useState(true);
   const [languageLeft, setLanguageLeft] = useState(0);
   const [languageTop, setLanguageTop] = useState(0);
 
@@ -100,8 +100,9 @@ const LanguageComp: React.FC<Props> = () => {
       const languageBoxRef = document.getElementById('header__language__panel');
       const languageBoxRect = languageBoxRef?.getBoundingClientRect();
       if (languageBoxRect) {
-        const { bottom, left, width } = languageBoxRect;
-        setLanguageLeft(left - width / 2);
+        const { bottom, right, left } = languageBoxRect;
+        console.log(bottom, right, left);
+        setLanguageLeft(right);
         setLanguageTop(bottom);
       }
     }
@@ -119,8 +120,8 @@ const LanguageComp: React.FC<Props> = () => {
           setShowLanguage(true);
         }}>
         <div className="header_language_content_panel">
-          <div>{languageText(currentLanguage())}</div>
-          <img src={getDropdownIcon(showLanguage)} alt="dropdown icon" />
+          <span style={{ marginRight: '5px' }}>{languageText(currentLanguage())}</span>
+          {GetDropdownIcon(showLanguage)}
         </div>
       </Button>
       {showLanguage && <DropDown setShow={setShowLanguage} left={languageLeft} top={languageTop} />}

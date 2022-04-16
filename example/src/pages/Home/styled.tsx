@@ -1,5 +1,4 @@
-import { keyframes } from '@emotion/react';
-import styled from '@emotion/styled';
+import { styled, keyframes } from '@mui/material/styles';
 
 const rotate = keyframes`
   from {
@@ -10,8 +9,7 @@ const rotate = keyframes`
   }
 `;
 
-export const HomePanel = styled.header`
-  background-color: #282c34;
+export const HomePanel = styled('header')`
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -24,7 +22,7 @@ export const HomePanel = styled.header`
   }
 `;
 
-export const LogoImage = styled.img`
+export const LogoImage = styled('img')`
   height: 40vmin;
   pointer-events: none;
   @media (prefers-reduced-motion: no-preference) {

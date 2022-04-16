@@ -1,12 +1,12 @@
 import React from 'react';
-import styled from '@emotion/styled';
+import { styled } from '@mui/material/styles';
 import Mobile404Image from '@/assets/404/mobile_404.png';
 import Content from '@/components/Content';
 import Page from '@/components/Page';
 
 interface Props {}
 
-export const NoFoundPanel = styled.div`
+export const NoFoundPanel = styled('div')`
   background-color: #282c34;
   display: flex;
   flex-direction: column;
@@ -20,7 +20,7 @@ export const NoFoundPanel = styled.div`
   }
 `;
 
-const NotFoundImage = styled.img`
+const NotFoundImage = styled('img')`
   width: 1038px;
   height: 480px;
   margin: 0 auto;

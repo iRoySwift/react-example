@@ -1,6 +1,6 @@
-import styled from '@emotion/styled';
+import { styled } from '@mui/material/styles';
 
-export const TopBarMenusPanel = styled.nav`
+export const TopBarMenusPanel = styled('nav')`
   display: flex;
   flex: 1;
   flex-direction: row;
@@ -8,7 +8,7 @@ export const TopBarMenusPanel = styled.nav`
   height: 100%;
 `;
 
-export const MobileMenuItem = styled.div`
+export const MobileMenuItem = styled('div')`
   display: flex;
   align-items: center;
   font-size: 14px;
@@ -16,9 +16,9 @@ export const MobileMenuItem = styled.div`
   height: 22px;
   margin: 0 56px;
   margin-top: 22px;
-  color: #fff;
+  color: ${({ theme }) => theme.palette.text.primary};
 `;
 
-export const MobileMenuLink = styled.a`
-  color: #fff;
+export const MobileMenuLink = styled('a')`
+  color: ${({ theme }) => theme.palette.text.primary};
 `;
