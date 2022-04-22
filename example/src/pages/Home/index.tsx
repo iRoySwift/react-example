@@ -6,11 +6,15 @@ import Page from '@/components/Page/index';
 
 const Home = () => {
   const { t } = useTranslation();
+  console.log(process.env);
   return (
     <Page>
       <Content>
         <HomePanel>
           <LogoImage src={logo} alt="logo" />
+          {process.env.REACT_APP_TITLE}
+          <br />
+          {process.env.NODE_ENV}
           <p>
             {t('home.edit')} <code>src/App.tsx</code> {t('home.andSaveToReload')}
           </p>

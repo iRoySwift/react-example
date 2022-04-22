@@ -20,7 +20,9 @@ const Topo: React.FC<Props> = () => {
       readData();
     }
 
-    return () => {};
+    return () => {
+      graph = {} as Graph;
+    };
   }, []);
 
   // @ts-ignore

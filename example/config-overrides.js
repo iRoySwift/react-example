@@ -1,16 +1,7 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
-const {
-  override,
-  fixBabelImports,
-  addDecoratorsLegacy,
-  addWebpackAlias,
-  overrideDevServer
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
-} = require('customize-cra');
+const { override, fixBabelImports, addDecoratorsLegacy, addWebpackAlias, overrideDevServer, setWebpackPublicPath } = require('customize-cra');
 
 // 跨域配置
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const devServerConfig = () => (config) => {
   return {
     ...config,
@@ -34,7 +25,8 @@ module.exports = {
     addDecoratorsLegacy(),
     addWebpackAlias({
       '@': path.resolve(__dirname, 'src')
-    })
+    }),
+    setWebpackPublicPath(process.env.PUBLIC_URL)
   ),
   devServer: overrideDevServer(devServerConfig()),
   jest: function (config) {
