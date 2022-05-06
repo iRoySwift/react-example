@@ -32,9 +32,11 @@ const Item: React.FC<Props> = ({ name, showCopyIcon, data }) => {
     options: {
       dropEffect: showCopyIcon ? 'copy' : 'move'
     },
+    // @ts-ignore
     canDrag(monitor) {
       return true;
     },
+    // @ts-ignore
     isDragging(monitor) {
       return true;
     },

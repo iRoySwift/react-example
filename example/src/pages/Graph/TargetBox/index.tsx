@@ -23,6 +23,7 @@ const DragItem: React.FC<Props> = () => {
       eventBus.emit('drop', { ...item, ...monitor.getClientOffset() });
       return item;
     },
+    // @ts-ignore
     canDrop(item, monitor) {
       return true;
     },

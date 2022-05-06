@@ -100,7 +100,7 @@ const LanguageComp: React.FC<Props> = () => {
       const languageBoxRef = document.getElementById('header__language__panel');
       const languageBoxRect = languageBoxRef?.getBoundingClientRect();
       if (languageBoxRect) {
-        const { bottom, right, left } = languageBoxRect;
+        const { bottom, right } = languageBoxRect;
         setLanguageLeft(right);
         setLanguageTop(bottom);
       }

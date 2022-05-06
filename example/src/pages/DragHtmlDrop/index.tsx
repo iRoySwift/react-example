@@ -32,6 +32,7 @@ const App: React.FC<Props> = () => {
     e.preventDefault();
     e.stopPropagation();
     e.persist();
+    // @ts-ignore
     const data = e.dataTransfer.getData('service');
   };
 
