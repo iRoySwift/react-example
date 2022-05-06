@@ -1,14 +1,14 @@
-import G6 from "@antv/g6";
-import { getPathByPoints, getPathWithBorderRadiusByPolyline } from "./AStar";
-import getNodeStyle from "../configs/nodeStyle";
-import Arrow from "../arrow";
+import G6 from '@antv/g6';
+import { getPathByPoints, getPathWithBorderRadiusByPolyline } from './AStar';
+import getNodeStyle from '../configs/nodeStyle';
+import Arrow from '../arrow';
 const offset = 15;
 
 function afterDraw(cfg, group) {
   const { showClose, x, y } = cfg;
-  const config = getNodeStyle("default");
+  const config = getNodeStyle('default');
   // 获取图形组中的第一个图形，在这里就是边的路径图形
-  const shape = group.get("children")[0];
+  const shape = group.get('children')[0];
   // 获取路径图形的中点坐标
   const midPoint = shape?.getPoint(0.5);
   // 在中点增加一个矩形，注意矩形的原点在其左上角
@@ -22,43 +22,43 @@ function afterDraw(cfg, group) {
   //     fill: "#DFEEFF",
   //   },
   // });
-  group.addShape("text", {
+  group.addShape('text', {
     attrs: {
       x: midPoint.x - 12,
       y: midPoint.y + 3,
       fill: config.fontColor,
       fontSize: 12,
-      text: "URL",
+      text: 'URL',
       // textBaseline: "middle",
       // textAlign: "center",
-      cursor: "pointer",
+      cursor: 'pointer'
     },
-    name: "title",
-    draggable: true,
+    name: 'title',
+    draggable: true
   });
 
   if (showClose) {
-    let key = group.addShape("circle", {
-      class: "close",
+    let key = group.addShape('circle', {
+      class: 'close',
       attrs: {
         x,
         y,
-        fill: "#F22635",
-        r: 7,
-      },
+        fill: '#F22635',
+        r: 7
+      }
     });
-    group.addShape("text", {
-      class: "close",
+    group.addShape('text', {
+      class: 'close',
       attrs: {
         x,
         y,
-        fill: "#FFFFFF",
-        text: "×",
-        textBaseline: "middle",
-        textAlign: "center",
+        fill: '#FFFFFF',
+        text: '×',
+        textBaseline: 'middle',
+        textAlign: 'center',
         fontSize: 12,
-        fontweight: 40,
-      },
+        fontweight: 40
+      }
     });
     return key;
   }
@@ -96,7 +96,6 @@ function getShapeStyle(cfg, item) {
   const lineWidth = cfg.size || G6.Global.defaultEdge.size;
   const stroke = cfg.color || G6.Global.defaultEdge.color;
   const fill = cfg.color || G6.Global.defaultEdge.color;
-  console.log(cfg, G6.Global.defaultEdge);
   const styles = Object.assign(
     {},
     G6.Global.defaultEdge.style,
@@ -107,9 +106,9 @@ function getShapeStyle(cfg, item) {
       endArrow: cfg.endArrow && {
         path: Arrow.vee(10, -10, -5),
         d: -5,
-        fill: "#d3dbe1",
-        stroke: "#d3dbe1",
-      },
+        fill: '#d3dbe1',
+        stroke: '#d3dbe1'
+      }
     },
     cfg.style
   );
@@ -120,12 +119,11 @@ const options = {
   drawShape(cfg, group) {
     const { item } = group.cfg;
     const shapeStyle = getShapeStyle(cfg, item);
-    console.log(shapeStyle);
     if (shapeStyle.radius === 0) delete shapeStyle.radius;
-    const keyShape = group.addShape("path", {
-      className: "edge-shape",
-      name: "edge-shape",
-      attrs: shapeStyle,
+    const keyShape = group.addShape('path', {
+      className: 'edge-shape',
+      name: 'edge-shape',
+      attrs: shapeStyle
     });
 
     afterDraw(cfg, group);
@@ -134,10 +132,8 @@ const options = {
   update: undefined,
 
   updateShapeStyle(cfg, item) {
-    console.log("updateShapeStyle");
     const group = item.getContainer();
-    const shape =
-      group.find((element) => element.get("className") === "edge-shape") || item.getKeyShape();
+    const shape = group.find((element) => element.get('className') === 'edge-shape') || item.getKeyShape();
     const style = Object.assign({}, shape.attr(), getShapeStyle(cfg, item), cfg.style);
     if (shape) {
       shape.attr(style);
@@ -145,29 +141,28 @@ const options = {
   },
 
   setState(name, value, item) {
-    console.log("setState");
     const group = item.getContainer();
-    const shape = group.get("children")[0]; // 顺序根据 draw 时确定
-    if (name === "active") {
+    const shape = group.get('children')[0]; // 顺序根据 draw 时确定
+    if (name === 'active') {
       if (value) {
-        shape.attr("lineWidth", 3);
+        shape.attr('lineWidth', 3);
       } else {
-        shape.attr("lineWidth", 1);
+        shape.attr('lineWidth', 1);
       }
     }
-    if (name === "selected") {
+    if (name === 'selected') {
       if (value) {
-        shape.attr("lineWidth", 3);
+        shape.attr('lineWidth', 3);
       } else {
-        shape.attr("lineWidth", 2);
+        shape.attr('lineWidth', 2);
       }
     }
-  },
+  }
 };
 
 export default {
-  type: "edge",
-  name: "polyline-round",
+  type: 'edge',
+  name: 'polyline-round',
   options,
-  extendShapeType: "line",
+  extendShapeType: 'line'
 };

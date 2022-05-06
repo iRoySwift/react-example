@@ -1,13 +1,10 @@
-import G6, { BehaviorOption, GraphOptions } from '@antv/g6';
+import G6, { GraphOptions } from '@antv/g6';
 import Utils from '../utils/index';
+import Command from './../command/index';
 import defaultComponent from '../shape/index';
-// import defaultBehaviour from "./behavior/index";
-// import defaultPlugin from "./plugins/index";
 import { PluginBase } from '@antv/g6-plugin';
 
 const _initComponent = Symbol('_initComponent');
-// const _initBehaviour = Symbol("_initBehaviour");
-// const _initPlugin = Symbol("_initPlugin");
 
 function addUtilMethods(list: any) {
   return function (target: any): void {
@@ -15,12 +12,12 @@ function addUtilMethods(list: any) {
   };
 }
 export interface RegisterFunction {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (name: string, options: { [key: string]: any }, extendName?: string): void;
 }
 
 @addUtilMethods(Utils)
 class Graph extends G6.Graph {
+  public cmd: any;
   static registerNode: RegisterFunction = (nodeName, options, extendedNodeName) => {
     G6.registerNode(nodeName, options, extendedNodeName);
   };
@@ -32,16 +29,13 @@ class Graph extends G6.Graph {
   static registerCombo: RegisterFunction = (comboName, options, extendedComboName) => {
     G6.registerCombo(comboName, options, extendedComboName);
   };
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static registerBehavior(behaviorName: string, behavior: any) {
     G6.registerBehavior(behaviorName, behavior);
   }
   constructor(cfg: GraphOptions) {
     super(cfg);
-    // this[_initBehaviour]();
     this[_initComponent]();
-    // this[_initPlugin]();
+    this.cmd = new Command(this);
   }
   // 初始化组件
   [_initComponent] = (): void => {
@@ -49,19 +43,6 @@ class Graph extends G6.Graph {
       this.registerComponent(item.type, item, item.extendShapeType);
     });
   };
-
-  // [_initBehaviour]() {
-  //   defaultBehaviour.forEach((item) => {
-  //     this.registerBehavior(item.type, item.option);
-  //   });
-  // }
-
-  // [_initPlugin]() {
-  //   Object.keys(defaultPlugin).forEach((plugin) => {
-  //     let obj = new defaultPlugin[plugin]();
-  //     this.addPlugin(obj);
-  //   });
-  // }
 
   /**
    * 全局注册组建
@@ -85,16 +66,19 @@ class Graph extends G6.Graph {
     }
   };
 
-  /**
-   * 全局注册行为
-   * @param name behaviors 名称
-   * @param behavior BehaviorOption
-   */
-  registerBehavior = (name: string, behavior: BehaviorOption): any => {
-    G6.registerBehavior(name, behavior);
-  };
-  addPlugin(plugin: PluginBase): void {
+  public addPlugin(plugin: PluginBase): void {
     super.addPlugin(plugin);
+  }
+  public removePlugin(plugin: PluginBase): void {
+    super.removePlugin(plugin);
+  }
+  /**
+   * 将页面坐标转成视口坐标
+   * @param clientX 页面 x 坐标
+   * @param clientY 页面 y 坐标
+   */
+  public getPointByClient(clientX: number, clientY: number) {
+    return super.getPointByClient(clientX, clientY);
   }
 }
 export default Graph;

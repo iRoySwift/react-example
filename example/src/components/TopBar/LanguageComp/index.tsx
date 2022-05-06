@@ -101,7 +101,6 @@ const LanguageComp: React.FC<Props> = () => {
       const languageBoxRect = languageBoxRef?.getBoundingClientRect();
       if (languageBoxRect) {
         const { bottom, right, left } = languageBoxRect;
-        console.log(bottom, right, left);
         setLanguageLeft(right);
         setLanguageTop(bottom);
       }

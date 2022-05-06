@@ -3,15 +3,10 @@
  * @LastEditors: moyee
  * @Description: 拖动 Combo
  */
-import {
-  G6Event,
-  IG6GraphEvent,
-  Item,
-  ComboConfig,
-} from "@antv/g6-core/lib/types";
-import { each } from "@antv/util/lib";
-import { IGroup } from "@antv/g-base/lib/interfaces";
-import { Global, ICombo, IGraph, INode } from "@antv/g6";
+import { G6Event, IG6GraphEvent, Item, ComboConfig } from '@antv/g6-core/lib/types';
+import { each } from '@antv/util/lib';
+import { IGroup } from '@antv/g-base/lib/interfaces';
+import { Global, ICombo, IGraph, INode } from '@antv/g6';
 
 /**
  * 遍历拖动的 Combo 下的所有 Combo
@@ -24,7 +19,7 @@ const traverseCombo = (data, fn: (param: any) => boolean) => {
   }
 
   if (data) {
-    const combos = data.get("combos");
+    const combos = data.get('combos');
     if (combos.length === 0) {
       return false;
     }
@@ -79,7 +74,7 @@ export const calculationItemsBBox = (items: Item[]) => {
     minX: minx,
     minY: miny,
     maxX: maxx,
-    maxY: maxy,
+    maxY: maxy
   };
 };
 
@@ -91,15 +86,15 @@ const option = {
       // 拖动节点过程中是否只改变 Combo 的大小，而不改变其结构
       onlyChangeComboSize: false,
       // 拖动过程中目标 combo 状态样式
-      activeState: "",
-      selectedState: "selected",
+      activeState: '',
+      selectedState: 'selected'
     };
   },
   getEvents(): { [key in G6Event]?: string } {
     return {
-      "combo:dragstart": "onDragStart",
-      "combo:drag": "onDrag",
-      "combo:dragend": "onDragEnd",
+      'combo:dragstart': 'onDragStart',
+      'combo:drag': 'onDrag',
+      'combo:dragend': 'onDragEnd'
       // "combo:drop": "onDrop",
       // "node:drop": "onNodeDrop",
       // "combo:dragenter": "onDragEnter",
@@ -118,7 +113,7 @@ const option = {
 
     const { type } = item.getModel();
 
-    if (type !== "region") {
+    if (type !== 'region') {
       return false;
     }
     return true;
@@ -135,7 +130,7 @@ const option = {
 
     this.origin = {
       x: evt.x,
-      y: evt.y,
+      y: evt.y
     };
     this.targets = [];
 
@@ -202,10 +197,8 @@ const option = {
 
     // this.removeBlock(evt);
     this.update(evt);
-    console.log(item);
     // 获取所有选中的 Combo
-    const combos = graph.findAllByState("combo", this.selectedState);
-    console.log(combos);
+    const combos = graph.findAllByState('combo', this.selectedState);
     // if (combo.getModel().type == "app") {
     //   graph.emit(
     //     "combo:dragstart",
@@ -219,7 +212,7 @@ const option = {
     const graph: IGraph = this.graph;
     // 当没有 delegate shape 时创建
     if (!this.delegateShape) {
-      const delegateGroup: IGroup = graph.get("delegateGroup");
+      const delegateGroup: IGroup = graph.get('delegateGroup');
 
       let bbox = null;
       if (this.targets.length > 1) {
@@ -234,15 +227,15 @@ const option = {
 
       const attrs = { ...Global.delegateStyle, ...this.delegateStyle };
 
-      this.delegateShape = delegateGroup.addShape("rect", {
+      this.delegateShape = delegateGroup.addShape('rect', {
         attrs: {
           width: bbox.width,
           height: bbox.height,
           x: bbox.x,
           y: bbox.y,
-          ...attrs,
+          ...attrs
         },
-        name: "combo-delegate-shape",
+        name: 'combo-delegate-shape'
       });
     } else {
       const clientX = evt.x - this.origin.x + this.originPoint.minX;
@@ -250,7 +243,7 @@ const option = {
 
       this.delegateShape.attr({
         x: clientX,
-        y: clientY,
+        y: clientY
       });
     }
   },
@@ -259,37 +252,37 @@ const option = {
     const { width, height, x, y } = item.getBBox();
     const graph = this.graph;
     const group = graph.getGroup();
-    group.addShape("rect", {
+    group.addShape('rect', {
       zIndex: 999,
-      name: "block",
+      name: 'block',
       attrs: {
         x,
         y,
         width: width,
         height: height,
-        fill: "#6ca0d1",
+        fill: '#6ca0d1',
         opacity: 0.5,
-        stroke: "#CED4D9",
+        stroke: '#CED4D9',
         lineWidth: 2,
         radius: 5,
-        lineDash: [20, 5],
-      },
+        lineDash: [20, 5]
+      }
     });
   },
   updateBlock(evt: IG6GraphEvent) {
     const { x, y } = evt;
     const graph = this.graph;
     const group = graph.getGroup();
-    const rect = group.find((element) => element.get("name") === "block");
+    const rect = group.find((element) => element.get('name') === 'block');
     rect.attr({
       x,
-      y,
+      y
     });
   },
   removeBlock(evt: IG6GraphEvent) {
     const graph = this.graph;
     const group = graph.getGroup();
-    const rect = group.find((element) => element.get("name") === "block");
+    const rect = group.find((element) => element.get('name') === 'block');
     rect.remove();
   },
   update(evt) {
@@ -297,13 +290,13 @@ const option = {
     const graph = this.graph;
     item.update({
       x,
-      y,
+      y
     });
     graph.refresh();
-  },
+  }
 };
 
 export default {
-  type: "dragCombo",
-  option,
+  type: 'dragCombo',
+  option
 };

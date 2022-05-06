@@ -1,5 +1,5 @@
 const path = require('path');
-const { override, fixBabelImports, addDecoratorsLegacy, addWebpackAlias, overrideDevServer, setWebpackPublicPath } = require('customize-cra');
+const { override, fixBabelImports, addBabelPreset, addDecoratorsLegacy, addWebpackAlias, overrideDevServer, setWebpackPublicPath } = require('customize-cra');
 
 // 跨域配置
 const devServerConfig = () => (config) => {
@@ -21,6 +21,7 @@ const devServerConfig = () => (config) => {
 
 module.exports = {
   webpack: override(
+    // addBabelPreset('@emotion/babel-preset-css-prop'),
     // 装饰器 @babel/plugin-proposal-decorators
     addDecoratorsLegacy(),
     addWebpackAlias({

@@ -1,25 +1,7 @@
-import G6, { IShape } from "@antv/g6";
-import {
-  deepMix,
-  isArray,
-  each,
-  mix,
-  isBoolean,
-  isPlainObject,
-  clone,
-} from "@antv/util";
-import {
-  registerNode,
-  Item,
-  NodeConfig,
-  ShapeStyle,
-  ShapeOptions,
-  BaseGlobal as Global,
-  UpdateType,
-  ModelConfig,
-  IG6GraphEvent,
-} from "@antv/g6-core";
-import GGroup from "@antv/g-canvas/lib/group";
+import G6, { IShape } from '@antv/g6';
+import { deepMix, isArray, each, mix, isBoolean, isPlainObject, clone } from '@antv/util';
+import { registerNode, Item, NodeConfig, ShapeStyle, ShapeOptions, BaseGlobal as Global, UpdateType, ModelConfig, IG6GraphEvent } from '@antv/g6-core';
+import GGroup from '@antv/g-canvas/lib/group';
 
 interface CustomModelConfig extends ModelConfig {
   model?: any;
@@ -35,14 +17,14 @@ const options: any = {
       y: 0,
       stroke: Global.defaultNode.style.stroke,
       fill: Global.defaultNode.style.fill,
-      lineWidth: Global.defaultNode.style.lineWidth,
+      lineWidth: Global.defaultNode.style.lineWidth
     },
     labelCfg: {
       style: {
         fill: Global.nodeLabel.style.fill,
         fontSize: Global.nodeLabel.style.fontSize,
-        fontFamily: Global.windowFontFamily,
-      },
+        fontFamily: Global.windowFontFamily
+      }
     },
     // 节点上左右上下四个方向上的链接circle配置
     linkPoints: {
@@ -54,7 +36,7 @@ const options: any = {
       size: Global.defaultNode.linkPoints.size,
       lineWidth: Global.defaultNode.linkPoints.lineWidth,
       fill: Global.defaultNode.linkPoints.fill,
-      stroke: Global.defaultNode.linkPoints.stroke,
+      stroke: Global.defaultNode.linkPoints.stroke
     },
     // 节点中icon配置
     icon: {
@@ -63,118 +45,149 @@ const options: any = {
       // icon的地址，字符串类型
       // img: 'https://gw.alipayobjects.com/zos/bmw-prod/5d015065-8505-4e7a-baec-976f81e3c41d.svg',
       width: 20,
-      height: 20,
+      height: 20
     },
     stateStyles: {
-      ...Global.nodeStateStyles,
-    },
+      ...Global.nodeStateStyles
+    }
   },
-  shapeType: "circle",
+  shapeType: 'circle',
   // 文本位置
-  labelPosition: "center",
+  labelPosition: 'center',
   ShapeOptions: {},
   getEvents() {
     return {
       // 'node:click': 'onClick',
-      "node:mouseleave": "onMouseleave",
+      'node:mouseleave': 'onMouseleave'
       // 'edge:click': 'onEdgeClick'
     };
   },
   drawShape(cfg: NodeConfig, group: GGroup | any): IShape {
-    const {
-      icon: defaultIcon = {},
-      model,
-      size,
-      label,
-    } = this.mergeStyle || (this.getOptions(cfg) as NodeConfig);
+    const { icon: defaultIcon = {}, model, size, label } = this.mergeStyle || (this.getOptions(cfg) as NodeConfig);
     const style = this.getShapeStyle!(cfg);
     const icon = deepMix({}, defaultIcon, cfg.icon);
     const name = `${this.type}-keyShape`;
-    const keyShape: IShape = group.addShape("circle", {
+    const keyShape: IShape = group.addShape('circle', {
       attrs: style,
       className: name,
       name,
-      draggable: true,
+      draggable: true
     });
-    group["shapeMap"][name] = keyShape;
+    group['shapeMap'][name] = keyShape;
     // label
     if (label) {
       const labelName = `${this.type}-label`;
       const labelWidth = label.length * 10 > 120 ? label.length * 10 : 120;
-      group["shapeMap"][labelName] = group.addShape("rect", {
+      group['shapeMap'][labelName] = group.addShape('rect', {
         attrs: {
           x: -labelWidth / 2,
           y: size[0] / 2 + 13,
           width: labelWidth,
           height: 22,
           fontSize: 12,
-          fill: "#04102acc",
+          fill: '#04102acc',
           // stroke: '#04102acc',
-          textBaseline: "middle",
-          textAlign: "center",
-          radius: 4,
+          textBaseline: 'middle',
+          textAlign: 'center',
+          radius: 4
         },
         className: labelName,
         name: labelName,
-        draggable: true,
+        draggable: true
       });
       const textName = `${this.type}-label`;
-      group["shapeMap"][textName] = group.addShape("text", {
+      group['shapeMap'][textName] = group.addShape('text', {
         attrs: {
           x: 0,
           y: size[0] / 2 + 23,
           fontSize: 12,
           // fill: '#000',
-          stroke: "#f2f2f2",
-          textBaseline: "middle",
-          textAlign: "center",
-          text: label,
+          stroke: '#f2f2f2',
+          textBaseline: 'middle',
+          textAlign: 'center',
+          text: label
         },
         className: textName,
         name: textName,
-        draggable: true,
+        draggable: true
       });
     }
 
+    // log icon
+    const { log } = model;
+    if (log) {
+      const monitorName = 'monitorName';
+      group['shapeMap'][monitorName] = group.addShape('circle', {
+        attrs: {
+          ...style,
+          fill: '#fff',
+          lineWidth: 5,
+          r: 15,
+          stroke: '#33cc33',
+          x: -30,
+          y: -30
+        },
+        className: monitorName,
+        name: monitorName,
+        draggable: true
+      });
+      const logName = 'logName';
+      group['shapeMap'][logName] = group.addShape('circle', {
+        attrs: {
+          ...style,
+          fill: '#fff',
+          lineWidth: 5,
+          r: 15,
+          stroke: '#33cc33',
+          x: 30,
+          y: -30
+        },
+        className: logName,
+        name: logName,
+        draggable: true
+      });
+    }
+
+    // imgage
     const { width, height, show, text, path, img } = icon;
     if (show) {
       const iconName = `${this.type}-icon`;
       if (text) {
-        group["shapeMap"][iconName] = group.addShape("text", {
+        group['shapeMap'][iconName] = group.addShape('text', {
           attrs: {
             x: 0,
             y: 0,
             fontSize: 12,
-            fill: "#000",
-            stroke: "#000",
-            textBaseline: "middle",
-            textAlign: "center",
-            ...icon,
+            fill: '#000',
+            stroke: '#000',
+            textBaseline: 'middle',
+            textAlign: 'center',
+            ...icon
           },
           className: iconName,
           name: iconName,
-          draggable: true,
+          draggable: true
         });
       } else if (path) {
-        group["shapeMap"][iconName] = group.addShape("path", {
+        group['shapeMap'][iconName] = group.addShape('path', {
           attrs: {
-            ...icon,
+            ...icon
           },
           className: iconName,
           name: iconName,
-          draggable: true,
+          draggable: true
         });
-        group["shapeMap"][iconName].translate(-width / 2, -height / 2);
+        group['shapeMap'][iconName].translate(-width / 2, -height / 2);
       } else if (img) {
-        group["shapeMap"][iconName] = group.addShape("image", {
+        group['shapeMap'][iconName] = group.addShape('image', {
           attrs: {
             x: -width / 2,
             y: -height / 2,
-            ...icon,
+            ...icon
           },
           className: iconName,
           name: iconName,
-          draggable: true,
+          draggable: true
         });
       }
     }
@@ -182,215 +195,87 @@ const options: any = {
     (this as any).drawLinkPoints(cfg, group);
 
     return keyShape;
-    // const { linkPoints, showLeftEndPoint, showRightEndPoint, showDocker, img, label } = cfg;
-    // const config = {
-    //   ...getNodeStyle("default"),
-    //   ...size,
-    // };
-    // // icon 尺寸
-    // if (cfg.img) {
-    //   config.imgWidth = config.imgHeight = 40;
-    //   config.height = 90;
-    // }
-
-    // const keyShape = group.addShape("circle", {
-    //   attrs: {
-    //     x: 0,
-    //     y: 0,
-    //     r: config.width / 2,
-    //     fill: config.backgoundColor,
-    //     stroke: config?.statusBorder,
-    //     radius: config.radius,
-    //     lineWidth: config.statusLineWidth,
-    //     cursor: "pointer",
-    //   },
-    //   name: "node-shape",
-    //   draggable: true,
-    // });
-
-    // // group.addShape("circle", {
-    // //   attrs: {
-    // //     x: 0,
-    // //     y: 0,
-    // //     r: (config.width - config.padding) / 2,
-    // //     fill: config.backgoundColor,
-    // //     stroke: config?.statusBorder,
-    // //     radius: config.radius,
-    // //     lineWidth: config.statusLineWidth,
-    // //     cursor: "pointer",
-    // //   },
-    // //   name: "node-shape",
-    // //   draggable: true,
-    // // });
-
-    // // 创建文字 图片容器
-    // if (img) {
-    //   group.addShape("circle", {
-    //     attrs: {
-    //       x: 0,
-    //       y: 0,
-    //       r: config.imgWidth / 2,
-    //       fill: `l(${Math.PI / 4}) ${config.startPoint}:${config.fillStart} ${config.endPoint}:${
-    //         config.fillEnd
-    //       }`,
-    //       cursor: "pointer",
-    //     },
-    //     draggable: true,
-    //   });
-    //   const imgIcon = group.addShape("path", {
-    //     attrs: {
-    //       path: img,
-    //       fill: config.backgoundColor,
-    //       cursor: "pointer",
-    //     },
-    //     name: "icon-shape",
-    //     draggable: true,
-    //   });
-    //   imgIcon.translate(-config.imgWidth / 2, -config.imgWidth / 2);
-    // }
-
-    // // label
-    // if (label) {
-    //   group.addShape("text", {
-    //     attrs: {
-    //       x: config.width / 2,
-    //       y: (config.height + config.imgHeight + config.imgHeight / 4) / 2,
-    //       fill: config.fontColor,
-    //       fontSize: config.fontSize,
-    //       text: label,
-    //       textBaseline: "middle",
-    //       textAlign: "center",
-    //       cursor: "pointer",
-    //     },
-    //     name: "label-shape",
-    //     draggable: true,
-    //   });
-    // }
-
-    // /* 左边的小圆点 */
-    // // if (linkPoints?.left) {
-    // //   group.addShape("circle", {
-    // //     attrs: {
-    // //       x: -config.width / 2,
-    // //       y: 0,
-    // //       r: linkPoints.size,
-    // //       stroke: config.borderColor,
-    // //       fill: "#fff",
-    // //       lineWidth: config.lineWidth,
-    // //     },
-    // //     name: "left-circle-shape",
-    // //     isAnchorPoint: true,
-    // //   });
-    // // }
-    // // if (linkPoints.right) {
-    // //   group.addShape("circle", {
-    // //     attrs: {
-    // //       x: config.width / 2,
-    // //       y: 0,
-    // //       r: linkPoints.size || 3,
-    // //       stroke: config.borderColor,
-    // //       fill: "#fff",
-    // //       lineWidth: config.lineWidth,
-    // //     },
-    // //     name: "right-circle-shape",
-    // //     isAnchorPoint: true,
-    // //   });
-    // // }
-
-    // (this as any).drawLinkPoints(cfg, group);
-    // // // 原点 0 0
-    // // group.addShape("circle", {
-    // //   attrs: {
-    // //     x: 0,
-    // //     y: 0,
-    // //     r: 6,
-    // //     stroke: "red",
-    // //     fill: "#fff",
-    // //     lineWidth: 6,
-    // //     zIndex: 999,
-    // //   },
-    // //   draggable: false,
-    // //   name: "0-contanier",
-    // // });
-
-    // return keyShape;
   },
   /**
    * 绘制节点上的LinkPoints
    * @param {Object} cfg data数据配置项
    * @param {Group} group Group实例
    */
-  drawLinkPoints(cfg: NodeConfig, group: GGroup) {
+  drawLinkPoints(cfg: NodeConfig, group: GGroup | any) {
     const { linkPoints = {} } = this.getOptions(cfg) as NodeConfig;
 
-    const {
-      top,
-      left,
-      right,
-      bottom,
-      size: markSize = 0,
-      r: markR,
-      ...markStyle
-    } = linkPoints;
+    const { top, left, right, bottom, size: markSize = 0, r: markR, ...markStyle } = linkPoints;
     const size = this.getSize!(cfg);
     const r = size[0] / 2;
     if (left) {
+      let anchorName = `${this.type}-left-anchor`;
       // left circle
-      group.addShape("circle", {
+      group['shapeMap'][anchorName] = group.addShape('circle', {
         attrs: {
           ...markStyle,
           x: -r,
           y: 0,
-          r: markSize / 2 || markR || 5,
+          r: markSize / 2 || markR || 5
         },
-        className: "link-point-left",
-        name: "link-point-left",
+        anchorPointIdx: 0,
+        className: anchorName,
+        name: anchorName,
         isAnchorPoint: true,
+        draggable: true
       });
     }
 
     if (right) {
+      let anchorName = `${this.type}-right-anchor`;
       // right circle
-      group.addShape("circle", {
+      group['shapeMap'][anchorName] = group.addShape('circle', {
         attrs: {
           ...markStyle,
           x: r,
           y: 0,
-          r: markSize / 2 || markR || 5,
+          r: markSize / 2 || markR || 5
         },
-        className: "link-point-right",
-        name: "link-point-right",
+        anchorPointIdx: 1,
+        className: anchorName,
+        name: anchorName,
         isAnchorPoint: true,
+        draggable: true
       });
     }
 
     if (top) {
+      let anchorName = `${this.type}-top-anchor`;
       // top circle
-      group.addShape("circle", {
+      group['shapeMap'][anchorName] = group.addShape('circle', {
         attrs: {
           ...markStyle,
           x: 0,
           y: -r,
-          r: markSize / 2 || markR || 5,
+          r: markSize / 2 || markR || 5
         },
-        className: "link-point-top",
-        name: "link-point-top",
+        anchorPointIdx: 2,
+        className: anchorName,
+        name: anchorName,
         isAnchorPoint: true,
+        draggable: true
       });
     }
 
     if (bottom) {
+      let anchorName = `${this.type}-bottom-anchor`;
       // bottom circle
-      group.addShape("circle", {
+      group['shapeMap'][anchorName] = group.addShape('circle', {
         attrs: {
           ...markStyle,
           x: 0,
           y: r,
-          r: markSize / 2 || markR || 5,
+          r: markSize / 2 || markR || 5
         },
-        className: "link-point-bottom",
-        name: "link-point-bottom",
+        anchorPointIdx: 3,
+        className: anchorName,
+        name: anchorName,
         isAnchorPoint: true,
+        draggable: true
       });
     }
   },
@@ -400,10 +285,9 @@ const options: any = {
    * @return {Object} 节点的样式
    */
   getShapeStyle(cfg: NodeConfig): ShapeStyle {
-    const { style: defaultStyle } =
-      this.mergeStyle || (this.getOptions(cfg) as NodeConfig);
+    const { style: defaultStyle } = this.mergeStyle || (this.getOptions(cfg) as NodeConfig);
     const strokeStyle = {
-      stroke: cfg.color,
+      stroke: cfg.color
     };
     // 如果设置了color，则覆盖默认的stroke属性
     const style = deepMix({}, defaultStyle, strokeStyle);
@@ -413,7 +297,7 @@ const options: any = {
       x: 0,
       y: 0,
       r,
-      ...style,
+      ...style
     };
     return styles;
   },
@@ -421,7 +305,7 @@ const options: any = {
     return {};
   },
   getOptions(cfg: ModelConfig, updateType?: UpdateType): ModelConfig {
-    if (updateType === "move" || updateType?.includes("bbox")) {
+    if (updateType === 'move' || updateType?.includes('bbox')) {
       return {};
     }
     return deepMix({}, this.options, this.getCustomConfig(cfg) || {}, cfg);
@@ -433,11 +317,7 @@ const options: any = {
    * @return {Array} 宽高
    */
   getSize(cfg: ModelConfig): number[] {
-    let size: number | number[] =
-      this.mergeStyle?.size ||
-      cfg.size ||
-      this.getOptions({})!.size ||
-      Global.defaultNode.size; // Global.defaultNode.size; //
+    let size: number | number[] = this.mergeStyle?.size || cfg.size || this.getOptions({})!.size || Global.defaultNode.size; // Global.defaultNode.size; //
 
     // size 是数组，但长度为1，则补长度为2
     if (isArray(size) && size.length === 1) {
@@ -460,9 +340,9 @@ const options: any = {
   getAnchorPoints(cfg: any) {
     return [
       [0, 0.5],
-      [1, 0.5],
+      [1, 0.5]
     ];
-  },
+  }
   // /**
   //  * Handle the callback for node:click
   //  * @override
@@ -486,8 +366,8 @@ const options: any = {
   // }
 };
 export default {
-  type: "node",
-  name: "okdNodeCircle",
-  options,
+  type: 'node',
+  name: 'okdNodeCircle',
+  options
   // extendShapeType: 'sigle-node'
 };

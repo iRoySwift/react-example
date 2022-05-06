@@ -1,18 +1,17 @@
-import { IG6GraphEvent, IGraph } from "@antv/g6";
+import { IG6GraphEvent, IGraph } from '@antv/g6';
 
 const option: any = {
   getDefaultCfg() {
     return {
-      multiple: true,
+      multiple: true
     };
   },
   getEvents() {
-    console.log("getevents");
     return {
-      "node:click": "onNodeClick",
-      "canvas:click": "onCanvasClick",
-      "edge:mouseenter": "onEdgeMouseenter",
-      "edge:mouseleave": "onEdgeMouseleave",
+      'node:click': 'onNodeClick',
+      'canvas:click': 'onCanvasClick',
+      'edge:mouseenter': 'onEdgeMouseenter',
+      'edge:mouseleave': 'onEdgeMouseleave'
     };
   },
   onEdgeMouseenter(e: IG6GraphEvent) {
@@ -22,7 +21,6 @@ const option: any = {
     this.resetEdgesState(e);
   },
   onNodeClick(e: IG6GraphEvent) {
-    console.log(e);
     // const graph = this.graph;
     // const item = e.item;
     // if (item.hasState("active")) {
@@ -51,9 +49,9 @@ const option: any = {
       item.update({
         showClose: true,
         x,
-        y,
+        y
       });
-      graph.setItemState(item, "active", true);
+      graph.setItemState(item, 'active', true);
     }
   },
   resetEdgesState(e: IG6GraphEvent) {
@@ -62,15 +60,15 @@ const option: any = {
     const { showClose } = item?.getModel();
     if (showClose) {
       item.update({
-        showClose: false,
+        showClose: false
       });
-      graph.findAllByState("edge", "active").forEach((edge) => {
-        graph.setItemState(edge, "active", false);
+      graph.findAllByState('edge', 'active').forEach((edge) => {
+        graph.setItemState(edge, 'active', false);
       });
     }
-  },
+  }
 };
 export default {
-  type: "removeEdge",
-  option,
+  type: 'removeEdge',
+  option
 };

@@ -1,4 +1,4 @@
-import getNodeStyle from "../configs/nodeStyle";
+import getNodeStyle from '../configs/nodeStyle';
 
 const defaultWidth = 284;
 const defaultHeight = 150;
@@ -35,24 +35,24 @@ const options = {
     }
   ) {
     // Get the shape style, where the style.r corresponds to the R in the Illustration of Built-in Rect Combo
-    const config = getNodeStyle("default");
+    const config = getNodeStyle('default');
     // 容器自适应
     const width = cfg?.style?.width || 0;
     const height = cfg?.style?.height || 0;
     // Add a circle shape as keyShape which is the same as the extended 'circle' type Combo
-    const keyShape = group.addShape("rect", {
+    const keyShape = group.addShape('rect', {
       attrs: {
         x: -width / 2,
         y: -height / 2,
         width,
         height,
-        fill: "transparent",
-        stroke: "transparent",
+        fill: 'transparent',
+        stroke: 'transparent',
         lineWidth: config.lineWidth,
-        radius: config.radius,
+        radius: config.radius
       },
       draggable: false,
-      name: "combo-keyShape",
+      name: 'combo-keyShape'
     });
     return keyShape;
   },
@@ -68,22 +68,16 @@ const options = {
    * @param cfg 配置项
    * @param item 实例
    */
-  update(
-    cfg: { style: { width: number; height: number } },
-    item: { getContainer: () => any }
-  ) {
+  update(cfg: { style: { width: number; height: number } }, item: { getContainer: () => any }) {
     const width = cfg?.style?.width || 0;
     const height = cfg?.style?.height || 0;
     const group = item.getContainer();
-    const rect = group.find(
-      (ele: { get: (arg0: string) => string }) =>
-        ele.get("name") === "combo-keyShape"
-    );
+    const rect = group.find((ele: { get: (arg0: string) => string }) => ele.get('name') === 'combo-keyShape');
     rect.attr({
       x: -width / 2,
       y: -height / 2,
       width: width,
-      height: height,
+      height: height
     });
   },
   /**
@@ -98,7 +92,6 @@ const options = {
    * @param type 元素类型，'node' 或 'edge'
    */
   shouldUpdate(type: any) {
-    console.log(type);
     return true;
   },
   /**
@@ -108,13 +101,11 @@ const options = {
    * @param  {Object} value 状态是否可用，为 true 时可用，否则不可用
    * @param  {item} item 实例
    */
-  setState: (name: any, value: any, item: any) => {
-    console.log(name, value, item);
-  },
+  setState: (name: any, value: any, item: any) => {}
 };
 export default {
-  type: "combo",
-  name: "app",
+  type: 'combo',
+  name: 'app',
   options,
-  extendShapeType: "rect",
+  extendShapeType: 'rect'
 };

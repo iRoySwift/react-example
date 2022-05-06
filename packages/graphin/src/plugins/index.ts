@@ -1,11 +1,11 @@
-import Tooltip from "./Tooltip/index";
+import Tooltip from './Tooltip/index';
 
 interface IPlugin {
   [key: string]: any;
 }
 
 let Plugins: IPlugin = {
-  Tooltip,
+  Tooltip
 };
 
 export default Plugins;
