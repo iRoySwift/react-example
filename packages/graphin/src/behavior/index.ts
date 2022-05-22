@@ -6,9 +6,11 @@ import { registerBehavior } from '@antv/g6-core';
 // import moveNode from "./move-node";
 
 import createEdge from './create-edge';
+import removeNode from './remove-node';
 
 const behaviors = {
-  createEdge
+  createEdge,
+  removeNode
 };
 each(behaviors, (behavior, type: string) => {
   registerBehavior(type, behavior);

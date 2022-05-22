@@ -1,4 +1,4 @@
-import { EdgeConfig, G6Event, GraphData, IG6GraphEvent, IGraph } from '../typings';
+import { EdgeConfig, G6Event, GraphData, IG6GraphEvent, IGraph } from '../../typings/index';
 import { isFunction } from '@antv/util';
 
 const DEFAULT_TRIGGER = 'click';

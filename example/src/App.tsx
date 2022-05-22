@@ -1,3 +1,4 @@
+import React from 'react';
 // import { ThemeProvider } from '@emotion/react';
 import { styled } from '@mui/material/styles';
 // import * as locales from '@mui/material/locale';
@@ -46,6 +47,9 @@ const App = withProviders(() => {
   // );
 
   // const themeWithLocale = useMemo(() => createTheme(theme, locales['zhCN']), ['zhCN', theme]);
+
+  console.info('%c%s', 'color: rgb(120, 187, 120); font-size: 24px;', 'Project is running!');
+  console.info(`%c react-devtools %c Detected React v${React.version} %c`, 'background:#35495e ; padding: 1px; border-radius: 3px 0 0 3px;  color: #fff', 'background:#41b883 ; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff', 'background:transparent');
 
   useInitApp();
   return (

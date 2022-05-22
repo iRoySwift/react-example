@@ -4,7 +4,33 @@ import getNodeStyle from '../configs/nodeStyle';
 import Arrow from '../arrow';
 const offset = 15;
 
-function afterDraw(cfg, group) {
+function afterDraw(
+  cfg: { showClose: any; x: any; y: any },
+  group: {
+    get: (arg0: string) => any[];
+    addShape: (
+      arg0: string,
+      arg1: {
+        attrs:
+          | {
+              x: number;
+              y: any;
+              fill: string;
+              fontSize: number;
+              text: string;
+              // textBaseline: "middle",
+              // textAlign: "center",
+              cursor: string;
+            }
+          | { x: any; y: any; fill: string; r: number }
+          | { x: any; y: any; fill: string; text: string; textBaseline: string; textAlign: string; fontSize: number; fontweight: number };
+        name?: string;
+        draggable?: boolean;
+        class?: string;
+      }
+    ) => void;
+  }
+) {
   const { showClose, x, y } = cfg;
   const config = getNodeStyle('default');
   // 获取图形组中的第一个图形，在这里就是边的路径图形
@@ -64,7 +90,7 @@ function afterDraw(cfg, group) {
   }
 }
 
-function getPathPoint(points, source, target) {
+function getPathPoint(points: any[], source: { bbox: any }, target: { bbox: any }) {
   let polylinePoints = getPathByPoints(points, source, target, offset);
   return getPathWithBorderRadiusByPolyline(polylinePoints);
   // const startPoint = points[0];
@@ -77,7 +103,7 @@ function getPathPoint(points, source, target) {
   // ];
 }
 
-function getShapeStyle(cfg, item) {
+function getShapeStyle(cfg: { sourceNode?: any; targetNode?: any; startPoint?: any; endPoint?: any; size?: any; color?: any; endArrow?: any; style?: any; controlPoints?: any }, item: any) {
   const source = { bbox: cfg.sourceNode.getBBox() };
   const target = { bbox: cfg.targetNode.getBBox() };
   const startPoint = cfg.startPoint;
@@ -116,8 +142,9 @@ function getShapeStyle(cfg, item) {
 }
 
 const options = {
-  drawShape(cfg, group) {
+  drawShape(cfg: { showClose: any; x: any; y: any }, group: { cfg?: any; addShape: any; get?: (arg0: string) => any[] }) {
     const { item } = group.cfg;
+    // @ts-ignore
     const shapeStyle = getShapeStyle(cfg, item);
     if (shapeStyle.radius === 0) delete shapeStyle.radius;
     const keyShape = group.addShape('path', {
@@ -125,22 +152,22 @@ const options = {
       name: 'edge-shape',
       attrs: shapeStyle
     });
-
+    // @ts-ignore
     afterDraw(cfg, group);
     return keyShape;
   },
   update: undefined,
 
-  updateShapeStyle(cfg, item) {
+  updateShapeStyle(cfg: { style: any }, item: { getContainer: () => any; getKeyShape: () => any }) {
     const group = item.getContainer();
-    const shape = group.find((element) => element.get('className') === 'edge-shape') || item.getKeyShape();
+    const shape = group.find((element: { get: (arg0: string) => string }) => element.get('className') === 'edge-shape') || item.getKeyShape();
     const style = Object.assign({}, shape.attr(), getShapeStyle(cfg, item), cfg.style);
     if (shape) {
       shape.attr(style);
     }
   },
 
-  setState(name, value, item) {
+  setState(name: string, value: any, item: { getContainer: () => any }) {
     const group = item.getContainer();
     const shape = group.get('children')[0]; // 顺序根据 draw 时确定
     if (name === 'active') {

@@ -1,16 +1,17 @@
-import { IG6GraphEvent, IGraph } from "@antv/g6";
+// @ts-nocheck
+import { IG6GraphEvent, IGraph } from '@antv/g6';
 
 const option = {
   getDefaultCfg() {
     return {
-      multiple: true,
+      multiple: true
     };
   },
   getEvents() {
     return {
-      "node:dragstart": "onDragstart",
-      "node:drag": "onDrag",
-      "node:dragend": "onDragEnd",
+      'node:dragstart': 'onDragstart',
+      'node:drag': 'onDrag',
+      'node:dragend': 'onDragEnd'
     };
   },
   onDragstart(evt: IG6GraphEvent) {
@@ -27,11 +28,11 @@ const option = {
 
     this.removeBlock(evt);
     this.update(evt);
-    if (combo && combo.getModel().type == "app") {
+    if (combo && combo.getModel().type == 'app') {
       graph.emit(
-        "combo:dragstart",
+        'combo:dragstart',
         Object.assign(evt, {
-          item: combo,
+          item: combo
         })
       );
     }
@@ -41,37 +42,37 @@ const option = {
     const { width, height, x, y } = item.getBBox();
     const graph: IGraph = this.graph;
     const group = graph.getGroup();
-    group.addShape("rect", {
+    group.addShape('rect', {
       zIndex: 999,
-      name: "block",
+      name: 'block',
       attrs: {
         x,
         y,
         width: width,
         height: height,
-        fill: "#6ca0d1",
+        fill: '#6ca0d1',
         opacity: 0.5,
-        stroke: "#CED4D9",
+        stroke: '#CED4D9',
         lineWidth: 2,
         radius: 5,
-        lineDash: [20, 5],
-      },
+        lineDash: [20, 5]
+      }
     });
   },
   updateBlock(evt: IG6GraphEvent) {
     const { x, y } = evt;
     const graph: IGraph = this.graph;
     const group = graph.getGroup();
-    const rect = group.find((element) => element.get("name") === "block");
+    const rect = group.find((element) => element.get('name') === 'block');
     rect.attr({
       x,
-      y,
+      y
     });
   },
   removeBlock(evt: IG6GraphEvent) {
     const graph: IGraph = this.graph;
     const group = graph.getGroup();
-    const rect = group.find((element) => element.get("name") === "block");
+    const rect = group.find((element) => element.get('name') === 'block');
     rect.remove();
   },
   update(evt) {
@@ -79,12 +80,12 @@ const option = {
     const graph: IGraph = this.graph;
     item.update({
       x,
-      y,
+      y
     });
     graph.refresh();
-  },
+  }
 };
 export default {
-  type: "moveNode",
-  option,
+  type: 'moveNode',
+  option
 };

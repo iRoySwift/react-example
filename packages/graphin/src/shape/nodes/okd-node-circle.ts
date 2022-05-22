@@ -1,14 +1,11 @@
-import G6, { IShape } from '@antv/g6';
-import { deepMix, isArray, each, mix, isBoolean, isPlainObject, clone } from '@antv/util';
-import { registerNode, Item, NodeConfig, ShapeStyle, ShapeOptions, BaseGlobal as Global, UpdateType, ModelConfig, IG6GraphEvent } from '@antv/g6-core';
-import GGroup from '@antv/g-canvas/lib/group';
-
-interface CustomModelConfig extends ModelConfig {
-  model?: any;
-}
+import { deepMix, isArray } from '@antv/util';
+import { registerNode, Item, ShapeStyle, ShapeOptions, BaseGlobal as Global, UpdateType, ModelConfig } from '@antv/g6-core';
+import { GGroup, IG6GraphEvent, IGroup, IShape, NodeConfig } from '../../../typings/index';
+import { shapeBase } from './shapeBase';
 
 // 绘制node
-const options: any = {
+const okdNodeCircle: ShapeOptions = {
+  itemType: 'node',
   // 自定义节点时的配置
   options: {
     size: Global.defaultNode.size,
@@ -55,20 +52,16 @@ const options: any = {
   // 文本位置
   labelPosition: 'center',
   ShapeOptions: {},
-  getEvents() {
-    return {
-      // 'node:click': 'onClick',
-      'node:mouseleave': 'onMouseleave'
-      // 'edge:click': 'onEdgeClick'
-    };
-  },
-  drawShape(cfg: NodeConfig, group: GGroup | any): IShape {
-    const { icon: defaultIcon = {}, model, size, label } = this.mergeStyle || (this.getOptions(cfg) as NodeConfig);
+  // @ts-ignore
+  drawShape(cfg: NodeConfig, group: IGroup | any): IShape {
+    const self = this as any;
+    const { icon: defaultIcon = {}, model, label } = this.getOptions!(cfg);
+    const size = this.getSize!(cfg);
     const style = this.getShapeStyle!(cfg);
     const icon = deepMix({}, defaultIcon, cfg.icon);
-    const name = `${this.type}-keyShape`;
+    const name = `${self.type}-keyShape`;
     const keyShape: IShape = group.addShape('circle', {
-      attrs: style,
+      attrs: { ...style },
       className: name,
       name,
       draggable: true
@@ -76,8 +69,8 @@ const options: any = {
     group['shapeMap'][name] = keyShape;
     // label
     if (label) {
-      const labelName = `${this.type}-label`;
-      const labelWidth = label.length * 10 > 120 ? label.length * 10 : 120;
+      const labelName = `${self.type}-label`;
+      const labelWidth = (label as string).length * 10 > 120 ? (label as string).length * 10 : 120;
       group['shapeMap'][labelName] = group.addShape('rect', {
         attrs: {
           x: -labelWidth / 2,
@@ -95,7 +88,7 @@ const options: any = {
         name: labelName,
         draggable: true
       });
-      const textName = `${this.type}-label`;
+      const textName = `${self.type}-label`;
       group['shapeMap'][textName] = group.addShape('text', {
         attrs: {
           x: 0,
@@ -105,7 +98,8 @@ const options: any = {
           stroke: '#f2f2f2',
           textBaseline: 'middle',
           textAlign: 'center',
-          text: label
+          text: label,
+          cursor: 'move'
         },
         className: textName,
         name: textName,
@@ -125,7 +119,8 @@ const options: any = {
           r: 15,
           stroke: '#33cc33',
           x: -30,
-          y: -30
+          y: -30,
+          cursor: 'move'
         },
         className: monitorName,
         name: monitorName,
@@ -140,18 +135,18 @@ const options: any = {
           r: 15,
           stroke: '#33cc33',
           x: 30,
-          y: -30
+          y: -30,
+          cursor: 'move'
         },
         className: logName,
         name: logName,
         draggable: true
       });
     }
-
     // imgage
     const { width, height, show, text, path, img } = icon;
     if (show) {
-      const iconName = `${this.type}-icon`;
+      const iconName = `${self.type}-icon`;
       if (text) {
         group['shapeMap'][iconName] = group.addShape('text', {
           attrs: {
@@ -162,6 +157,7 @@ const options: any = {
             stroke: '#000',
             textBaseline: 'middle',
             textAlign: 'center',
+            cursor: 'move',
             ...icon
           },
           className: iconName,
@@ -171,6 +167,7 @@ const options: any = {
       } else if (path) {
         group['shapeMap'][iconName] = group.addShape('path', {
           attrs: {
+            cursor: 'move',
             ...icon
           },
           className: iconName,
@@ -183,6 +180,7 @@ const options: any = {
           attrs: {
             x: -width / 2,
             y: -height / 2,
+            cursor: 'move',
             ...icon
           },
           className: iconName,
@@ -191,10 +189,31 @@ const options: any = {
         });
       }
     }
-
     (this as any).drawLinkPoints(cfg, group);
-
+    this.drawClose(cfg, group);
     return keyShape;
+  },
+  afterDraw(cfg, group) {
+    console.log(cfg, group, 'afterDraw');
+  },
+
+  update(cfg: ModelConfig, item: Item, updateType?: UpdateType) {
+    const { showClose } = cfg;
+    if (showClose) {
+    }
+    console.log(cfg, item, 'update', updateType);
+  },
+  afterUpdate(cfg, item) {
+    console.log(cfg, item, 'afterUpdate');
+  },
+  setState(name, value, item) {
+    const group = item?.get('group');
+    if (name == 'close-active') {
+      const closeBtn = group.find((e: any) => e.get('name') === 'close-btn');
+      closeBtn.attr({
+        opacity: value ? 1 : 0
+      });
+    }
   },
   /**
    * 绘制节点上的LinkPoints
@@ -202,16 +221,18 @@ const options: any = {
    * @param {Group} group Group实例
    */
   drawLinkPoints(cfg: NodeConfig, group: GGroup | any) {
+    const self = this as any;
     const { linkPoints = {} } = this.getOptions(cfg) as NodeConfig;
 
     const { top, left, right, bottom, size: markSize = 0, r: markR, ...markStyle } = linkPoints;
     const size = this.getSize!(cfg);
     const r = size[0] / 2;
     if (left) {
-      let anchorName = `${this.type}-left-anchor`;
+      let anchorName = `${self.type}-left-anchor`;
       // left circle
       group['shapeMap'][anchorName] = group.addShape('circle', {
         attrs: {
+          cursor: 'crosshair',
           ...markStyle,
           x: -r,
           y: 0,
@@ -226,10 +247,11 @@ const options: any = {
     }
 
     if (right) {
-      let anchorName = `${this.type}-right-anchor`;
+      let anchorName = `${self.type}-right-anchor`;
       // right circle
       group['shapeMap'][anchorName] = group.addShape('circle', {
         attrs: {
+          cursor: 'crosshair',
           ...markStyle,
           x: r,
           y: 0,
@@ -244,10 +266,11 @@ const options: any = {
     }
 
     if (top) {
-      let anchorName = `${this.type}-top-anchor`;
+      let anchorName = `${self.type}-top-anchor`;
       // top circle
       group['shapeMap'][anchorName] = group.addShape('circle', {
         attrs: {
+          cursor: 'crosshair',
           ...markStyle,
           x: 0,
           y: -r,
@@ -262,10 +285,11 @@ const options: any = {
     }
 
     if (bottom) {
-      let anchorName = `${this.type}-bottom-anchor`;
+      let anchorName = `${self.type}-bottom-anchor`;
       // bottom circle
       group['shapeMap'][anchorName] = group.addShape('circle', {
         attrs: {
+          cursor: 'crosshair',
           ...markStyle,
           x: 0,
           y: r,
@@ -280,18 +304,52 @@ const options: any = {
     }
   },
   /**
+   * 删除按钮
+   * @param cfg
+   * @param group
+   */
+  drawClose(cfg: NodeConfig, group: GGroup | any) {
+    const size = this.getSize!(cfg);
+    const r = (size![0] || 0) / (2 * Math.sqrt(2));
+    const closeIcon = group.addGroup({ name: 'close-btn', attrs: { opacity: 0 } });
+    closeIcon.addShape('circle', {
+      name: 'close-btn',
+      attrs: {
+        x: r,
+        y: r,
+        fill: '#F22635',
+        r: 7,
+        cursor: 'pointer'
+      }
+    });
+    closeIcon.addShape('text', {
+      name: 'close-btn',
+      attrs: {
+        x: r,
+        y: r,
+        fill: '#FFFFFF',
+        text: '×',
+        textBaseline: 'middle',
+        textAlign: 'center',
+        fontSize: 12,
+        fontweight: 40,
+        cursor: 'pointer'
+      }
+    });
+  },
+  /**
    * 获取节点的样式，供基于该节点自定义时使用
    * @param {Object} cfg 节点数据模型
    * @return {Object} 节点的样式
    */
-  getShapeStyle(cfg: NodeConfig): ShapeStyle {
-    const { style: defaultStyle } = this.mergeStyle || (this.getOptions(cfg) as NodeConfig);
+  getShapeStyle(cfg: NodeConfig | ModelConfig): ShapeStyle {
+    const { style: defaultStyle } = this.getOptions(cfg) as NodeConfig;
     const strokeStyle = {
       stroke: cfg.color
     };
     // 如果设置了color，则覆盖默认的stroke属性
     const style = deepMix({}, defaultStyle, strokeStyle);
-    const size = (this as ShapeOptions).getSize!(cfg);
+    const size = this.getSize!(cfg);
     const r = size[0] / 2;
     const styles = {
       x: 0,
@@ -301,15 +359,6 @@ const options: any = {
     };
     return styles;
   },
-  getCustomConfig(cfg: CustomModelConfig): CustomModelConfig {
-    return {};
-  },
-  getOptions(cfg: ModelConfig, updateType?: UpdateType): ModelConfig {
-    if (updateType === 'move' || updateType?.includes('bbox')) {
-      return {};
-    }
-    return deepMix({}, this.options, this.getCustomConfig(cfg) || {}, cfg);
-  },
   /**
    * 获取节点宽高
    * @internal 返回节点的大小，以 [width, height] 的方式维护
@@ -317,7 +366,8 @@ const options: any = {
    * @return {Array} 宽高
    */
   getSize(cfg: ModelConfig): number[] {
-    let size: number | number[] = this.mergeStyle?.size || cfg.size || this.getOptions({})!.size || Global.defaultNode.size; // Global.defaultNode.size; //
+    const self = this as any;
+    let size: number | number[] = self.mergeStyle?.size || cfg.size || this.getOptions(cfg)!.size || Global.defaultNode.size; // Global.defaultNode.size; //
 
     // size 是数组，但长度为1，则补长度为2
     if (isArray(size) && size.length === 1) {
@@ -330,44 +380,18 @@ const options: any = {
     }
     return size;
   },
-  // afterDraw: nodeBasicMethod.afterDraw,
-  // setState: nodeBasicMethod.setState,
   /**
    * 获取锚点（相关边的连入点）
    * @param  {Object} cfg 节点的配置项
    * @return {Array|null} 锚点（相关边的连入点）的数组,如果为 null，则没有控制点
    */
-  getAnchorPoints(cfg: any) {
+  getAnchorPoints() {
     return [
       [0, 0.5],
       [1, 0.5]
     ];
   }
-  // /**
-  //  * Handle the callback for node:click
-  //  * @override
-  //  * @param  {Object} evt The handler
-  //  */
-  // onClick(evt: IG6GraphEvent) {
-  //   const node = evt.item;
-  //   const graph = this.graph;
-  //   graph.emit(evt);
-  //   // TODO
-  // },
-  /**
-   * Handle the callback for mouseleave
-   * @override
-   * @param  {Object} evt The handler
-   */
-  // onMouseleave(evt: IG6GraphEvent) {
-  //   const node = evt.item;
-  //   const graph = this.graph;
-  //   graph.emit('node:mouseleave', evt);
-  // }
 };
-export default {
-  type: 'node',
-  name: 'okdNodeCircle',
-  options
-  // extendShapeType: 'sigle-node'
-};
+
+const okdNodeCircleDef = { ...shapeBase, ...okdNodeCircle };
+registerNode('okdNodeCircle', okdNodeCircleDef);

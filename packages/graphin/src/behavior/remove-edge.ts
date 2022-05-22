@@ -1,4 +1,5 @@
-import { IG6GraphEvent, IGraph } from '@antv/g6';
+// @ts-nocheck
+import { IG6GraphEvent, IGraph } from '../../typings/index';
 
 const option: any = {
   getDefaultCfg() {

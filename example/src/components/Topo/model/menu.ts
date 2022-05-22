@@ -11,7 +11,7 @@ export const allMenuInfo = [
         compGroupId: 1,
         showLocation: null,
         connComp: '',
-        icon: '/itaas/icon/lb.svg',
+        icon: '/icon/lb.svg',
         description: '负载均衡'
       },
       {
@@ -21,7 +21,7 @@ export const allMenuInfo = [
         compGroupId: 1,
         showLocation: null,
         connComp: '',
-        icon: '/itaas/icon/dns.svg',
+        icon: '/icon/dns.svg',
         description: '域名'
       },
       {
@@ -48,7 +48,7 @@ export const allMenuInfo = [
         compGroupId: 2,
         showLocation: null,
         connComp: '',
-        icon: '/itaas/icon/tomcat.svg',
+        icon: '/icon/tomcat.svg',
         description: ''
       },
       {
@@ -85,7 +85,7 @@ export const allMenuInfo = [
         compGroupId: 3,
         showLocation: null,
         connComp: '',
-        icon: '/itaas/icon/tomcat.svg',
+        icon: '/icon/tomcat.svg',
         description: ''
       },
       {
@@ -95,7 +95,7 @@ export const allMenuInfo = [
         compGroupId: 3,
         showLocation: null,
         connComp: '',
-        icon: '/itaas/icon/rocketmq.svg',
+        icon: '/icon/rocketmq.svg',
         description: '分布式消息队列'
       },
       {
@@ -105,7 +105,7 @@ export const allMenuInfo = [
         compGroupId: 3,
         showLocation: null,
         connComp: '',
-        icon: '/itaas/icon/nacos.svg',
+        icon: '/icon/nacos.svg',
         description: '分布式服务发现和配置管理平台'
       },
       {
@@ -115,7 +115,7 @@ export const allMenuInfo = [
         compGroupId: 3,
         showLocation: null,
         connComp: null,
-        icon: '/itaas/icon/es.svg',
+        icon: '/icon/es.svg',
         description: '分布式全文搜索引擎'
       }
     ]
@@ -132,7 +132,7 @@ export const allMenuInfo = [
         compGroupId: 4,
         showLocation: null,
         connComp: '',
-        icon: '/itaas/icon/mysql.svg',
+        icon: '/icon/mysql.svg',
         description: ''
       },
       {
@@ -142,7 +142,7 @@ export const allMenuInfo = [
         compGroupId: 4,
         showLocation: null,
         connComp: '',
-        icon: '/itaas/icon/redis.svg',
+        icon: '/icon/redis.svg',
         description: ''
       }
     ]

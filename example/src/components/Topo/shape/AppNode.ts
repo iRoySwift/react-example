@@ -23,7 +23,7 @@ export default class AppNode {
             { ename: 'producerGroup', descValue: 'c', cname: '发送组', remark: 'String' },
             { ename: 'producerGroup', descValue: 'x', cname: '发送组', remark: 'String' }
           ],
-          img: '/itaas/icon/tomcat.svg',
+          img: '/icon/tomcat.svg',
           groupId: 2
         },
         linkPoints: {

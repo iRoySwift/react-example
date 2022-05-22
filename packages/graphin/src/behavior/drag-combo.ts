@@ -1,3 +1,4 @@
+// @ts-nocheck
 /*
  * @Author: moyee
  * @LastEditors: moyee

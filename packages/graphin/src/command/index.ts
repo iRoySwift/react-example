@@ -1,5 +1,6 @@
 import { Graph } from '@antv/g6';
 import { clone } from '@antv/util';
+import { GraphData, ICommandExeData } from '../../typings/index';
 
 class Command {
   graph: Graph;
@@ -22,7 +23,8 @@ class Command {
    * @param commandName{String}
    * @param dataObject{Object} model(数据模型)，itemType：‘group’，‘node’，‘edge’，item（当前操作的对象），targetItem，
    */
-  public executeCommand(commandName: any, dataObject: object) {
+  public executeCommand(commandName: any, dataObject: ICommandExeData) {
+    // const { itemType, model } = dataObject;
     const commander = clone(this.commandCollection[commandName]);
     if (commander) {
       commander.graph = this.graph;
@@ -36,7 +38,18 @@ class Command {
           }
         })
         .then((result) => {
-          // this.graph.save();
+          // if (commander.queue) {
+          //   const addedModel = {
+          //     ...model,
+          //     itemType
+          //   };
+          //   const after: GraphData = {};
+          //   after[itemType] = [addedModel];
+          //   commander.graph.pushStack('add', {
+          //     before: {},
+          //     after
+          //   });
+          // }
           return result;
         });
     } else {

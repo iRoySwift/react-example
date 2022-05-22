@@ -28,7 +28,7 @@ export const TopoData: iGraphData = {
             remark: 'String'
           }
         ],
-        img: 'http://admindev.itaas.com/itaas/icon/mysql.svg',
+        img: 'http://admindev.itaas.com/icon/mysql.svg',
         groupId: 4
       }
     },
@@ -69,7 +69,7 @@ export const TopoData: iGraphData = {
             remark: 'String'
           }
         ],
-        img: 'http://admindev.itaas.com/itaas/icon/tomcat.svg',
+        img: 'http://admindev.itaas.com/icon/tomcat.svg',
         groupId: 3
       }
     }

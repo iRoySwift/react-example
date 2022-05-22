@@ -5,9 +5,9 @@
   "author": "Roy <iRoySwift@Gmail.com>",
   "homepage": "http://opensource.cnsuning.com/uxcool/uxcool-graphin.git",
   "license": "MIT",
-  "main": "lib/graph.js",
-  "module": "lib/graph.js",
-  "types": "lib/index.d.ts",
+  "main": "./lib/graph.js",
+  "module": "./lib/graph.js",
+  "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -35,7 +35,6 @@
     "@babel/plugin-proposal-decorators": "^7.17.9",
     "@rollup/plugin-node-resolve": "^13.1.3",
     "@types/insert-css": "^2.0.1",
-    "@types/lodash": "^4.14.182",
     "node-sass": "^7.0.1",
     "postcss": "^8.4.12",
     "rollup-plugin-babel": "^4.4.0",

@@ -10,9 +10,14 @@
     "clean": "lerna clean",
     "upgrade": "cd packages/graphin && yarn upgrade-interactive --latest",
     "start": "cd example && yarn start",
-    "build": "lerna run build"
+    "build": "lerna run build",
+    "build:graph": "npm run build  --scope=@suning/uxcool-graphin"
   },
   "devDependencies": {
     "lerna": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=v14.15.3",
+    "npm": ">=v8.5.2"
   }
 }

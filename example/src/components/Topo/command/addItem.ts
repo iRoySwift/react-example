@@ -4,7 +4,6 @@ const addItem = {
     return true;
   },
   execute(e) {
-    const {} = e;
     const { itemType, model } = e;
     const item = (this as any).graph.addItem(itemType, model, this.queue);
     return item;

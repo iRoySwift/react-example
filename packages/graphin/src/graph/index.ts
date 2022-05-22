@@ -1,7 +1,6 @@
 import G6, { GraphOptions } from '@antv/g6';
 import Utils from '../utils/index';
 import Command from './../command/index';
-import defaultComponent from '../shape/index';
 import { PluginBase } from '@antv/g6-plugin';
 
 const _initComponent = Symbol('_initComponent');
@@ -34,15 +33,15 @@ class Graph extends G6.Graph {
   }
   constructor(cfg: GraphOptions) {
     super(cfg);
-    this[_initComponent]();
+    // this[_initComponent]();
     this.cmd = new Command(this);
   }
   // 初始化组件
-  [_initComponent] = (): void => {
-    defaultComponent.forEach((item: any) => {
-      this.registerComponent(item.type, item, item.extendShapeType);
-    });
-  };
+  // [_initComponent] = (): void => {
+  //   defaultComponent.forEach((item: any) => {
+  //     this.registerComponent(item.type, item, item.extendShapeType);
+  //   });
+  // };
 
   /**
    * 全局注册组建
@@ -50,21 +49,21 @@ class Graph extends G6.Graph {
    * @param item {Object} 组件对象，参照内置提供的写
    * @param extendShapeType {String} 继承的类型名称
    */
-  registerComponent = (type: 'node' | 'edge' | 'combo', item: any, extendShapeType?: string | undefined): void => {
-    switch (type) {
-      case 'node':
-        G6.registerNode(item.name, item.options, extendShapeType);
-        break;
-      case 'edge':
-        G6.registerEdge(item.name, item.options, extendShapeType);
-        break;
-      case 'combo':
-        G6.registerCombo(item.name, item.options, extendShapeType);
-        break;
-      default:
-        throw new Error(`type[${type}] is illegal!`);
-    }
-  };
+  // registerComponent = (type: 'node' | 'edge' | 'combo', item: any, extendShapeType?: string | undefined): void => {
+  //   switch (type) {
+  //     case 'node':
+  //       G6.registerNode(item.name, item.options, extendShapeType);
+  //       break;
+  //     case 'edge':
+  //       G6.registerEdge(item.name, item.options, extendShapeType);
+  //       break;
+  //     case 'combo':
+  //       G6.registerCombo(item.name, item.options, extendShapeType);
+  //       break;
+  //     default:
+  //       throw new Error(`type[${type}] is illegal!`);
+  //   }
+  // };
 
   public addPlugin(plugin: PluginBase): void {
     super.addPlugin(plugin);
