@@ -32,7 +32,6 @@ export default class Socket extends EventTarget {
     this.url = url;
   }
   connect() {
-    console.log(this.socket, 'connect');
     if (this.socket) {
       console.error('Socket refusing to connect while another socket exists'); // eslint-disable-line no-console
       return;
@@ -57,8 +56,6 @@ export default class Socket extends EventTarget {
     this.dispatchEvent(new CustomEvent(EVENT_CONNECTING));
   }
   send(data) {
-    console.log(data, this.socket, this.state);
-
     if (this.socket && this.state == STATE_CONNECTED) {
       this.socket.send(data);
       return true;
@@ -83,8 +80,6 @@ export default class Socket extends EventTarget {
   }
   _onerror() {}
   _onclose() {
-    console.log('close----');
-
     if (!this.socket) {
       return;
     }
