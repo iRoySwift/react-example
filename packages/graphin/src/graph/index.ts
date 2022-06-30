@@ -3,14 +3,13 @@ import Utils from '../utils/index';
 import Command from './../command/index';
 import { PluginBase } from '@antv/g6-plugin';
 
-const _initComponent = Symbol('_initComponent');
-
 function addUtilMethods(list: any) {
   return function (target: any): void {
     Object.assign(target.prototype, list);
   };
 }
 export interface RegisterFunction {
+  // eslint-disable-next-line no-unused-vars
   (name: string, options: { [key: string]: any }, extendName?: string): void;
 }
 

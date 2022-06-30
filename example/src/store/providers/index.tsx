@@ -12,6 +12,7 @@ const withProviders =
   (Comp): React.FC<Props> =>
   (props) => {
     const [state, dispatch] = useReducer(reducer, initState);
+
     return (
       <AppContext.Provider value={{ state, dispatch }}>
         <Comp {...props} />

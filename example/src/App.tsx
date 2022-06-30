@@ -1,4 +1,3 @@
-import React from 'react';
 // import { ThemeProvider } from '@emotion/react';
 import { styled } from '@mui/material/styles';
 // import * as locales from '@mui/material/locale';
@@ -22,10 +21,11 @@ import BrandingProvider from './components/Branding/BrandingProvider';
 //   },
 //   zhCN
 // );
-
 const Container = styled('div')`
   width: 100vw;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
 `;
 // type SupportedLocales = keyof typeof locales;
 
@@ -47,9 +47,6 @@ const App = withProviders(() => {
   // );
 
   // const themeWithLocale = useMemo(() => createTheme(theme, locales['zhCN']), ['zhCN', theme]);
-
-  console.info('%c%s', 'color: rgb(120, 187, 120); font-size: 24px;', 'Project is running!');
-  console.info(`%c react-devtools %c Detected React v${React.version} %c`, 'background:#35495e ; padding: 1px; border-radius: 3px 0 0 3px;  color: #fff', 'background:#41b883 ; padding: 1px; border-radius: 0 3px 3px 0;  color: #fff', 'background:transparent');
 
   useInitApp();
   return (

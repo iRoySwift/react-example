@@ -4,6 +4,7 @@ import Home from '@/pages/Home';
 import Graph from '@/pages/Graph/index';
 import DragHtmlDrop from '@/pages/DragHtmlDrop';
 import DragJsplumbMenu from '@/pages/Jsplumb/DragMenu/DragJsplumbMenu';
+import Xterm from '@/pages/XtermShell/index';
 
 // import { RouteConfig } from './routes';
 
@@ -13,6 +14,7 @@ const RoutesComp = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/graph" element={<Graph />} />
+        <Route path="/xterm" element={<Xterm />} />
         <Route path="/drag-html-drop" element={<DragHtmlDrop />} />
         <Route path="/drag-jsplumb-drop" element={<DragJsplumbMenu />} />
         <Route path="/404" element={<NotFoundPage />} />

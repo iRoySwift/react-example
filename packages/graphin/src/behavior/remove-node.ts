@@ -9,22 +9,20 @@ export default {
   getEvents() {
     return {
       'node:click': 'onNodeClick',
-      'node:mouseenter': 'onEdgeMouseenter',
-      'node:mouseleave': 'onEdgeMouseleave'
+      'node:mouseenter': 'onNodeMouseenter',
+      'node:mouseleave': 'onNodeMouseleave'
     };
   },
-  onEdgeMouseenter(e: IG6GraphEvent) {
+  onNodeMouseenter(e: IG6GraphEvent) {
     this.createCloseIcon(e);
   },
-  onEdgeMouseleave(e: IG6GraphEvent) {
+  onNodeMouseleave(e: IG6GraphEvent) {
     this.resetState(e);
     const self = this as any;
     const graph = self.graph;
-    graph.css({
-      style: {
-        cursor: 'default'
-      }
-    });
+    console.log('leave');
+
+    this.setCursor(e, 'default');
   },
   onNodeClick(e: IG6GraphEvent) {
     const self = this as any;

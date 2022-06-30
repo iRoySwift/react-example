@@ -1,12 +1,10 @@
-import { EdgeConfig, G6Event, GraphData, IG6GraphEvent, IGraph } from '../../typings/index';
+import { EdgeConfig, G6Event, IG6GraphEvent, IGraph } from '../../typings/index';
 import { isFunction } from '@antv/util';
 
 const DEFAULT_TRIGGER = 'click';
 const ALLOW_EVENTS = ['click', 'drag'];
 const DEFAULT_KEY = undefined;
 const ALLOW_KEYS = ['shift', 'ctrl', 'control', 'alt', 'meta', undefined];
-
-let line;
 
 export default {
   getDefaultCfg(): object {
@@ -17,7 +15,7 @@ export default {
       getEdgeConfig: undefined
     };
   },
-  getEvents(): { [key in G6Event]?: string } {
+  getEvents() {
     const self = this as any;
     // 检测输入是否合法
     if (!(ALLOW_EVENTS.indexOf(self.trigger.toLowerCase()) > -1)) {

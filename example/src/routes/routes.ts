@@ -2,6 +2,7 @@ import { lazy } from 'react';
 
 const Home = lazy(() => import('@/pages/Home/index'));
 const Graph = lazy(() => import('@/pages/Graph/index'));
+const Xterm = lazy(() => import('@/pages/XtermShell/index'));
 const NotFoundPage = lazy(() => import('@/pages/404/index'));
 
 export const RouteConfig = [
@@ -14,6 +15,11 @@ export const RouteConfig = [
     name: 'graph',
     path: '/graph',
     comp: Graph
+  },
+  {
+    name: 'xterm',
+    path: '/xterm',
+    comp: Xterm
   },
   {
     name: '404',

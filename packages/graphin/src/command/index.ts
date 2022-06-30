@@ -1,6 +1,6 @@
 import { Graph } from '@antv/g6';
 import { clone } from '@antv/util';
-import { GraphData, ICommandExeData } from '../../typings/index';
+import { ICommandExeData } from '../../typings/index';
 
 class Command {
   graph: Graph;
