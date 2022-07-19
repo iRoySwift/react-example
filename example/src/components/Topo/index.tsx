@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef } from 'react';
 import Graphin from '@suning/uxcool-graphin';
 import { cloneDeep, each } from 'lodash';
 import { TopoData } from './model/okdData';
-import './index.scss';
+import './index.css';
 import { formDataTransfer } from './utils/formatData';
 import DragAndDrop from './plugins/dnd';
 import eventBus from '@/utils/eventBus';

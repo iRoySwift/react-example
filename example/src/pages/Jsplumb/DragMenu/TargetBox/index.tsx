@@ -5,7 +5,7 @@ import { useDrop } from 'react-dnd';
 import { cloneDeep } from 'lodash';
 import { v1 as uuidv1 } from 'uuid';
 import FlowItem from './flowItem';
-import './index.scss';
+import './index.css';
 import useEventCallback from '@/hooks/useEventCallback';
 import { ItemTypes } from '@/pages/Graph';
 

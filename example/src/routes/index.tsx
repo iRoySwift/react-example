@@ -5,6 +5,7 @@ import Graph from '@/pages/Graph/index';
 import DragHtmlDrop from '@/pages/DragHtmlDrop';
 import DragJsplumbMenu from '@/pages/Jsplumb/DragMenu/DragJsplumbMenu';
 import Xterm from '@/pages/XtermShell/index';
+import NativeJsLDemo from '@/pages/NativeJsLDemo';
 
 // import { RouteConfig } from './routes';
 
@@ -17,6 +18,7 @@ const RoutesComp = () => {
         <Route path="/xterm" element={<Xterm />} />
         <Route path="/drag-html-drop" element={<DragHtmlDrop />} />
         <Route path="/drag-jsplumb-drop" element={<DragJsplumbMenu />} />
+        <Route path="/native-js-demo" element={<NativeJsLDemo />} />
         <Route path="/404" element={<NotFoundPage />} />
         {/* {RouteConfig.map((item) => {
           <Route path={item.path} element={<item.comp />}></Route>;

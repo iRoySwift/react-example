@@ -81,6 +81,18 @@ export function downloadUrl(url) {
   };
 }
 
+// 下载图片
+export function downImage(url) {
+  const link = document.createElement('a');
+  link.style.display = 'none';
+  link.href = url;
+  link.target = '_blank';
+  link.setAttribute('download', 'down');
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
+
 // json 转formdata
 export function jsonToFormdata(json) {
   const formData = new FormData();

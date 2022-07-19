@@ -1,0 +1,164 @@
+@keyframes loading-icon-rotate {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+#captcha {
+  position: relative;
+  /* width: 310px; */
+}
+#captcha .loading {
+  position: absolute;
+  /* width: 310px;
+  height: 155px; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #45494c;
+  z-index: 2;
+  background: #edf0f2;
+}
+#captcha .loading .load-icon {
+  width: 32px;
+  height: 32px;
+  margin-bottom: 10px;
+  background: url(https://cstaticdun.126.net//2.13.6/images/icon_light.4353d81.png) 0 -332px;
+  background-size: 32px 544px;
+  animation: loading-icon-rotate 0.8s linear infinite;
+}
+#captcha .canvas {
+  position: relative;
+  /* width: 310px;
+  height: 155px; */
+  transition: all 0.2s linear;
+}
+#captcha .canvas canvas {
+  position: absolute;
+}
+#captcha .canvas .block {
+  cursor: pointer;
+}
+#captcha .canvas .refresh-icon {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  background: url(https://cstaticdun.126.net//2.13.6/images/icon_light.4353d81.png) 0 -233px;
+  background-size: 32px 544px;
+}
+#captcha .slide-container {
+  position: relative;
+  /* width: 310px; */
+  height: 40px;
+  line-height: 40px;
+  margin-top: 15px;
+  text-align: center;
+  background: #f7f9fa;
+  color: #45494c;
+  border: 1px solid #e4e7eb;
+  box-sizing: content-box;
+}
+.slide-container .slide-mask {
+  width: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 40px;
+}
+
+.slide-container .slide-mask .slider {
+  z-index: 99;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  cursor: grab;
+  box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+  transition: background 0.2s linear;
+}
+
+#captcha .slide-container .slide-mask .slider .slide-icon {
+  background: url(https://cstaticdun.126.net//2.13.6/images/icon_light.4353d81.png) 0 -13px;
+  background-size: 32px 544px;
+  position: absolute;
+  width: 14px;
+  height: 12px;
+  top: 15px;
+  left: 13px;
+}
+
+#captcha .slide-container .slide-text {
+  text-align: center;
+  line-height: 40px;
+  color: #45494c;
+  user-select: none;
+}
+
+/* 状态 */
+#captcha .slide-container-active .slide-mask {
+  border: 1px solid #1991fa;
+  background: #d1e9fe;
+  height: 38px;
+}
+#captcha .slide-container-success .slide-mask {
+  border: 1px solid #52ccba;
+  background-color: #d2f4ef;
+  height: 38px;
+}
+#captcha .slide-container-fail .slide-mask {
+  border: 1px solid #f57a7a;
+  background-color: #fce1e1;
+  height: 38px;
+}
+#captcha .slide-container-active .slide-mask .slider {
+  border: 1px solid #1991fa;
+  background-color: #1991fa;
+  height: 38px;
+  top: -1px;
+}
+#captcha .slide-container-success .slide-mask .slider {
+  border: 1px solid #52ccba;
+  background-color: #52ccba !important;
+  height: 38px;
+  top: -1px;
+}
+#captcha .slide-container-fail .slide-mask .slider {
+  border: 1px solid #f57a7a;
+  background-color: #f57a7a !important;
+  height: 38px;
+  top: -1px;
+}
+
+#captcha .slide-container .slide-mask .slider:hover {
+  border: 1px solid #1991fa;
+  background-color: #1991fa;
+  height: 38px;
+  /* top: -1px; */
+}
+#captcha .slide-container .slide-mask .slider:hover .slide-icon {
+  background-position: 0 0;
+}
+#captcha .slide-container-fail .slide-mask .slide-icon {
+  background-position: 0 -82px !important;
+}
+#captcha .slide-container-success .slide-mask .slide-icon {
+  background-position: 0 -26px !important;
+}
+#captcha .slide-container-active .slide-text {
+  display: none;
+}
+#captcha .slide-container-fail .slide-text {
+  display: none;
+}
+#captcha .slide-container-success .slide-text {
+  display: none;
+}

@@ -4,7 +4,7 @@ import { Box } from '@mui/material';
 import Topo from '@/components/Topo';
 import eventBus from '@/utils/eventBus';
 import { ItemTypes } from '..';
-import './index.scss';
+import './index.css';
 
 interface Props {}
 interface DropResult {

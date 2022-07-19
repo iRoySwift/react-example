@@ -8,11 +8,11 @@ const devServerConfig = () => (config) => {
     // 服务开启gzip
     compress: true,
     proxy: {
-      '/api': {
-        target: 'xxx',
+      '/itaas': {
+        target: 'http://192.168.137.1:8080',
         changeOrigin: true,
         pathRewrite: {
-          '^/api': '/api'
+          '^/itaas': '/itaas'
         }
       }
     }
