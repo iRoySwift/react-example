@@ -37,7 +37,6 @@ app.ws('/socket/:pid', (ws, req) => {
   const pid = parseInt(req.params.pid);
   const term = termMap.get(pid);
   term.on('data', function (data) {
-    console.log(data, pid, 'data');
     ws.send(data);
   });
   ws.on('message', (data) => {

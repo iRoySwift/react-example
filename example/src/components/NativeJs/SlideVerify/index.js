@@ -219,7 +219,6 @@ SlideVerify.prototype.dragEvent = function () {
     setClass(_this.slideContainer, 'slide-container');
     const eventX = e.screenX;
     _this.originX = eventX;
-    console.log(e, _this.originX, 'dragStart');
   };
 
   this.moveX = 0;
@@ -230,7 +229,6 @@ SlideVerify.prototype.dragEvent = function () {
     _this.block.style.left = _this.moveX + 'px';
     _this.slider.style.left = _this.moveX + 'px';
     _this.slideMask.style.width = _this.moveX + 'px';
-    console.log(e, _this.moveX, 'dragMove');
   };
   var verify = function () {
     let isFinished = Math.abs(_this.moveX - _this.x) < 10;
@@ -238,7 +236,6 @@ SlideVerify.prototype.dragEvent = function () {
   };
   var handleDragEnd = function (e) {
     let isMoved = _this.originX < _this.moveX + _this.originX;
-    console.log(isMoved, '');
     removeClass(_this.slideContainer, 'slide-container-active');
     if (_this.slideContainer && isMoved) {
       if (verify()) {
@@ -278,14 +275,6 @@ SlideVerify.prototype.reset = function () {
 
 function getRandomImgSrc() {
   return `https://picsum.photos/id/${getRandomNumberByRange(0, 1084)}/${w}/${h}`;
-}
-
-function sum(x, y) {
-  return x + y;
-}
-
-function square(x) {
-  return x * x;
 }
 
 function createElement(tagName, className) {

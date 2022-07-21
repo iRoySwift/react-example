@@ -8,7 +8,6 @@ interface Props {
 }
 const FlowItem: React.FC<Props> = (props) => {
   const { data } = props;
-  console.log(data, 'data');
   const nodeMouseDown = (e: any): void => {
     e.stopPropagation();
     e.persist();

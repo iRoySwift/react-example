@@ -13,19 +13,16 @@ const App: React.FC<Props> = () => {
   //   e.preventDefault();
   //   e.stopPropagation();
   //   e.persist();
-  //   console.log(e, "onDrag");
   // };
 
   // const onDragEnd = (e: React.DragEvent<HTMLSpanElement>): void => {
   //   e.preventDefault();
   //   e.stopPropagation();
-  //   console.log(e, "onDragEnd");
   // };
 
   // const onDragEnter = (e: React.DragEvent<HTMLDivElement>): any => {
   //   e.preventDefault();
   //   e.stopPropagation();
-  //   console.log(e, "onDragEnter");
   // };
 
   const onDragOver = (e: any): any => {
@@ -39,7 +36,6 @@ const App: React.FC<Props> = () => {
   // const onDragLeave = (e: React.DragEvent<HTMLDivElement>): any => {
   //   e.preventDefault();
   //   e.stopPropagation();
-  //   console.log(e, 'onDragLeave');
   // };
 
   const onDrop = (e: any): any => {

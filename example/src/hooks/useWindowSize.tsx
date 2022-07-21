@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 export interface Size {
   scrollWidth: number;
@@ -9,13 +9,12 @@ export interface Size {
 
 export default function useWindowSize(): Size {
   const getWindowSize = (): Size => {
-    const { scrollWidth, scrollHeight, offsetWidth, offsetHeight } =
-      document.body || document.documentElement;
+    const { scrollWidth, scrollHeight, offsetWidth, offsetHeight } = document.body || document.documentElement;
     return {
       scrollWidth,
       scrollHeight,
       offsetWidth,
-      offsetHeight,
+      offsetHeight
     };
   };
   const [size, setSize] = useState(getWindowSize());
@@ -26,11 +25,10 @@ export default function useWindowSize(): Size {
     };
     onResize();
 
-    window.addEventListener("resize", onResize);
+    window.addEventListener('resize', onResize);
     return (): void => {
-      window.removeEventListener("resize", onResize);
+      window.removeEventListener('resize', onResize);
     };
   }, []);
-  console.log(size, "1");
   return size;
 }

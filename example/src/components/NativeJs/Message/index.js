@@ -27,7 +27,6 @@ export default class Message {
     this.show({ type: 'icon-loading bi-arrow-clockwise', ctx });
   }
   show({ type, ctx }) {
-    console.log(isObject(ctx));
     let content = '',
       duration = 2000,
       closeable = false;
