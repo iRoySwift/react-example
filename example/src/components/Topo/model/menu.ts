@@ -11,7 +11,7 @@ export const allMenuInfo = [
         compGroupId: 1,
         showLocation: null,
         connComp: '',
-        icon: '/icon/lb.svg',
+        img: '/icon/lb.svg',
         description: '负载均衡'
       },
       {
@@ -21,7 +21,7 @@ export const allMenuInfo = [
         compGroupId: 1,
         showLocation: null,
         connComp: '',
-        icon: '/icon/dns.svg',
+        img: '/icon/dns.svg',
         description: '域名'
       },
       {
@@ -31,7 +31,7 @@ export const allMenuInfo = [
         compGroupId: 1,
         showLocation: null,
         connComp: '',
-        icon: '',
+        img: '',
         description: '应用防火墙'
       }
     ]
@@ -48,7 +48,7 @@ export const allMenuInfo = [
         compGroupId: 2,
         showLocation: null,
         connComp: '',
-        icon: '/icon/tomcat.svg',
+        img: '/icon/tomcat.svg',
         description: ''
       },
       {
@@ -58,7 +58,7 @@ export const allMenuInfo = [
         compGroupId: 2,
         showLocation: null,
         connComp: '',
-        icon: '',
+        img: '',
         description: ''
       },
       {
@@ -68,7 +68,7 @@ export const allMenuInfo = [
         compGroupId: 2,
         showLocation: null,
         connComp: '',
-        icon: '',
+        img: '',
         description: 'Nginx Web服务器'
       }
     ]
@@ -85,7 +85,7 @@ export const allMenuInfo = [
         compGroupId: 3,
         showLocation: null,
         connComp: '',
-        icon: '/icon/tomcat.svg',
+        img: '/icon/tomcat.svg',
         description: ''
       },
       {
@@ -95,7 +95,7 @@ export const allMenuInfo = [
         compGroupId: 3,
         showLocation: null,
         connComp: '',
-        icon: '/icon/rocketmq.svg',
+        img: '/icon/rocketmq.svg',
         description: '分布式消息队列'
       },
       {
@@ -105,7 +105,7 @@ export const allMenuInfo = [
         compGroupId: 3,
         showLocation: null,
         connComp: '',
-        icon: '/icon/nacos.svg',
+        img: '/icon/nacos.svg',
         description: '分布式服务发现和配置管理平台'
       },
       {
@@ -115,7 +115,7 @@ export const allMenuInfo = [
         compGroupId: 3,
         showLocation: null,
         connComp: null,
-        icon: '/icon/es.svg',
+        img: '/icon/es.svg',
         description: '分布式全文搜索引擎'
       }
     ]
@@ -132,7 +132,7 @@ export const allMenuInfo = [
         compGroupId: 4,
         showLocation: null,
         connComp: '',
-        icon: '/icon/mysql.svg',
+        img: '/icon/mysql.svg',
         description: ''
       },
       {
@@ -142,7 +142,7 @@ export const allMenuInfo = [
         compGroupId: 4,
         showLocation: null,
         connComp: '',
-        icon: '/icon/redis.svg',
+        img: '/icon/redis.svg',
         description: ''
       }
     ]

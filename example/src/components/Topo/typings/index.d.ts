@@ -29,3 +29,5 @@ export interface iNodeConfig extends NodeConfig {
     [key: string | number]: any;
   };
 }
+
+export interface iEdgeConfig extends EdgeConfig {}

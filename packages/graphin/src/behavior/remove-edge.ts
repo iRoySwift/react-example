@@ -1,7 +1,6 @@
-// @ts-nocheck
-import { IG6GraphEvent, IGraph } from '../../typings/index';
+import { iCursorType, IG6GraphEvent, IGraph } from '../../typings/index';
 
-const option: any = {
+export default {
   getDefaultCfg() {
     return {
       multiple: true
@@ -9,67 +8,50 @@ const option: any = {
   },
   getEvents() {
     return {
-      'node:click': 'onNodeClick',
-      'canvas:click': 'onCanvasClick',
-      'edge:mouseenter': 'onEdgeMouseenter',
-      'edge:mouseleave': 'onEdgeMouseleave'
+      'edge:click': 'onClick',
+      'edge:mouseenter': 'onMouseenter',
+      'edge:mouseleave': 'onMouseleave'
     };
   },
-  onEdgeMouseenter(e: IG6GraphEvent) {
-    this.setEdgesState(e);
+  onMouseenter(e: IG6GraphEvent) {
+    this.createCloseIcon(e);
   },
-  onEdgeMouseleave(e: IG6GraphEvent) {
-    this.resetEdgesState(e);
+  onMouseleave(e: IG6GraphEvent) {
+    this.resetState(e);
+
+    this.setCursor(e, 'default');
   },
-  onNodeClick(e: IG6GraphEvent) {
-    // const graph = this.graph;
-    // const item = e.item;
-    // if (item.hasState("active")) {
-    //     graph.setItemState(item, "active", false);
-    //     return;
-    // }
-    // // this 上即可取到配置，如果不允许多个 'active'，先取消其他节点的 'active' 状态
-    // if (!this.multiple) {
-    //     this.removeNodesState();
-    // }
-    // // 置点击的节点状态 'active' 为 true
-    // graph.setItemState(item, "active", true);
-  },
-  onCanvasClick(e: IG6GraphEvent) {
-    // shouldUpdate 可以由用户复写，返回 true 时取消所有节点的 'active' 状态，即将 'active' 状态置为 false
-    // if (this.shouldUpdate(e)) {
-    //     removeNodesState();
-    // }
-  },
-  setEdgesState(e: IG6GraphEvent) {
-    const { x, y } = e;
-    const graph: IGraph = this.graph;
+  onClick(e: IG6GraphEvent) {
+    const self = this as any;
+    const graph = self.graph;
     const item = e.item;
-    const { showClose } = item?.getModel();
-    if (showClose) {
-      item.update({
-        showClose: true,
-        x,
-        y
+    if (e.target && e.target.get('name') == 'close-btn') {
+      graph.cmd.executeCommand('removeItem', {
+        item
       });
-      graph.setItemState(item, 'active', true);
     }
   },
-  resetEdgesState(e: IG6GraphEvent) {
-    const graph: IGraph = this.graph;
+  resetState(e: IG6GraphEvent) {
+    const self = this as any;
+    const graph: IGraph = self.graph;
     const item = e.item;
-    const { showClose } = item?.getModel();
-    if (showClose) {
-      item.update({
-        showClose: false
+    item && graph.setItemState(item, 'close-active', false);
+  },
+  createCloseIcon(e: IG6GraphEvent) {
+    const self = this as any;
+    const graph: IGraph = self.graph;
+    const item = e.item;
+    item && graph.setItemState(item, 'close-active', true);
+  },
+  setCursor(e: IG6GraphEvent, type: keyof typeof iCursorType) {
+    const self = this as any;
+    const graph: IGraph = self.graph;
+    const item = e.item;
+    item &&
+      graph.updateItem(item, {
+        attrs: {
+          cursor: type
+        }
       });
-      graph.findAllByState('edge', 'active').forEach((edge) => {
-        graph.setItemState(edge, 'active', false);
-      });
-    }
   }
-};
-export default {
-  type: 'removeEdge',
-  option
 };

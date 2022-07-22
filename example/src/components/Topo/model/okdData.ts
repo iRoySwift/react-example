@@ -13,7 +13,7 @@ export const TopoData: iGraphData = {
       resourceType: '',
       model: {
         compType: 'mysql',
-        status: '2',
+        status: '0',
         tooltip: [
           {
             ename: 'instanceCode',
@@ -83,4 +83,17 @@ export const TopoData: iGraphData = {
   ]
 };
 
-export default {};
+export const submit = {
+  combos: [],
+  nodes: [
+    {
+      id: 'a9b8c262-e427-4916-a96a-439433167bf5',
+      x: 116,
+      y: -78.75,
+      isSaved: false,
+      modelCode: 'mysql',
+      comboId: null
+    }
+  ],
+  edges: [{ source: '8cc653bc-4d03-43fd-990c-16b251f61838', target: 'a9b8c262-e427-4916-a96a-439433167bf5' }]
+};

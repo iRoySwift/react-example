@@ -1,5 +1,5 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import Graphin from '@suning/uxcool-graphin';
+import React, { forwardRef, ForwardRefRenderFunction, MutableRefObject, useCallback, useEffect, useImperativeHandle, useRef } from 'react';
+import Graphin, { IG6GraphEvent } from '@suning/uxcool-graphin';
 import { cloneDeep, each } from 'lodash';
 import { TopoData } from './model/okdData';
 import './index.css';
@@ -10,13 +10,18 @@ import { drop } from './events/dnd';
 import { toolbar } from './plugins/index';
 import * as commands from './command';
 import Graph from '@suning/uxcool-graphin/lib/graph/index';
+import { nodeClick, nodeDrop, nodeMouseEnter, nodeMouseOut } from './events/node';
+import nodeUpdate from './events/nodeUpdate';
 
 interface Props {
   ref?: React.Ref<unknown> | undefined;
+  editModel?: String;
 }
 
-const Topo: React.FC<Props> = () => {
-  const topoRef = useRef<HTMLDivElement>(null);
+const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel }, ref) => {
+  let topoRef = useRef<HTMLDivElement>(null);
+  let graph: MutableRefObject<Graph | undefined> = useRef<Graph>();
+
   const compTypes = [
     { searchValue: null, createBy: 'admim', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 1, name: '负载均衡', modelCode: 'lb', compGroupId: 1, showLocation: null, connComp: '', icon: '/icon/lb.svg', description: '', dependIpFlag: 1, status: 0, delFlag: 0 },
     { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 2, name: '域名', modelCode: 'dns', compGroupId: 1, showLocation: null, connComp: '', icon: '/icon/dns.svg', description: '', dependIpFlag: 1, status: 0, delFlag: 0 },
@@ -31,19 +36,49 @@ const Topo: React.FC<Props> = () => {
     { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 13, name: '分布式服务发现和配置管理平台', modelCode: 'nacos', compGroupId: 3, showLocation: null, connComp: '', icon: '', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
     { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 14, name: '应用防火墙', modelCode: 'waf', compGroupId: 1, showLocation: null, connComp: '', icon: '', description: '', dependIpFlag: 0, status: 0, delFlag: 0 }
   ];
-  type NewType = Graph;
 
-  let graph: NewType;
+  useImperativeHandle(ref, () => ({
+    getGraph: () => graph.current
+  }));
 
-  useEffect(() => {
-    if (!graph) {
-      initInstsance();
-      readData();
-    }
+  /**
+   * 注册插件
+   */
+  const addPlugins = useCallback(() => {
+    const dnd: any = new DragAndDrop();
+    graph.current!.addPlugin(dnd);
   }, []);
 
+  /**
+   * 命令注册
+   */
+  const registerCommand = () => {
+    each(commands, (command, type) => {
+      graph && graph.current!.cmd.registerCommand && graph.current!.cmd.registerCommand(type, command);
+    });
+  };
+
+  /**
+   * 事件注册
+   */
+  const GraphOn = useCallback(() => {
+    graph.current!.on('node:click', (e: IG6GraphEvent) => {
+      nodeClick.call({ editModel, graph: graph.current }, e);
+    });
+    graph.current!.on('node:mouseenter', (e: IG6GraphEvent) => {
+      nodeMouseEnter.call({ editModel }, e);
+    });
+    graph.current!.on('node:mouseout', (e) => {
+      nodeMouseOut.call({ editModel }, e);
+    });
+    graph.current!.on('node:drop', (e) => {
+      nodeDrop.call({ editModel, graph: graph.current }, e);
+    });
+    registerCommand();
+  }, [editModel]);
+
   // @ts-ignore
-  const initInstsance = () => {
+  const initInstsance = useCallback(() => {
     const container = topoRef.current;
     const width = topoRef.current?.scrollWidth || 900;
     const height = topoRef.current?.scrollHeight || 500;
@@ -60,6 +95,7 @@ const Topo: React.FC<Props> = () => {
       modes: {
         default: [
           'removeNode',
+          'removeEdge',
           {
             type: 'drag-node',
             shouldBegin: (e) => {
@@ -71,11 +107,11 @@ const Topo: React.FC<Props> = () => {
             type: 'createEdge',
             trigger: 'drag',
             shouldBegin: (e) => {
-              if (!(e.target && e.target.get('isAnchorPoint') && e.target.get('name') == 'okdNodeCircle-right-anchor')) return false;
+              if (!(e.target && e.target.get('isAnchorPoint') && e.target.get('name') === 'okdNodeCircle-right-anchor')) return false;
               return true;
             },
             shouldEnd: (e) => {
-              if (!(e.target && e.target.get('isAnchorPoint') && e.target.get('name') == 'okdNodeCircle-left-anchor')) return false;
+              if (!(e.target && e.target.get('isAnchorPoint') && e.target.get('name') === 'okdNodeCircle-left-anchor')) return false;
               return true;
             }
           },
@@ -99,9 +135,15 @@ const Topo: React.FC<Props> = () => {
           left: true,
           size: 10
         },
+        icon: {
+          show: true,
+          width: 60,
+          height: 60,
+          fill: '#d3dbe1',
+          img: ''
+        },
         style: {
           fill: '#fff',
-          // stroke: '#d3dbe1',
           stroke: '#33cc33',
           lineWidth: 5
         }
@@ -122,80 +164,42 @@ const Topo: React.FC<Props> = () => {
       minZoom: 0.2,
       maxZoom: 6
     };
-    graph = new Graphin.Graph(options);
+    graph.current = new Graphin.Graph(options);
     addPlugins();
     GraphOn();
-  };
-
-  const addPlugins = () => {
-    const dnd: any = new DragAndDrop();
-    graph.addPlugin(dnd);
-  };
+  }, [GraphOn, addPlugins]);
 
   // @ts-ignore
   const readData = useCallback(() => {
-    const newTopoData = formDataTransfer(cloneDeep(TopoData), graph, compTypes);
-    console.log(newTopoData, 'ss0');
-    graph?.read(cloneDeep(newTopoData as any));
+    const newTopoData = formDataTransfer(cloneDeep(TopoData), graph.current, compTypes);
+    graph.current!.read(cloneDeep(newTopoData as any));
     // graph?.render();
-    graph?.fitCenter();
+    graph.current!.fitCenter();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // @ts-ignore
   const DropOn = useCallback((args: any) => {
-    const { x, y } = graph?.getPointByClient(args?.x || 0, args?.y || 0);
-    drop(graph, { ...args, x, y });
+    const { x, y } = graph.current!.getPointByClient(args?.x || 0, args?.y || 0);
+    drop(graph.current, { ...args, x, y });
   }, []);
 
-  // 事件注册
-  const GraphOn = () => {
-    registerCommand();
-  };
-
-  // 命令注册
-  const registerCommand = () => {
-    each(commands, (command, type) => {
-      graph && graph.cmd.registerCommand && graph?.cmd.registerCommand(type, command);
-    });
-  };
-
-  // 服务事件监听
-  // const nodeAddeventent = () => {
-  //   graph.on('node:mouseenter', function (evt: IG6GraphEvent) {
-  //     const node = evt.item;
-  //     const model = node.getModel();
-  //     model.oriLabel = model.label;
-  //     graph.updateItem(node, {
-  //       label: `after been hovered ${model.id}`,
-  //       labelCfg: {
-  //         style: {
-  //           fill: '#003a8c'
-  //         }
-  //       }
-  //     });
-  //   });
-
-  //   graph.on('node:mouseleave', function (evt) {
-  //     const node = evt.item;
-  //     const model = node.getModel();
-  //     graph.updateItem(node, {
-  //       label: model.oriLabel,
-  //       labelCfg: {
-  //         style: {
-  //           fill: '#555'
-  //         }
-  //       }
-  //     });
-  //   });
-  // };
+  useEffect(() => {
+    if (!graph.current) {
+      initInstsance();
+      readData();
+    }
+  }, [initInstsance, readData]);
 
   useEffect(() => {
     eventBus.on('drop', DropOn);
+    eventBus.on('node:update', (nodeId) => nodeUpdate.call({ editModel, graph: graph.current }, nodeId));
     return () => {
       eventBus.off('drop', DropOn);
+      eventBus.off('node:update', nodeUpdate);
     };
-  }, [DropOn]);
+  }, [DropOn, editModel]);
 
   return <div className="graphin-core" ref={topoRef}></div>;
 };
-export default Topo;
+export default forwardRef(Topo);

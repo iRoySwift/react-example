@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useDrop } from 'react-dnd';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Topo from '@/components/Topo';
 import eventBus from '@/utils/eventBus';
 import { ItemTypes } from '..';
@@ -11,6 +11,7 @@ interface DropResult {
   title: string;
 }
 const DragItem: React.FC<Props> = () => {
+  const topoRef: any = useRef(null);
   const [_, drop] = useDrop(() => ({
     accept: ItemTypes.DRAGITEM,
     hover: (item, monitor) => {
@@ -32,9 +33,16 @@ const DragItem: React.FC<Props> = () => {
       canDrop: monitor.canDrop()
     })
   }));
+
+  const submit = () => {
+    let node = topoRef.current!.getGraph()!.getNodes();
+    let id = node[2]._cfg.id;
+    eventBus.emit('node:update', id);
+  };
   return (
     <Box className="targetBox" ref={drop} sx={{ height: '100%', width: '100%' }}>
-      <Topo />
+      <Button onClick={submit}>提交</Button>
+      <Topo ref={topoRef} editModel="C" />
     </Box>
   );
 };

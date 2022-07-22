@@ -1,6 +1,6 @@
 import { deepMix, isArray } from '@antv/util';
 import { registerNode, Item, ShapeStyle, ShapeOptions, BaseGlobal as Global, UpdateType, ModelConfig } from '@antv/g6-core';
-import { GGroup, IG6GraphEvent, IGroup, IShape, NodeConfig } from '../../../typings/index';
+import { GGroup, IGroup, IShape, NodeConfig } from '../../../typings/index';
 import { shapeBase } from './shapeBase';
 
 // 绘制node
@@ -35,15 +35,6 @@ const okdNodeCircle: ShapeOptions = {
       fill: Global.defaultNode.linkPoints.fill,
       stroke: Global.defaultNode.linkPoints.stroke
     },
-    // 节点中icon配置
-    icon: {
-      // 是否显示icon，值为 false 则不渲染icon
-      show: false,
-      // icon的地址，字符串类型
-      // img: 'https://gw.alipayobjects.com/zos/bmw-prod/5d015065-8505-4e7a-baec-976f81e3c41d.svg',
-      width: 20,
-      height: 20
-    },
     stateStyles: {
       ...Global.nodeStateStyles
     }
@@ -60,6 +51,7 @@ const okdNodeCircle: ShapeOptions = {
     const style = this.getShapeStyle!(cfg);
     const icon = deepMix({}, defaultIcon, cfg.icon);
     const name = `${self.type}-keyShape`;
+
     const keyShape: IShape = group.addShape('circle', {
       attrs: { ...style },
       className: name,
@@ -69,7 +61,7 @@ const okdNodeCircle: ShapeOptions = {
     group['shapeMap'][name] = keyShape;
     // label
     if (label) {
-      const labelName = `${self.type}-label`;
+      const labelName = `${self.type}-rect`;
       const labelWidth = (label as string).length * 10 > 120 ? (label as string).length * 10 : 120;
       group['shapeMap'][labelName] = group.addShape('rect', {
         attrs: {
@@ -88,7 +80,7 @@ const okdNodeCircle: ShapeOptions = {
         name: labelName,
         draggable: true
       });
-      const textName = `${self.type}-label`;
+      const textName = `${self.type}-text`;
       group['shapeMap'][textName] = group.addShape('text', {
         attrs: {
           x: 0,
@@ -193,19 +185,31 @@ const okdNodeCircle: ShapeOptions = {
     this.drawClose(cfg, group);
     return keyShape;
   },
-  afterDraw(cfg, group) {
-    console.log(cfg, group, 'afterDraw');
-  },
-
-  update(cfg: ModelConfig, item: Item, updateType?: UpdateType) {
-    const { showClose } = cfg;
-    if (showClose) {
+  // eslint-disable-next-line no-unused-vars
+  afterDraw(cfg, group) {},
+  updateShapeStyle(cfg: NodeConfig, item: Item, updateType: UpdateType) {
+    const keyShape = item.get('keyShape');
+    keyShape.attr({
+      ...cfg.style
+    });
+    if (!undefined || updateType?.includes('label')) {
+      (this as any).updateLabel(cfg, item);
     }
-    console.log(cfg, item, 'update', updateType);
+
+    // if (hasIcon) {
+    //   (this as any).updateIcon(cfg, item);
+    // }
   },
-  afterUpdate(cfg, item) {
-    console.log(cfg, item, 'afterUpdate');
+  updateLabel(cfg: NodeConfig, item: Item) {
+    const self = this as any;
+    const group = item?.get('group');
+    const keyShape = group.find((e: any) => e.get('name') === `${self.type}-text`);
+    keyShape.attr({
+      text: cfg.label
+    });
   },
+  // eslint-disable-next-line no-unused-vars
+  afterUpdate(cfg, item) {},
   setState(name, value, item) {
     const group = item?.get('group');
     if (name == 'close-active') {

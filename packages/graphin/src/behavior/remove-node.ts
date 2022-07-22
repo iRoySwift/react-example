@@ -8,23 +8,20 @@ export default {
   },
   getEvents() {
     return {
-      'node:click': 'onNodeClick',
-      'node:mouseenter': 'onNodeMouseenter',
-      'node:mouseleave': 'onNodeMouseleave'
+      'node:click': 'onClick',
+      'node:mouseenter': 'onMouseenter',
+      'node:mouseleave': 'onMouseleave'
     };
   },
-  onNodeMouseenter(e: IG6GraphEvent) {
+  onMouseenter(e: IG6GraphEvent) {
     this.createCloseIcon(e);
   },
-  onNodeMouseleave(e: IG6GraphEvent) {
+  onMouseleave(e: IG6GraphEvent) {
     this.resetState(e);
-    const self = this as any;
-    const graph = self.graph;
-    console.log('leave');
 
     this.setCursor(e, 'default');
   },
-  onNodeClick(e: IG6GraphEvent) {
+  onClick(e: IG6GraphEvent) {
     const self = this as any;
     const graph = self.graph;
     const item = e.item;
@@ -47,7 +44,6 @@ export default {
     item && graph.setItemState(item, 'close-active', true);
   },
   setCursor(e: IG6GraphEvent, type: keyof typeof iCursorType) {
-    console.log(e, type);
     const self = this as any;
     const graph: IGraph = self.graph;
     const item = e.item;

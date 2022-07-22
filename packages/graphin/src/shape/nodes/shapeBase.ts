@@ -1,6 +1,6 @@
 import { BaseGlobal as Global } from '@antv/g6-core';
 import { deepMix } from '@antv/util';
-import { ModelConfig, ShapeOptions, UpdateType } from '../../../typings';
+import { Item, ModelConfig, ShapeOptions, UpdateType } from '../../../typings';
 
 export const shapeBase: ShapeOptions = {
   // 默认样式及配置
@@ -21,6 +21,7 @@ export const shapeBase: ShapeOptions = {
    * 形状的类型，例如 circle，ellipse，polyline...
    */
   type: '',
+  // eslint-disable-next-line no-unused-vars
   getCustomConfig(cfg: ModelConfig): ModelConfig {
     return {};
   },
@@ -29,5 +30,14 @@ export const shapeBase: ShapeOptions = {
       return {};
     }
     return deepMix({}, this.options, this.getCustomConfig!(cfg) || {}, cfg);
+  },
+  /**
+   * 更新节点，包含文本
+   * @override
+   * @param  {Object} cfg 节点/边的配置项
+   * @param  {G6.Item} item 节点/边
+   */
+  update(cfg: ModelConfig, item: Item, updateType?: UpdateType) {
+    (this as any).updateShapeStyle(cfg, item, updateType);
   }
 };

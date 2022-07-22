@@ -1,5 +1,5 @@
 const addItem = {
-  queue: true, // 是否加入执行栈
+  queue: true,
   enable() {
     return true;
   },
