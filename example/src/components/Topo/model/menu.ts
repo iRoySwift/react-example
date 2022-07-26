@@ -1,157 +1,32 @@
 export const allMenuInfo = [
   {
-    id: 1,
-    name: '网络',
-    groupCode: 'network',
-    children: [
-      {
-        id: 1,
-        name: 'LB',
-        modelCode: 'lb',
-        compGroupId: 1,
-        showLocation: null,
-        connComp: '',
-        img: '/icon/lb.svg',
-        description: '负载均衡'
-      },
-      {
-        id: 2,
-        name: 'DNS',
-        modelCode: 'dns',
-        compGroupId: 1,
-        showLocation: null,
-        connComp: '',
-        img: '/icon/dns.svg',
-        description: '域名'
-      },
-      {
-        id: 14,
-        name: 'Waf',
-        modelCode: 'waf',
-        compGroupId: 1,
-        showLocation: null,
-        connComp: '',
-        img: '',
-        description: '应用防火墙'
-      }
-    ]
-  },
-  {
-    id: 2,
-    name: '中间件',
+    groupId: 2,
+    groupName: '运行时',
     groupCode: 'runtime',
-    children: [
-      {
-        id: 3,
-        name: 'Tomcat',
-        modelCode: 'tomcat',
-        compGroupId: 2,
-        showLocation: null,
-        connComp: '',
-        img: '/icon/tomcat.svg',
-        description: ''
-      },
-      {
-        id: 10,
-        name: 'OpenJDK',
-        modelCode: 'openjdk',
-        compGroupId: 2,
-        showLocation: null,
-        connComp: '',
-        img: '',
-        description: ''
-      },
-      {
-        id: 11,
-        name: 'Nginx',
-        modelCode: 'nginx',
-        compGroupId: 2,
-        showLocation: null,
-        connComp: '',
-        img: '',
-        description: 'Nginx Web服务器'
-      }
+    modelResVoList: [
+      { modelId: 3, modelName: 'Tomcat', modelCode: 'tomcat', compGroupId: 2, showLocation: 0, oneClickFlag: 0 },
+      { modelId: 10, modelName: 'JDK', modelCode: 'jdk', compGroupId: 2, showLocation: 1, oneClickFlag: 0 },
+      { modelId: 11, modelName: 'Nginx', modelCode: 'nginx', compGroupId: 2, showLocation: 2, oneClickFlag: 0 }
     ]
   },
   {
-    id: 3,
-    name: '基础组件',
-    groupCode: 'baseComponent',
-    children: [
-      {
-        id: 6,
-        name: 'xxl-job',
-        modelCode: 'xxljob',
-        compGroupId: 3,
-        showLocation: null,
-        connComp: '',
-        img: '/icon/tomcat.svg',
-        description: ''
-      },
-      {
-        id: 12,
-        name: 'RocketMq',
-        modelCode: 'rocketmq',
-        compGroupId: 3,
-        showLocation: null,
-        connComp: '',
-        img: '/icon/rocketmq.svg',
-        description: '分布式消息队列'
-      },
-      {
-        id: 13,
-        name: 'Nacos',
-        modelCode: 'nacos',
-        compGroupId: 3,
-        showLocation: null,
-        connComp: '',
-        img: '/icon/nacos.svg',
-        description: '分布式服务发现和配置管理平台'
-      },
-      {
-        id: 15,
-        name: 'Elastic Search',
-        modelCode: 'elasticsearch',
-        compGroupId: 3,
-        showLocation: null,
-        connComp: null,
-        img: '/icon/es.svg',
-        description: '分布式全文搜索引擎'
-      }
-    ]
-  },
-  {
-    id: 4,
-    name: '数据库',
+    groupId: 4,
+    groupName: '数据服务',
     groupCode: 'database',
-    children: [
-      {
-        id: 7,
-        name: 'MySQL',
-        modelCode: 'mysql',
-        compGroupId: 4,
-        showLocation: null,
-        connComp: '',
-        img: '/icon/mysql.svg',
-        description: ''
-      },
-      {
-        id: 8,
-        name: 'Redis',
-        modelCode: 'redis',
-        compGroupId: 4,
-        showLocation: null,
-        connComp: '',
-        img: '/icon/redis.svg',
-        description: ''
-      }
+    modelResVoList: [
+      { modelId: 8, modelName: 'Redis', modelCode: 'redis', compGroupId: 4, showLocation: 3, oneClickFlag: 0 },
+      { modelId: 7, modelName: 'MySQL', modelCode: 'mysql', compGroupId: 4, showLocation: 4, oneClickFlag: 0 }
     ]
   },
   {
-    id: 5,
-    name: '自定义',
-    groupCode: 'custom',
-    children: []
+    groupId: 3,
+    groupName: '基础服务',
+    groupCode: 'baseComponent',
+    modelResVoList: [
+      { modelId: 6, modelName: 'xxl-job', modelCode: 'xxljob', compGroupId: 3, showLocation: 7, oneClickFlag: 0 },
+      { modelId: 12, modelName: 'RocketMq', modelCode: 'rocketmq', compGroupId: 3, showLocation: 8, oneClickFlag: 0 },
+      { modelId: 13, modelName: 'Nacos', modelCode: 'nacos', compGroupId: 3, showLocation: 9, oneClickFlag: 0 }
+    ]
   }
 ];
 

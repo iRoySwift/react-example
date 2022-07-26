@@ -5,7 +5,7 @@ import { TopoData } from './model/okdData';
 import './index.css';
 import { formDataTransfer } from './utils/formatData';
 import DragAndDrop from './plugins/dnd';
-import eventBus from '@/utils/eventBus';
+import $Bus from '@/utils/$Bus';
 import { drop } from './events/dnd';
 import { toolbar } from './plugins/index';
 import * as commands from './command';
@@ -15,13 +15,14 @@ import nodeUpdate from './events/nodeUpdate';
 
 interface Props {
   ref?: React.Ref<unknown> | undefined;
-  editModel?: String;
+  editModel: string;
 }
 
 const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel }, ref) => {
   let topoRef = useRef<HTMLDivElement>(null);
   let graph: MutableRefObject<Graph | undefined> = useRef<Graph>();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const compTypes = [
     { searchValue: null, createBy: 'admim', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 1, name: '负载均衡', modelCode: 'lb', compGroupId: 1, showLocation: null, connComp: '', icon: '/icon/lb.svg', description: '', dependIpFlag: 1, status: 0, delFlag: 0 },
     { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 2, name: '域名', modelCode: 'dns', compGroupId: 1, showLocation: null, connComp: '', icon: '/icon/dns.svg', description: '', dependIpFlag: 1, status: 0, delFlag: 0 },
@@ -63,16 +64,18 @@ const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel }, ref) => {
    */
   const GraphOn = useCallback(() => {
     graph.current!.on('node:click', (e: IG6GraphEvent) => {
-      nodeClick.call({ editModel, graph: graph.current }, e);
+      nodeClick.call({ editModel, graph: graph.current, $Bus }, e);
     });
-    graph.current!.on('node:mouseenter', (e: IG6GraphEvent) => {
-      nodeMouseEnter.call({ editModel }, e);
-    });
-    graph.current!.on('node:mouseout', (e) => {
-      nodeMouseOut.call({ editModel }, e);
-    });
+    if (editModel === 'V') {
+      graph.current!.on('node:mouseenter', (e: IG6GraphEvent) => {
+        nodeMouseEnter.call({ editModel, $Bus }, e);
+      });
+      graph.current!.on('node:mouseout', (e) => {
+        nodeMouseOut.call({ editModel, $Bus }, e);
+      });
+    }
     graph.current!.on('node:drop', (e) => {
-      nodeDrop.call({ editModel, graph: graph.current }, e);
+      nodeDrop.call({ editModel, graph: graph.current, $Bus }, e);
     });
     registerCommand();
   }, [editModel]);
@@ -94,6 +97,18 @@ const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel }, ref) => {
       plugins: [toolbar],
       modes: {
         default: [
+          {
+            type: 'drag-node',
+            shouldBegin: (e) => {
+              if (e.target.get('isAnchorPoint')) return false;
+              return true;
+            }
+          },
+          'drag-canvas',
+          'node-click',
+          'zoom-canvas'
+        ],
+        create: [
           'removeNode',
           'removeEdge',
           {
@@ -117,11 +132,6 @@ const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel }, ref) => {
           },
           'drag-canvas',
           'node-click',
-          // {
-          //   type: 'drag-combo',
-          //   enableDelegate: true
-          // },
-          // 'drag-node-with-group',
           'zoom-canvas'
         ]
       },
@@ -165,18 +175,26 @@ const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel }, ref) => {
       maxZoom: 6
     };
     graph.current = new Graphin.Graph(options);
-    addPlugins();
+    const editModelMap = {
+      C: 'create',
+      V: 'default'
+    };
+    if (editModel === 'V') {
+      addPlugins();
+    }
+    graph.current!.setMode(editModelMap[editModel]);
     GraphOn();
-  }, [GraphOn, addPlugins]);
+  }, [GraphOn, addPlugins, editModel]);
 
   // @ts-ignore
   const readData = useCallback(() => {
-    const newTopoData = formDataTransfer(cloneDeep(TopoData), graph.current, compTypes);
-    graph.current!.read(cloneDeep(newTopoData as any));
-    // graph?.render();
+    const data = cloneDeep(TopoData);
+    const newTopoData: any = formDataTransfer(data, graph.current, compTypes);
+    graph.current!.data(newTopoData);
+    graph.current?.render();
     graph.current!.fitCenter();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    graph.current!.changeData();
+  }, [compTypes]);
 
   // @ts-ignore
   const DropOn = useCallback((args: any) => {
@@ -192,11 +210,12 @@ const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel }, ref) => {
   }, [initInstsance, readData]);
 
   useEffect(() => {
-    eventBus.on('drop', DropOn);
-    eventBus.on('node:update', (nodeId) => nodeUpdate.call({ editModel, graph: graph.current }, nodeId));
+    if (editModel === 'C') {
+      $Bus.on('drop', DropOn);
+      $Bus.on('node:update', (nodeId) => nodeUpdate.call({ editModel, graph: graph.current }, nodeId));
+    }
     return () => {
-      eventBus.off('drop', DropOn);
-      eventBus.off('node:update', nodeUpdate);
+      $Bus.off('drop', DropOn);
     };
   }, [DropOn, editModel]);
 

@@ -78,6 +78,7 @@ const okdNodeCircle: ShapeOptions = {
         },
         className: labelName,
         name: labelName,
+        isLabelPoint: true,
         draggable: true
       });
       const textName = `${self.type}-text`;
@@ -95,6 +96,7 @@ const okdNodeCircle: ShapeOptions = {
         },
         className: textName,
         name: textName,
+        isLabelPoint: true,
         draggable: true
       });
     }
@@ -116,6 +118,7 @@ const okdNodeCircle: ShapeOptions = {
         },
         className: monitorName,
         name: monitorName,
+        isLogPoint: true,
         draggable: true
       });
       const logName = 'logName';
@@ -132,6 +135,7 @@ const okdNodeCircle: ShapeOptions = {
         },
         className: logName,
         name: logName,
+        isLogPoint: true,
         draggable: true
       });
     }
@@ -189,7 +193,7 @@ const okdNodeCircle: ShapeOptions = {
   afterDraw(cfg, group) {},
   updateShapeStyle(cfg: NodeConfig, item: Item, updateType: UpdateType) {
     const keyShape = item.get('keyShape');
-    keyShape.attr({
+    keyShape?.attr({
       ...cfg.style
     });
     if (!undefined || updateType?.includes('label')) {
@@ -204,7 +208,7 @@ const okdNodeCircle: ShapeOptions = {
     const self = this as any;
     const group = item?.get('group');
     const keyShape = group.find((e: any) => e.get('name') === `${self.type}-text`);
-    keyShape.attr({
+    keyShape?.attr({
       text: cfg.label
     });
   },
@@ -324,7 +328,8 @@ const okdNodeCircle: ShapeOptions = {
         fill: '#F22635',
         r: 7,
         cursor: 'pointer'
-      }
+      },
+      isClosePoint: true
     });
     closeIcon.addShape('text', {
       name: 'close-btn',
@@ -338,7 +343,8 @@ const okdNodeCircle: ShapeOptions = {
         fontSize: 12,
         fontweight: 40,
         cursor: 'pointer'
-      }
+      },
+      isClosePoint: true
     });
   },
   /**

@@ -1,10 +1,13 @@
-export default function nodeUpdate(this: any, nodeId) {
+export default function nodeUpdate(this: any, data) {
+  const { nodeId, formData } = data;
+  const { name } = formData;
   let node = this.graph.findById(nodeId);
 
   this.graph.updateItem(node, {
     ...node.model,
     isSaved: true,
-    label: 'save',
+    label: name,
+    formData,
     style: {
       stroke: '#3F52B4'
     }

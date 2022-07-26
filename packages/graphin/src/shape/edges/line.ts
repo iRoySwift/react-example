@@ -114,7 +114,8 @@ const lineArrowOption: ShapeOptions = {
         fill: '#F22635',
         r: 7,
         cursor: 'pointer'
-      }
+      },
+      isClosePoint: true
     });
     closeIcon.addShape('text', {
       name: 'close-btn',
@@ -128,7 +129,8 @@ const lineArrowOption: ShapeOptions = {
         fontSize: 12,
         fontweight: 40,
         cursor: 'pointer'
-      }
+      },
+      isClosePoint: true
     });
   },
   // update(cfg: EdgeConfig, item: Item, updateType: UpdateType) {

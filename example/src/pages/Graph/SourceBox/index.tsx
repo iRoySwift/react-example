@@ -8,9 +8,9 @@ const SideBar: React.FC<Props> = () => {
   return (
     <Box sx={{ border: '1px dashed grey', height: '100vh', overflow: 'auto' }}>
       {allMenuInfo?.map((item) => (
-        <List key={item.id} component="nav" subheader={<ListSubheader component="div">{item.name}</ListSubheader>}>
-          {item?.children?.map((el) => (
-            <Item key={el.id} name={el.name} data={el} showCopyIcon={false} />
+        <List key={item.groupId} component="nav" subheader={<ListSubheader component="div">{item.groupName}</ListSubheader>}>
+          {item?.modelResVoList?.map((el) => (
+            <Item key={el.modelId} name={el.modelName} data={el} showCopyIcon={false} />
           ))}
         </List>
       ))}

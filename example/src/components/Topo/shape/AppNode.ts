@@ -19,7 +19,7 @@ export default class AppNode {
         type: 'okdNodeCircle',
         x,
         y,
-        label: data.name,
+        label: data.modelName,
         isSaved: false,
         ...node
       }
