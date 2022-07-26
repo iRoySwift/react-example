@@ -7,7 +7,7 @@ import $Bus from '@/utils/$Bus';
 import { ItemTypes } from '..';
 import './index.css';
 import Graph from '@suning/uxcool-graphin/lib/graph/index';
-import { checkBeforeSubmit } from './utils';
+import { checkBeforeSubmit } from '../utils';
 
 interface Props {}
 interface DropResult {
