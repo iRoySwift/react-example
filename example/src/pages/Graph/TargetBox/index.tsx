@@ -2,12 +2,13 @@ import React, { useRef } from 'react';
 import { useDrop } from 'react-dnd';
 import { Box, Button } from '@mui/material';
 import Topo from '@/components/Topo';
+import Graph from '@suning/uxcool-graphin/lib/graph/index';
 import ServiceForm from './ServiceForm/index';
 import $Bus from '@/utils/$Bus';
 import { ItemTypes } from '..';
-import './index.css';
-import Graph from '@suning/uxcool-graphin/lib/graph/index';
 import { checkBeforeSubmit } from '../utils';
+import { TopoData } from '@/components/Topo/model/okdData';
+import './index.css';
 
 interface Props {}
 interface DropResult {
@@ -71,18 +72,40 @@ const DragItem: React.FC<Props> = () => {
     };
   };
 
+  const nodeClick = (e) => {
+    const item = e.item;
+    const {
+      id,
+      isSaved,
+      model: { compGroupId, modelId }
+    } = item.getModel();
+    $Bus.emit('show:ServiceForm', {
+      id,
+      isSaved,
+      compGroupId,
+      modelId
+    });
+  };
+
   const submit = () => {
     const graph: Graph = topoRef.current!.getGraph();
     let isCheck = checkBeforeSubmit.call({ graph });
     if (!isCheck) return;
     let data = getData();
-    $Bus.emit('node:submit', data);
+    console.log(data);
   };
+
+  React.useEffect(() => {
+    $Bus.on('node:click', nodeClick);
+    return () => {
+      $Bus.off('node:click', nodeClick);
+    };
+  }, []);
 
   return (
     <Box className="targetBox" ref={drop} sx={{ height: '100%', width: '100%' }}>
       <Button onClick={submit}>提交</Button>
-      <Topo ref={topoRef} editModel="C" />
+      <Topo ref={topoRef} editModel="C" TopoData={TopoData} />
       <ServiceForm />
     </Box>
   );

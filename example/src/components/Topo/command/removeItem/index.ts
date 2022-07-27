@@ -1,3 +1,4 @@
+import { removeLine } from './removeLine';
 import { removeNode } from './removeNode';
 
 const removeItem = {
@@ -6,10 +7,19 @@ const removeItem = {
     return true;
   },
   execute(e) {
-    // const { itemType, model } = e;
-    const item = removeNode.call(this, e);
-    // const item = (this as any).graph.removeItem(itemType, model, this.queue);
-    return item;
+    const item = e.item;
+    let itemId = null;
+    // node
+    if (item.get('type') === 'node') {
+      itemId = removeNode.call(this, e);
+      return itemId;
+    }
+    // line
+    if (item.get('type') === 'edge') {
+      itemId = removeLine.call(this, e);
+    }
+
+    return itemId;
   },
   back() {}
 };

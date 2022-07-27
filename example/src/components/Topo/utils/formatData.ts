@@ -41,6 +41,7 @@ const formDataTransfer: (topoData: iGraphData, _: any, compTypes: any) => iGraph
   }
   Object.keys(nodesObj).forEach((item: any) => {
     nodesObj[item].forEach((el: any) => {
+      el.isSaved = !!el.instanceCode;
       newTopo.nodes?.push(setNodeStatus(el));
     });
   });
@@ -78,7 +79,7 @@ const setNodeStatus: (node: iNodeConfig) => iNodeConfig = (node: iNodeConfig) =>
 
   node.icon = {};
   node.style = {};
-  node.icon.img = node.model.img;
+  node.icon.img = node.model.icon;
   node.style.stroke = status[node.model!.status || 0];
   return node;
 };

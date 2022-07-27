@@ -1,7 +1,6 @@
 import React, { forwardRef, ForwardRefRenderFunction, MutableRefObject, useCallback, useEffect, useImperativeHandle, useRef } from 'react';
 import Graphin, { IG6GraphEvent } from '@suning/uxcool-graphin';
 import { cloneDeep, each } from 'lodash';
-import { TopoData } from './model/okdData';
 import './index.css';
 import { formDataTransfer } from './utils/formatData';
 import DragAndDrop from './plugins/dnd';
@@ -12,13 +11,15 @@ import * as commands from './command';
 import Graph from '@suning/uxcool-graphin/lib/graph/index';
 import { nodeClick, nodeDrop, nodeMouseEnter, nodeMouseOut } from './events/node';
 import nodeUpdate from './events/nodeUpdate';
+import { iGraphData } from './typings';
 
 interface Props {
   ref?: React.Ref<unknown> | undefined;
   editModel: string;
+  TopoData: iGraphData;
 }
 
-const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel }, ref) => {
+const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel, TopoData }, ref) => {
   let topoRef = useRef<HTMLDivElement>(null);
   let graph: MutableRefObject<Graph | undefined> = useRef<Graph>();
 

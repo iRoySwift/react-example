@@ -4,9 +4,9 @@ export const allMenuInfo = [
     groupName: '运行时',
     groupCode: 'runtime',
     modelResVoList: [
-      { modelId: 3, modelName: 'Tomcat', modelCode: 'tomcat', compGroupId: 2, showLocation: 0, oneClickFlag: 0 },
-      { modelId: 10, modelName: 'JDK', modelCode: 'jdk', compGroupId: 2, showLocation: 1, oneClickFlag: 0 },
-      { modelId: 11, modelName: 'Nginx', modelCode: 'nginx', compGroupId: 2, showLocation: 2, oneClickFlag: 0 }
+      { modelId: 3, modelName: 'Tomcat', modelCode: 'tomcat', compGroupId: 2, showLocation: 0, icon: '/icon/tomcat.svg', oneClickFlag: 0 },
+      { modelId: 10, modelName: 'JDK', modelCode: 'jdk', compGroupId: 2, showLocation: 1, icon: '/icon/jdk.svg', oneClickFlag: 0 },
+      { modelId: 11, modelName: 'Nginx', modelCode: 'nginx', compGroupId: 2, showLocation: 2, icon: '/icon/nginx.svg', oneClickFlag: 0 }
     ]
   },
   {
@@ -14,8 +14,10 @@ export const allMenuInfo = [
     groupName: '数据服务',
     groupCode: 'database',
     modelResVoList: [
-      { modelId: 8, modelName: 'Redis', modelCode: 'redis', compGroupId: 4, showLocation: 3, oneClickFlag: 0 },
-      { modelId: 7, modelName: 'MySQL', modelCode: 'mysql', compGroupId: 4, showLocation: 4, oneClickFlag: 0 }
+      { modelId: 38, modelName: '阿里云数据库MySQL', modelCode: 'mysql-aliyun', compGroupId: 4, showLocation: 0, icon: '/icon/mysql.svg', oneClickFlag: 0 },
+      { modelId: 37, modelName: '阿里云数据库Redis', modelCode: 'redis-aliyun', compGroupId: 4, showLocation: 0, icon: '/icon/redis.svg', oneClickFlag: 0 },
+      { modelId: 8, modelName: 'Redis', modelCode: 'redis', compGroupId: 4, showLocation: 3, icon: '/icon/redis.svg', oneClickFlag: 0 },
+      { modelId: 7, modelName: 'MySQL', modelCode: 'mysql', compGroupId: 4, showLocation: 4, icon: '/icon/mysql.svg', oneClickFlag: 0 }
     ]
   },
   {
@@ -23,9 +25,9 @@ export const allMenuInfo = [
     groupName: '基础服务',
     groupCode: 'baseComponent',
     modelResVoList: [
-      { modelId: 6, modelName: 'xxl-job', modelCode: 'xxljob', compGroupId: 3, showLocation: 7, oneClickFlag: 0 },
-      { modelId: 12, modelName: 'RocketMq', modelCode: 'rocketmq', compGroupId: 3, showLocation: 8, oneClickFlag: 0 },
-      { modelId: 13, modelName: 'Nacos', modelCode: 'nacos', compGroupId: 3, showLocation: 9, oneClickFlag: 0 }
+      { modelId: 6, modelName: 'xxl-job', modelCode: 'xxljob', compGroupId: 3, showLocation: 7, icon: '/icon/xxljob.svg', oneClickFlag: 0 },
+      { modelId: 12, modelName: 'RocketMq', modelCode: 'rocketmq', compGroupId: 3, showLocation: 8, icon: '/icon/rocketmq.svg', oneClickFlag: 0 },
+      { modelId: 13, modelName: 'Nacos', modelCode: 'nacos', compGroupId: 3, showLocation: 9, icon: '/icon/nacos.svg', oneClickFlag: 0 }
     ]
   }
 ];

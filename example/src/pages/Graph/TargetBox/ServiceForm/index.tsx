@@ -60,15 +60,15 @@ export default function TemporaryDrawer() {
     $Bus.emit('node:update', { nodeId, formData: { name: 'test' } });
   };
 
-  const nodeClick = (e) => {
+  const showServiceForm = (e) => {
     const id = e.item.get('id');
     setNodeId(id);
     setShow(true);
   };
   React.useEffect(() => {
-    $Bus.on('node:click', nodeClick);
+    $Bus.on('show:ServiceForm', showServiceForm);
     return () => {
-      $Bus.off('node:click', nodeClick);
+      $Bus.off('show:ServiceForm', showServiceForm);
     };
   }, []);
 
