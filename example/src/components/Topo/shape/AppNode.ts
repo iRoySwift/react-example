@@ -12,7 +12,7 @@ export default class AppNode {
   }
   public init() {
     const { x, y, data } = this.e;
-    let node = setNodeStatus({ id: this.graph.uuid(), model: data });
+    let node = setNodeStatus({ id: '', model: data });
     this.cmd.executeCommand('addItem', {
       itemType: 'node',
       model: {

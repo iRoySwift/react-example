@@ -1,6 +1,6 @@
-export function removeLine(params) {
+export function removeLine(e) {
   // @ts-ignore
   const self = this as any;
-  const { item } = params;
+  const { item } = e;
   return self.graph.removeItem(item, self.queue);
 }

@@ -68,10 +68,10 @@ export const submit = {
       id: 'a9b8c262-e427-4916-a96a-439433167bf5',
       x: 116,
       y: -78.75,
-      isSaved: false,
+      isSaved: true,
       modelCode: 'mysql',
       comboId: null
     }
   ],
-  edges: [{ source: '8cc653bc-4d03-43fd-990c-16b251f61838', target: 'a9b8c262-e427-4916-a96a-439433167bf5' }]
+  edges: [{ id: '2cc653bc-4d03-43fd-990c-16b251f61838', source: '8cc653bc-4d03-43fd-990c-16b251f61838', target: 'a9b8c262-e427-4916-a96a-439433167bf5' }]
 };

@@ -78,19 +78,18 @@ const toolbar = new G6.ToolBar({
       </ul>
     `;
     return outDiv;
-  },
-  // @ts-ignore
-  handleClick: (code, graph: any) => {
-    if (code === 'redo') {
-      toolbar.redo();
-    } else if (code === 'undo') {
-      toolbar.undo();
-    }
-    // else if (code === 'zoomIn') {
-    //   toolbar.zoomIn();
-    // } else if (code === 'zoomOut') {
-    //   toolbar.zoomOut();
-    // }
   }
+  // handleClick: (code, graph) => {
+  //   if (code === 'redo') {
+  //     toolbar.redo();
+  //   } else if (code === 'undo') {
+  //     toolbar.undo();
+  //   }
+  //   // else if (code === 'zoomIn') {
+  //   //   toolbar.zoomIn();
+  //   // } else if (code === 'zoomOut') {
+  //   //   toolbar.zoomOut();
+  //   // }
+    // }
 });
 export default toolbar;

@@ -1,4 +1,4 @@
-import { removeLine } from './removeLine';
+import { removeLine } from './removeEdge';
 import { removeNode } from './removeNode';
 
 const removeItem = {
@@ -8,18 +8,18 @@ const removeItem = {
   },
   execute(e) {
     const item = e.item;
-    let itemId = null;
+    let nodeItem = null;
     // node
     if (item.get('type') === 'node') {
-      itemId = removeNode.call(this, e);
-      return itemId;
+      nodeItem = removeNode.call(this, e);
+      return nodeItem;
     }
     // line
     if (item.get('type') === 'edge') {
-      itemId = removeLine.call(this, e);
+      nodeItem = removeLine.call(this, e);
     }
 
-    return itemId;
+    return nodeItem;
   },
   back() {}
 };
