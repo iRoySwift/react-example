@@ -29,7 +29,8 @@
   },
   "dependencies": {
     "@antv/g6": "^4.6.4",
-    "insert-css": "^2.0.0"
+    "insert-css": "^2.0.0",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/plugin-proposal-decorators": "^7.17.9",

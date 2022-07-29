@@ -1,4 +1,4 @@
-import { iCursorType, IG6GraphEvent, IGraph } from '../../typings/index';
+import { IG6GraphEvent, IGraph } from '../../typings/index';
 
 export default {
   getDefaultCfg() {
@@ -18,8 +18,6 @@ export default {
   },
   onMouseleave(e: IG6GraphEvent) {
     this.resetState(e);
-
-    this.setCursor(e, 'default');
   },
   onClick(e: IG6GraphEvent) {
     const self = this as any;
@@ -42,16 +40,5 @@ export default {
     const graph: IGraph = self.graph;
     const item = e.item;
     item && graph.setItemState(item, 'close-active', true);
-  },
-  setCursor(e: IG6GraphEvent, type: keyof typeof iCursorType) {
-    const self = this as any;
-    const graph: IGraph = self.graph;
-    const item = e.item;
-    item &&
-      graph.updateItem(item, {
-        attrs: {
-          cursor: type
-        }
-      });
   }
 };
