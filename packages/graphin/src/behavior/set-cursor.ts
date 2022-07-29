@@ -29,6 +29,10 @@ export default {
     console.log(e, 'onEdgeMouseleave');
     this.setCursor('default');
   },
+  /**
+   * set cursor style
+   * @param type
+   */
   setCursor(type: keyof typeof iCursorType) {
     const self = this as any;
     const graph = self.graph;

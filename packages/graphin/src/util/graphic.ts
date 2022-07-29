@@ -1,5 +1,9 @@
 import { v4 as uuidv4 } from 'uuid';
 
+/**
+ * 全局uuid
+ * @returns
+ */
 function guid() {
   return 'xxxxxxxx'.replace(/[xy]/g, function (c) {
     let r = (Math.random() * 16) | 0;
@@ -8,6 +12,10 @@ function guid() {
   });
 }
 
+/**
+ * 生成uuid
+ * @returns
+ */
 function uuid() {
   return uuidv4();
 }

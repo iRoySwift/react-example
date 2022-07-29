@@ -3,6 +3,11 @@ import Util from '../util/index';
 import Command from './../command/index';
 import { PluginBase } from '@antv/g6-plugin';
 
+/**
+ * 注册util
+ * @param list
+ * @returns
+ */
 function addUtilMethods(list: any) {
   return function (target: any): void {
     Object.assign(target.prototype, list);
@@ -34,10 +39,17 @@ class Graph extends G6.Graph {
     super(cfg);
     this.cmd = new Command(this);
   }
-
+  /**
+   * 注册插件
+   * @param plugin
+   */
   public addPlugin(plugin: PluginBase): void {
     super.addPlugin(plugin);
   }
+  /**
+   * 删除插件
+   * @param plugin
+   */
   public removePlugin(plugin: PluginBase): void {
     super.removePlugin(plugin);
   }

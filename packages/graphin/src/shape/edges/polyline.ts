@@ -2,8 +2,8 @@ import { Point } from '@antv/g-base';
 import { mix, each, isArray, isString } from '@antv/util';
 import { registerEdge, ShapeStyle, EdgeConfig, ShapeOptions, Item, INode, Util, BaseGlobal as Global } from '@antv/g6-core';
 import { IGroup, IShape } from '../../../typings/index';
-import { getPathWithBorderRadiusByPolyline, getPolylinePoints } from '../utils/polyline-util';
-import { RouterCfg, pathFinder } from '../utils/router';
+import { getPathWithBorderRadiusByPolyline, getPolylinePoints } from '../util/polyline-util';
+import { RouterCfg, pathFinder } from '../util/router';
 
 const lineArrowOption: ShapeOptions = {
   options: {
