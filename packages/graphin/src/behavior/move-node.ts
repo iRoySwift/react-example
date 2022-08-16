@@ -1,3 +1,10 @@
+/*
+ * @Author: Roy
+ * @Date: 2022-04-13 18:05:34
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-11 18:01:40
+ * @Description: 请填写简介
+ */
 // @ts-nocheck
 import { IG6GraphEvent, IGraph } from '@antv/g6';
 

@@ -1,4 +1,11 @@
-import { iCursorType, IG6GraphEvent } from '../../typings/index';
+/*
+ * @Author: Roy
+ * @Date: 2022-07-29 16:40:50
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-12 14:39:46
+ * @Description: 设置鼠标
+ */
+import { iCursorType } from '../../typings/custom';
 
 export default {
   getDefaultCfg() {
@@ -17,16 +24,13 @@ export default {
   onCanvasMousemove() {
     this.setCursor('default');
   },
-  onNodeMouseleave(e: IG6GraphEvent) {
-    console.log(e, 'onNodeMouseleave');
+  onNodeMouseleave() {
     this.setCursor('default');
   },
-  onEdgeMousemove(e: IG6GraphEvent) {
-    console.log(e, 'onEdgeMousemove');
+  onEdgeMousemove() {
     this.setCursor('pointer');
   },
-  onEdgeMouseleave(e: IG6GraphEvent) {
-    console.log(e, 'onEdgeMouseleave');
+  onEdgeMouseleave() {
     this.setCursor('default');
   },
   /**

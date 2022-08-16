@@ -1,5 +1,13 @@
-import { EdgeConfig, IG6GraphEvent, IGraph } from '../../typings/index';
+/*
+ * @Author: Roy
+ * @Date: 2022-07-29 21:04:30
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-12 16:45:21
+ * @Description: 创建连线
+ */
 import { isFunction } from '@antv/util';
+import { EdgeConfig, IG6GraphEvent } from '../../typings/graph';
+import { IGraph } from '../interface/graph';
 
 const DEFAULT_TRIGGER = 'click';
 const ALLOW_EVENTS = ['click', 'drag'];
@@ -62,7 +70,7 @@ export default {
     const self = this as any;
     if (self.key && !self.keydown) return;
     const node = evt.item;
-    const graph: IGraph | any = self.graph;
+    const graph: IGraph = self.graph;
     const model = node?.getModel();
     const getEdgeConfig = self.getEdgeConfig;
     graph.emit('beforecreateedge', {});
@@ -148,6 +156,7 @@ export default {
       self.addingEdge = true;
       // 暂时将该边的 capture 设置为 false，这样可以拾取到后面的元素
       self.edge.getKeyShape().set('capture', false);
+      graph.emit('edge:dragstart', evt);
     }
   },
   /**
@@ -174,15 +183,18 @@ export default {
       );
     }
   },
-  onDragEnd(ev: IG6GraphEvent) {
+  onDragEnd(evt: IG6GraphEvent) {
+    const graph: IGraph | any = evt.currentTarget;
+    graph.emit('edge:dragend', evt);
+
     const self = this as any;
     if (self.key && !self.keydown) return;
-    const { item } = ev;
+    const { item } = evt;
     if (!item || item.getID() === self.source || item.getType() !== 'node') {
       self.cancelCreating({
         item: self.edge,
-        x: ev.x,
-        y: ev.y
+        x: evt.x,
+        y: evt.y
       });
       return;
     }

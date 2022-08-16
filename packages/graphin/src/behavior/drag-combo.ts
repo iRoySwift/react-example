@@ -1,9 +1,11 @@
-// @ts-nocheck
 /*
- * @Author: moyee
- * @LastEditors: moyee
+ * @Author: Roy
+ * @Date: 2022-04-13 18:05:34
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-11 17:58:10
  * @Description: 拖动 Combo
  */
+// @ts-nocheck
 import { G6Event, IG6GraphEvent, Item, ComboConfig } from '@antv/g6-core/lib/types';
 import { each } from '@antv/util/lib';
 import { IGroup } from '@antv/g-base/lib/interfaces';

@@ -1,4 +1,12 @@
-import { IG6GraphEvent, IGraph } from '../../typings/index';
+/*
+ * @Author: Roy
+ * @Date: 2022-05-07 16:16:57
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-12 16:45:58
+ * @Description: 删除节点
+ */
+import { IG6GraphEvent, Item } from '../../typings/graph';
+import { IGraph } from '../interface/graph';
 
 export default {
   getDefaultCfg() {
@@ -19,12 +27,14 @@ export default {
   onMouseleave(e: IG6GraphEvent) {
     this.resetState(e);
   },
-  onClick(e: IG6GraphEvent) {
+  onClick(evt: IG6GraphEvent) {
     const self = this as any;
-    const graph = self.graph;
-    const item = e.item;
-    if (e.target && e.target.get('name') == 'close-btn') {
+    const graph: IGraph = self.graph;
+    const item = evt.item as Item;
+    if (evt.target && evt.target.get('name') == 'close-btn') {
       graph.cmd.executeCommand('removeItem', {
+        itemType: 'node',
+        evt,
         item
       });
     }
