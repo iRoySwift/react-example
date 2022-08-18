@@ -1,3 +1,10 @@
+/*
+ * @Author: Roy
+ * @Date: 2022-04-13 18:05:34
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-11 18:13:20
+ * @Description: 寻径算法
+ */
 // @ts-nocheck
 function isObject(value: any) {
   const type = typeof value;

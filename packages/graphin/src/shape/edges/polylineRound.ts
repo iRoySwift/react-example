@@ -1,3 +1,10 @@
+/*
+ * @Author: Roy
+ * @Date: 2022-07-20 10:13:54
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-11 18:17:53
+ * @Description: 带圆角多线段
+ */
 import G6 from '@antv/g6';
 import { getPathByPoints, getPathWithBorderRadiusByPolyline } from './AStar';
 import getNodeStyle from '../configs/nodeStyle';

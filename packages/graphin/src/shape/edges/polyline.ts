@@ -1,9 +1,15 @@
-import { Point } from '@antv/g-base';
+/*
+ * @Author: Roy
+ * @Date: 2022-07-29 17:51:10
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-11 18:17:41
+ * @Description: 多线段
+ */
 import { mix, each, isArray, isString } from '@antv/util';
-import { registerEdge, ShapeStyle, EdgeConfig, ShapeOptions, Item, INode, Util, BaseGlobal as Global } from '@antv/g6-core';
-import { IGroup, IShape } from '../../../typings/index';
+import { registerEdge, Util, BaseGlobal as Global } from '@antv/g6-core';
 import { getPathWithBorderRadiusByPolyline, getPolylinePoints } from '../util/polyline-util';
 import { RouterCfg, pathFinder } from '../util/router';
+import { EdgeConfig, IGroup, INode, Item, Point, ShapeOptions, ShapeStyle } from '../../../typings/graph';
 
 const lineArrowOption: ShapeOptions = {
   options: {

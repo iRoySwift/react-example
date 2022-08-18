@@ -1,7 +1,13 @@
-import { Point } from '@antv/g-base';
+/*
+ * @Author: Roy
+ * @Date: 2022-07-29 17:52:08
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-17 17:45:31
+ * @Description: 直线
+ */
 import { mix, each, isArray, isString } from '@antv/util';
-import { registerEdge, ShapeStyle, EdgeConfig, ShapeOptions, Item, BaseGlobal as Global } from '@antv/g6-core';
-import { IGroup, IShape } from '../../../typings/index';
+import { registerEdge, BaseGlobal as Global } from '@antv/g6-core';
+import { EdgeConfig, GGroup, IGroup, Item, Point, ShapeOptions, ShapeStyle } from '../../../typings/graph';
 
 const lineArrowOption: ShapeOptions = {
   options: {
@@ -40,6 +46,7 @@ const lineArrowOption: ShapeOptions = {
   // @ts-ignore
   drawShape(cfg: EdgeConfig, group: IGroup | any): IShape {
     const shapeStyle = (this as any).getShapeStyle(cfg);
+    const { isEdit } = cfg;
     if (shapeStyle.radius === 0) delete shapeStyle.radius;
     const keyShape = group.addShape('path', {
       className: 'edge-shape',
@@ -49,6 +56,7 @@ const lineArrowOption: ShapeOptions = {
     group['shapeMap']['edge-shape'] = keyShape;
 
     this.drawClose(cfg, group);
+    isEdit && this.drawEditIcon(cfg, group);
     return keyShape;
   },
   getShapeStyle(cfg: EdgeConfig): ShapeStyle {
@@ -95,17 +103,106 @@ const lineArrowOption: ShapeOptions = {
     return attrs;
   },
   /**
+   * 编辑按钮
+   */
+  drawEditIcon(_: EdgeConfig, group: IGroup | any) {
+    const shape = group.get('children')[0];
+    const midPoint = shape.getPoint(0.4);
+    const size = 16;
+    const editIcon = group.addGroup({ name: 'edit-btn', isEditPoint: true });
+    editIcon.addShape('rect', {
+      name: 'edit-btn',
+      attrs: {
+        cursor: 'pointer',
+        x: midPoint.x - size / 2,
+        y: midPoint.y - size / 2,
+        width: size,
+        height: size,
+        fill: '#DDDDDD',
+        radius: 4
+      },
+      isEditPoint: true
+    });
+    editIcon.addShape('image', {
+      name: 'edit-btn',
+      attrs: {
+        cursor: 'pointer',
+        x: midPoint.x - size / 2,
+        y: midPoint.y - size / 2,
+        width: 16,
+        height: 16,
+        img: '/edit.svg'
+      },
+      isEditPoint: true
+    });
+    // editIcon.addShape('dom', {
+    //   name: 'edit-btn',
+    //   attrs: {
+    //     cursor: 'pointer',
+    //     x: midPoint.x - size / 2,
+    //     y: midPoint.y - size / 2,
+    //     width: 16,
+    //     height: 16,
+    //     html: `
+    //       <div style="width: 16px;height: 16px;display: flex;justify-content: center;align-items: center;cursor:pointer;">
+    //         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+    //           <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+    //         </svg>
+    //       </div>
+    //   `
+    //   },
+    //   isEditPoint: true
+    // });
+
+    editIcon.addShape('rect', {
+      name: 'edit-btn',
+      attrs: {
+        cursor: 'pointer',
+        x: midPoint.x - size / 2,
+        y: midPoint.y - size / 2,
+        width: size,
+        height: size,
+        fill: '#3F52B4',
+        radius: 4,
+        opacity: 0
+      },
+      isEditPoint: true
+    });
+  },
+  /**
+   * 更新编辑按钮
+   * @param _ cfg
+   * @param item Item
+   */
+  updateEditIcon(_: EdgeConfig, item: Item) {
+    const group = item.getContainer() as any;
+    const shape = group['shapeMap']['edge-shape'] || group.find((element: any) => element.get('className') === 'edge-shape') || item.getKeyShape();
+    const editBtn = group.find((e: any) => e.get('isEditPoint'));
+    const midPoint = shape.getPoint(0.4);
+    const size = 16;
+    if (!editBtn) {
+      return;
+    }
+    console.log(_, '___');
+
+    const children = editBtn.get('children');
+    children.forEach((item: any) => {
+      item.attr({ x: midPoint.x - size / 2, y: midPoint.y - size / 2 });
+    });
+    editBtn.attr({
+      x: midPoint.x - size / 2,
+      y: midPoint.y - size / 2
+    });
+  },
+  /**
    * 删除按钮
    * @param cfg
    * @param group
    */
-  drawClose(cfg: EdgeConfig, group: IGroup | any) {
+  drawClose(_: EdgeConfig, group: IGroup | any) {
     const shape = group.get('children')[0];
-    const midPoint = shape.getPoint(0.5);
-
-    // const size = [10];
-    // const r = (size![0] || 0) / (2 * Math.sqrt(2));
-    const closeIcon = group.addGroup({ name: 'close-btn', attrs: { opacity: 0, x: midPoint.x, y: midPoint.y } });
+    const midPoint = shape.getPoint(0.6);
+    const closeIcon = group.addGroup({ name: 'close-btn', isClosePoint: true, attrs: { opacity: 0, x: midPoint.x, y: midPoint.y } });
     closeIcon.addShape('circle', {
       name: 'close-btn',
       attrs: {
@@ -133,6 +230,26 @@ const lineArrowOption: ShapeOptions = {
       isClosePoint: true
     });
   },
+  /**
+   * 更新close icon
+   * @param _
+   * @param item
+   */
+  updateCloseIcon(_: EdgeConfig, item: Item) {
+    const group = item.getContainer() as any;
+    const shape = group['shapeMap']['edge-shape'] || group.find((element: any) => element.get('className') === 'edge-shape') || item.getKeyShape();
+    // 更新 close
+    const midPoint = shape.getPoint(0.6);
+    const closeBtn = group.find((e: any) => e.get('isClosePoint'));
+    const children = closeBtn.get('children');
+    children.forEach((item: any) => {
+      item.attr({ x: midPoint.x, y: midPoint.y });
+    });
+    closeBtn.attr({
+      x: midPoint.x,
+      y: midPoint.y
+    });
+  },
   // update(cfg: EdgeConfig, item: Item, updateType: UpdateType) {
   //   return cfg;
   // },
@@ -144,7 +261,7 @@ const lineArrowOption: ShapeOptions = {
     };
     const shape = group['shapeMap']['edge-shape'] || group.find((element: any) => element.get('className') === 'edge-shape') || item.getKeyShape();
 
-    const { size } = cfg;
+    const { size, isEdit } = cfg;
     cfg = this.getPathPoints!(cfg);
 
     const { startPoint, endPoint } = cfg;
@@ -197,17 +314,9 @@ const lineArrowOption: ShapeOptions = {
       shape.attr(style);
     }
 
+    isEdit && this.updateEditIcon(cfg, item);
     // 更新 close
-    const midPoint = shape.getPoint(0.5);
-    const closeBtn = group.find((e: any) => e.get('name') === 'close-btn');
-    const children = closeBtn.get('children');
-    children.forEach((item: any) => {
-      item.attr({ x: midPoint.x, y: midPoint.y });
-    });
-    closeBtn.attr({
-      x: midPoint.x,
-      y: midPoint.y
-    });
+    this.updateCloseIcon(cfg, item);
   },
   getPath(points: Point[]): Array<Array<string | number>> {
     const path: Array<Array<string | number>> = [];
@@ -222,11 +331,17 @@ const lineArrowOption: ShapeOptions = {
   },
   setState(name, value, item) {
     const group = item?.get('group');
-    if (name == 'close-active') {
-      const closeBtn = group.find((e: any) => e.get('name') === 'close-btn');
+    if (name == 'hover') {
+      const closeBtn = group.find((e: any) => e.get('isClosePoint'));
       closeBtn.attr({
         opacity: value ? 1 : 0
       });
+      // const editBtn = group.find((e: any) => e.get('isEditPoint'));
+      // editBtn.attr({
+      //   opacity: value ? 1 : 0
+      // });
+
+      group.find((el: any) => el.get('name') == 'edge-shape').attr({ lineWidth: value ? 3 : 2 });
     }
   }
 };
