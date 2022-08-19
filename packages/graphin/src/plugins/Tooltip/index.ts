@@ -1,11 +1,17 @@
+/*
+ * @Author: Roy
+ * @Date: 2022-04-13 18:05:34
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-12 16:46:47
+ * @Description: tooltip
+ */
 import modifyCSS from '@antv/dom-util/lib/modify-css';
 import createDOM from '@antv/dom-util/lib/create-dom';
 import isString from '@antv/util/lib/is-string';
 import insertCss from 'insert-css';
 import Base, { IPluginBaseConfig } from '../base';
-import { IG6GraphEvent, Item } from '@antv/g6-core/lib/types';
-import { IGraph } from '@antv/g6-pc/lib/interface/graph';
-import Graph from '@antv/g6-pc/lib/graph/graph';
+import { IG6GraphEvent, Item } from '../../../typings/graph';
+import { IGraph } from '../../interface/graph';
 // @ts-ignore
 insertCss(`
   .g6-component-tooltip {
@@ -148,7 +154,7 @@ export default class Tooltip extends Base {
       });
       return;
     }
-    const graph: Graph = this.get('graph');
+    const graph: IGraph = this.get('graph');
     const width: number = graph.get('width');
     const height: number = graph.get('height');
 

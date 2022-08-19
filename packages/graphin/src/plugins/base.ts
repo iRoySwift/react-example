@@ -1,12 +1,19 @@
-import { Graph } from "@antv/g6";
-import deepMix from "@antv/util/lib/deep-mix";
-import each from "@antv/util/lib/each";
-import wrapBehavior from "@antv/util/lib/wrap-behavior";
+/*
+ * @Author: Roy
+ * @Date: 2022-04-13 18:05:34
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-12 16:46:20
+ * @Description: 抽象类
+ */
+import deepMix from '@antv/util/lib/deep-mix';
+import each from '@antv/util/lib/each';
+import wrapBehavior from '@antv/util/lib/wrap-behavior';
+import { IGraph } from '../interface/graph';
 
 export interface IPluginBaseConfig {
   container?: HTMLDivElement | null;
   className?: string;
-  graph?: Graph;
+  graph?: IGraph;
   [key: string]: any;
 }
 
@@ -42,9 +49,9 @@ export default abstract class PluginBase {
    * 初始化插件
    * @param graph Graph 实例
    */
-  public initPlugin(graph: Graph) {
+  public initPlugin(graph: IGraph) {
     const self = this;
-    self.set("graph", graph);
+    self.set('graph', graph);
 
     const events = self.getEvents();
 
@@ -99,7 +106,7 @@ export default abstract class PluginBase {
    */
   public destroyPlugin() {
     this.destroy();
-    const graph = this.get("graph");
+    const graph = this.get('graph');
     const events = this._events;
     each(events, (v, k) => {
       graph.off(k, v);
