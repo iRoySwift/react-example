@@ -5,8 +5,8 @@
   "author": "Roy <iRoySwift@Gmail.com>",
   "homepage": "http://opensource.cnsuning.com/uxcool/uxcool-graphin.git",
   "license": "MIT",
-  "main": "./lib/graph.js",
-  "module": "./lib/graph.js",
+  "main": "./lib/index.esm.js",
+  "module": "./lib/index.esm.js",
   "types": "./lib/index.d.ts",
   "directories": {
     "lib": "lib",
@@ -22,7 +22,7 @@
   "scripts": {
     "test": "echo \"Error: run tests from root\" && exit 1",
     "start": "node ./../../build/rollup.build.js",
-    "build": "rollup -c"
+    "build": "rm -rf lib && rollup -c"
   },
   "bugs": {
     "url": "http://opensource.cnsuning.com/uxcool/uxcool-graphin.git/issues"
@@ -30,6 +30,7 @@
   "dependencies": {
     "@antv/g6": "^4.6.4",
     "insert-css": "^2.0.0",
+    "rollup-plugin-copy": "^3.4.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

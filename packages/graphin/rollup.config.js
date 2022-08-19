@@ -1,11 +1,19 @@
+/*
+ * @Author: Roy
+ * @Date: 2022-04-13 18:05:34
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-12 11:28:31
+ * @Description: rollup
+ */
 const path = require('path');
 const babel = require('rollup-plugin-babel');
 const nodeResolve = require('rollup-plugin-node-resolve');
 const pkg = require('./package.json');
 import typescript from 'rollup-plugin-typescript2';
 import postcss from 'rollup-plugin-postcss';
+import copy from 'rollup-plugin-copy';
 
-const extensions = ['.js', '.ts', '.d.ts'];
+const extensions = ['.js', '.ts', '.tsx', '.d.ts'];
 
 const resolve = function (...args) {
   return path.resolve(__dirname, ...args);
@@ -20,8 +28,9 @@ const tsPlugin = typescript({
 module.exports = {
   input: resolve('./src/index.ts'),
   output: {
-    file: resolve('./', pkg.main), // 为了项目的统一性，这里读取 package.json 中的配置项
-    format: 'esm'
+    dir: 'lib',
+    format: 'esm',
+    entryFileNames: '[name].esm.js'
   },
   plugins: [
     postcss({
@@ -31,6 +40,7 @@ module.exports = {
     }),
     tsPlugin,
     nodeResolve({
+      browser: true,
       extensions,
       modulesOnly: true
     }),
@@ -39,5 +49,8 @@ module.exports = {
       extensions
     }),
     ['@babel/plugin-proposal-decorators', { legacy: true }]
+    // copy({
+    //   targets: [{ src: 'typings', dest: 'lib' }]
+    // })
   ]
 };
