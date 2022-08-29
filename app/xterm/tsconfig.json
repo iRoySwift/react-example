@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext", "ES2015"],
+    "jsxImportSource": "@emotion/react",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "strict": false,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+    "resolveJsonModule": true,
+    "isolatedModules": false,
+    "noEmit": true,
+    "alwaysStrict": true,
+    "experimentalDecorators": true,
+    "noImplicitAny": false,
+    "noImplicitThis": true,
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "sourceMap": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "allowJs": false,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "jsx": "react-jsx",
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", ".vscode"]
+}
