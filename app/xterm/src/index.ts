@@ -1,13 +1,12 @@
-// import { base64Decode } from './utils';
-const utils = require('./utils');
-
 /*
  * @Author: Roy
  * @Date: 2022-06-16 09:54:17
  * @LastEditors: Roy
- * @LastEditTime: 2022-08-29 14:46:32
+ * @LastEditTime: 2022-08-29 16:46:39
  * @Description: websocket
  */
+const utils = require('./utils');
+
 const express = require('express');
 const expressWs = require('express-ws');
 const app = express();
@@ -47,7 +46,6 @@ app.ws('/socket/:pid', (ws, req) => {
   const pid = parseInt(req.params.pid);
   const term = termMap.get(pid);
   term.on('data', function (data) {
-    console.log('1', data, '--data--');
     const message = `1${utils.base64Encode(data)}`;
 
     ws.send(message);
@@ -56,7 +54,6 @@ app.ws('/socket/:pid', (ws, req) => {
     const type = data.substr(0, 1);
     const msg = utils.base64Decode(data.substr(1));
 
-    console.log('2', data, msg, '--message--');
     if (`${type}` === '4') {
       const obj = JSON.parse(msg);
       term.resize(obj.Width, obj.Height);
