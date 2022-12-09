@@ -58,7 +58,7 @@ SlideVerify.prototype.byData = function (argus) {
   var _this = this;
   if (typeof _this.url == 'string') {
     const xhr = new XMLHttpRequest();
-    downUrl = getRandomImgSrc();
+    downUrl = getRandomImgSrc(this.url);
     xhr.open('GET', downUrl);
     xhr.responseType = 'blob';
     xhr.send();
@@ -140,6 +140,8 @@ SlideVerify.prototype.initImage = function () {
 };
 SlideVerify.prototype.draw = function () {
   const { width, height } = this;
+  this.canvasCtx.clearRect(0, 0, width, height);
+  this.blockCtx.clearRect(0, 0, width, height);
   this.x = getRandomNumberByRange(L + 10, width - (L + 10));
   this.y = getRandomNumberByRange(10 + L, height - (L + 10));
 
@@ -168,7 +170,7 @@ SlideVerify.prototype.bindEvent = function () {
 };
 SlideVerify.prototype.setCaptchaMode = function () {
   var _this = this;
-  var handlerMouseUp = function (e) {
+  var handlerMouseEnter = function (e) {
     _this.isEntry = true;
     _this.canvasContainer.style.display = 'block';
     setTimeout(() => {
@@ -177,13 +179,20 @@ SlideVerify.prototype.setCaptchaMode = function () {
       _this.canvasContainer.style.top = top + 'px';
     }, 200);
   };
-  var handlerMouseLeave = function (e) {
+  var handlerMouseLeave = function () {
+    if (_this.isMouseDown) {
+      return;
+    }
     _this.isEntry = false;
-    _this.canvasContainer.style.top = `-${this.height}px`;
+    _this.canvasContainer.style.top = `-${_this.height}px`;
     setTimeout(() => {
       _this.canvasContainer.style.opacity = '0';
       _this.canvasContainer.style.display = 'none';
     }, 200);
+  };
+  var handlerMouseUp = function () {
+    _this.isMouseDown = false;
+    handlerMouseLeave();
   };
   if (this.captchaMode === 'float') {
     this.canvasContainer.style.position = 'absolute';
@@ -198,8 +207,12 @@ SlideVerify.prototype.setCaptchaMode = function () {
       _this.canvasContainer.style.top = `-${this.height}px`;
     }
 
-    this.slideContainer.addEventListener('mouseenter', handlerMouseUp);
+    this.slideContainer.addEventListener('mouseenter', handlerMouseEnter);
     this.slideContainer.addEventListener('mouseleave', handlerMouseLeave);
+    this.slideContainer.addEventListener('mousedown', () => {
+      _this.isMouseDown = true;
+    });
+    document.addEventListener('mouseup', handlerMouseUp);
   }
 };
 
@@ -273,8 +286,15 @@ SlideVerify.prototype.reset = function () {
   this.byData();
 };
 
-function getRandomImgSrc() {
-  return `https://picsum.photos/id/${getRandomNumberByRange(0, 1084)}/${w}/${h}`;
+function getRandomImgSrc(url) {
+  return `${url}/${getRandomNumberByRange(0, 20)}.jpeg`;
+  // return `https://picsum.photos/id/${getRandomNumberByRange(0, 1084)}/${w}/${h}`;
+}
+function sum(x, y) {
+  return x + y;
+}
+function square(x) {
+  return x * x;
 }
 
 function createElement(tagName, className) {
