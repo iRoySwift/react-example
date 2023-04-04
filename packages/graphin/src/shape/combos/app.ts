@@ -1,8 +1,11 @@
+/*
+ * @Author: Roy
+ * @Date: 2022-04-13 18:05:34
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-11 18:12:19
+ * @Description: app类 combo
+ */
 import getNodeStyle from '../configs/nodeStyle';
-
-const defaultWidth = 284;
-const defaultHeight = 150;
-const padding = 10;
 
 const options = {
   /**

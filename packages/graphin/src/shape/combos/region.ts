@@ -1,4 +1,11 @@
-import getNodeStyle from "../configs/nodeStyle";
+/*
+ * @Author: Roy
+ * @Date: 2022-04-13 18:05:34
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-11 18:12:50
+ * @Description: 请填写简介
+ */
+import getNodeStyle from '../configs/nodeStyle';
 
 const defaultWidth = 284;
 const defaultHeight = 150;
@@ -54,13 +61,13 @@ const options = {
     }
   ) {
     // Get the shape style, where the style.r corresponds to the R in the Illustration of Built-in Rect Combo
-    const config = getNodeStyle("default");
+    const config = getNodeStyle('default');
 
     // 容器自适应
     const width = Math.max(cfg?.style?.width || 0, defaultWidth);
     const height = Math.max(cfg?.style?.height || 0, defaultHeight);
     // Add a circle shape as keyShape which is the same as the extended 'circle' type Combo
-    const keyShape = group.addShape("rect", {
+    const keyShape = group.addShape('rect', {
       attrs: {
         x: -(cfg?.style?.width || 0) / 2,
         y: -(cfg?.style?.height || 0) / 2 - 30,
@@ -69,40 +76,40 @@ const options = {
         fill: config.backgoundColor,
         stroke: config.borderColor,
         lineWidth: config.lineWidth,
-        radius: config.radius,
+        radius: config.radius
       },
       draggable: true,
-      name: "combo-keyShape",
+      name: 'combo-keyShape'
     });
 
     // header
-    group.addShape("rect", {
+    group.addShape('rect', {
       attrs: {
         x: -(cfg?.style?.width || 0) / 2,
         y: -(cfg?.style?.height || 0) / 2 - 30,
         width,
         height: 30,
-        fill: "#FFF",
+        fill: '#FFF',
         stroke: config.borderColor,
         lineWidth: config.lineWidth,
-        radius: config.radius,
+        radius: config.radius
       },
       draggable: true,
-      name: "combo-header-keyShape",
+      name: 'combo-header-keyShape'
     });
     // 原点 0 0
-    group.addShape("circle", {
+    group.addShape('circle', {
       attrs: {
         x: 0,
         y: 0,
         r: 6,
-        stroke: "red",
-        fill: "#fff",
+        stroke: 'red',
+        fill: '#fff',
         lineWidth: 6,
-        zIndex: 999,
+        zIndex: 999
       },
       draggable: false,
-      name: "0-contanier",
+      name: '0-contanier'
     });
     return keyShape;
   },
@@ -126,28 +133,22 @@ const options = {
       getContainer: () => any;
     }
   ) {
-    const keyShape = item.get("keyShape");
+    const keyShape = item.get('keyShape');
     const getItemBBox = item.getBBox();
     const group = item.getContainer();
-    const rect = group.find(
-      (ele: { get: (arg0: string) => string }) =>
-        ele.get("name") === "combo-keyShape"
-    );
-    const rectHeader = group.find(
-      (ele: { get: (arg0: string) => string }) =>
-        ele.get("name") === "combo-header-keyShape"
-    );
+    const rect = group.find((ele: { get: (arg0: string) => string }) => ele.get('name') === 'combo-keyShape');
+    const rectHeader = group.find((ele: { get: (arg0: string) => string }) => ele.get('name') === 'combo-header-keyShape');
     rect.attr({
       x: 0,
       y: 0,
       width: getItemBBox.width,
-      height: getItemBBox.height,
+      height: getItemBBox.height
     });
     rectHeader.attr({
       x: 0,
       y: 0,
       width: getItemBBox.width,
-      height: 30,
+      height: 30
     });
   },
 
@@ -172,11 +173,11 @@ const options = {
    * @param  {Object} value 状态值
    * @param  {Combo} combo 节点
    */
-  setState: (name: any, value: any, combo: any) => {},
+  setState: (name: any, value: any, combo: any) => {}
 };
 export default {
-  type: "combo",
-  name: "region",
+  type: 'combo',
+  name: 'region',
   options,
-  extendShapeType: "rect",
+  extendShapeType: 'rect'
 };

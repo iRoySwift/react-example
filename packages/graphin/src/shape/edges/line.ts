@@ -2,7 +2,7 @@
  * @Author: Roy
  * @Date: 2022-07-29 17:52:08
  * @LastEditors: Roy
- * @LastEditTime: 2022-08-17 17:45:31
+ * @LastEditTime: 2022-08-18 14:54:53
  * @Description: 直线
  */
 import { mix, each, isArray, isString } from '@antv/util';
@@ -105,7 +105,8 @@ const lineArrowOption: ShapeOptions = {
   /**
    * 编辑按钮
    */
-  drawEditIcon(_: EdgeConfig, group: IGroup | any) {
+  drawEditIcon(cfg: EdgeConfig, group: IGroup | any) {
+    const { iconColor } = cfg;
     const shape = group.get('children')[0];
     const midPoint = shape.getPoint(0.4);
     const size = 16;
@@ -118,7 +119,7 @@ const lineArrowOption: ShapeOptions = {
         y: midPoint.y - size / 2,
         width: size,
         height: size,
-        fill: '#DDDDDD',
+        fill: iconColor,
         radius: 4
       },
       isEditPoint: true
@@ -162,7 +163,7 @@ const lineArrowOption: ShapeOptions = {
         y: midPoint.y - size / 2,
         width: size,
         height: size,
-        fill: '#3F52B4',
+        fill: iconColor,
         radius: 4,
         opacity: 0
       },
@@ -174,7 +175,8 @@ const lineArrowOption: ShapeOptions = {
    * @param _ cfg
    * @param item Item
    */
-  updateEditIcon(_: EdgeConfig, item: Item) {
+  updateEditIcon(cfg: EdgeConfig, item: Item) {
+    const { iconColor } = cfg;
     const group = item.getContainer() as any;
     const shape = group['shapeMap']['edge-shape'] || group.find((element: any) => element.get('className') === 'edge-shape') || item.getKeyShape();
     const editBtn = group.find((e: any) => e.get('isEditPoint'));
@@ -183,11 +185,13 @@ const lineArrowOption: ShapeOptions = {
     if (!editBtn) {
       return;
     }
-    console.log(_, '___');
-
     const children = editBtn.get('children');
     children.forEach((item: any) => {
-      item.attr({ x: midPoint.x - size / 2, y: midPoint.y - size / 2 });
+      if (item.get('type') === 'image') {
+        item.attr({ x: midPoint.x - size / 2, y: midPoint.y - size / 2 });
+        return;
+      }
+      item.attr({ fill: iconColor, x: midPoint.x - size / 2, y: midPoint.y - size / 2 });
     });
     editBtn.attr({
       x: midPoint.x - size / 2,

@@ -2,7 +2,7 @@
  * @Author: Roy
  * @Date: 2022-04-13 18:05:34
  * @LastEditors: Roy
- * @LastEditTime: 2022-08-12 16:46:47
+ * @LastEditTime: 2022-08-25 09:38:24
  * @Description: tooltip
  */
 import modifyCSS from '@antv/dom-util/lib/modify-css';
@@ -56,7 +56,7 @@ export default class Tooltip extends Base {
           <span class='tooltip-id'>ID：${e?.item?.getID()}</span>
         `;
       },
-      shouldBegin: (e) => {
+      shouldBegin: () => {
         return true;
       },
       itemTypes: ['node', 'edge', 'combo']
