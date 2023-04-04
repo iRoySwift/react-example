@@ -2,7 +2,7 @@
  * @Author: Roy
  * @Date: 2022-08-10 17:41:08
  * @LastEditors: Roy
- * @LastEditTime: 2022-08-16 16:43:06
+ * @LastEditTime: 2022-08-18 16:07:30
  * @Description: 拖动节点的Behavior
  */
 import { Global } from '@antv/g6';
@@ -212,11 +212,9 @@ export default {
   },
   /**
    * 拖动结束，设置拖动元素capture为true，更新元素位置，如果是拖动涉及到 combo，则更新 combo 结构
-   * @param evt
+   * @param _evt
    */
-  onDragEnd(evt: IG6GraphEvent) {
-    console.log(evt);
-
+  onDragEnd(_evt: IG6GraphEvent) {
     const self = this as any;
     if (!self.origin) {
       return;

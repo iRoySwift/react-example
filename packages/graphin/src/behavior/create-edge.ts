@@ -2,7 +2,7 @@
  * @Author: Roy
  * @Date: 2022-07-29 21:04:30
  * @LastEditors: Roy
- * @LastEditTime: 2022-08-12 16:45:21
+ * @LastEditTime: 2022-08-18 15:51:26
  * @Description: 创建连线
  */
 import { isFunction } from '@antv/util';
@@ -126,8 +126,8 @@ export default {
 
       // 暂时将该边的 capture 恢复为 true
       // self.edge.getKeyShape().set('capture', true);
-      // self.edge = null;
-      // self.addingEdge = false;
+      self.edge = null;
+      self.addingEdge = false;
     } else {
       if (!self.shouldBegin.call(self, evt)) return;
       // 获取自定义 edge 配置
