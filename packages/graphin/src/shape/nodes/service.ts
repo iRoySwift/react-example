@@ -1,3 +1,10 @@
+/*
+ * @Author: Roy
+ * @Date: 2022-07-29 17:53:22
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-11 18:20:28
+ * @Description: pcp node
+ */
 // @ts-nocheck
 import G6 from '@antv/g6';
 import getNodeStyle from '../configs/nodeStyle';

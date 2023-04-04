@@ -1,6 +1,13 @@
+/*
+ * @Author: Roy
+ * @Date: 2022-05-08 20:55:45
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-12 09:35:10
+ * @Description: 抽象node类
+ */
 import { BaseGlobal as Global } from '@antv/g6-core';
 import { deepMix } from '@antv/util';
-import { Item, ModelConfig, ShapeOptions, UpdateType } from '../../../typings';
+import { Item, ModelConfig, ShapeOptions, UpdateType } from '../../../typings/graph';
 
 export const shapeBase: ShapeOptions = {
   // 默认样式及配置
@@ -21,9 +28,8 @@ export const shapeBase: ShapeOptions = {
    * 形状的类型，例如 circle，ellipse，polyline...
    */
   type: '',
-  // eslint-disable-next-line no-unused-vars
   getCustomConfig(cfg: ModelConfig): ModelConfig {
-    return {};
+    return cfg;
   },
   getOptions(cfg: ModelConfig, updateType?: UpdateType): ModelConfig {
     if (updateType === 'move' || updateType?.includes('bbox')) {

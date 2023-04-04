@@ -1,7 +1,7 @@
 import { deepMix, isArray } from '@antv/util';
-import { registerNode, Item, ShapeStyle, ShapeOptions, BaseGlobal as Global, UpdateType, ModelConfig } from '@antv/g6-core';
-import { GGroup, IGroup, IShape, NodeConfig } from '../../../typings/index';
+import { registerNode, BaseGlobal as Global } from '@antv/g6-core';
 import { shapeBase } from './shapeBase';
+import { GGroup, IShape, Item, ModelConfig, NodeConfig, ShapeOptions, ShapeStyle, UpdateType } from '../../../typings/graph';
 
 // 绘制node
 const okdNodeCircle: ShapeOptions = {
@@ -189,8 +189,7 @@ const okdNodeCircle: ShapeOptions = {
     this.drawClose(cfg, group);
     return keyShape;
   },
-  // eslint-disable-next-line no-unused-vars
-  afterDraw(cfg, group) {},
+  // afterDraw(cfg, group) {},
   updateShapeStyle(cfg: NodeConfig, item: Item, updateType: UpdateType) {
     const keyShape = item.get('keyShape');
     keyShape?.attr({
@@ -207,13 +206,19 @@ const okdNodeCircle: ShapeOptions = {
   updateLabel(cfg: NodeConfig, item: Item) {
     const self = this as any;
     const group = item?.get('group');
+    const { label } = cfg;
+    const labelWidth = (label as string).length * 10 > 120 ? (label as string).length * 10 : 120;
+    const rectKeyShape = group.find((e: any) => e.get('name') === `${self.type}-rect`);
     const keyShape = group.find((e: any) => e.get('name') === `${self.type}-text`);
+    rectKeyShape?.attr({
+      width: labelWidth,
+      x: -labelWidth / 2
+    });
     keyShape?.attr({
-      text: cfg.label
+      text: label
     });
   },
-  // eslint-disable-next-line no-unused-vars
-  afterUpdate(cfg, item) {},
+  // afterUpdate(cfg, item) {},
   setState(name, value, item) {
     const group = item?.get('group');
     if (name == 'close-active') {

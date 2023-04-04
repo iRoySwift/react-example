@@ -1,6 +1,12 @@
-import { deepMix, isArray, each, mix, isBoolean, isPlainObject, clone } from '@antv/util';
-import { registerNode, Item, ShapeStyle, ShapeOptions, BaseGlobal as Global, UpdateType, ModelConfig } from '@antv/g6-core';
-import { CustomModelConfig, GGroup, IG6GraphEvent, IShape, NodeConfig } from '../../../typings/index';
+/*
+ * @Author: Roy
+ * @Date: 2022-05-08 19:21:31
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-11 18:18:42
+ * @Description: 关闭按钮
+ */
+import { registerNode } from '@antv/g6-core';
+import { IShape, ShapeOptions } from '../../../typings/graph';
 import { shapeBase } from './shapeBase';
 
 // 绘制node
