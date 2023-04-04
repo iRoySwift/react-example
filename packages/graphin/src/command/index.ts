@@ -1,11 +1,18 @@
-import { Graph } from '@antv/g6';
+/*
+ * @Author: Roy
+ * @Date: 2022-05-03 23:45:09
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-16 17:26:08
+ * @Description: 命令工具
+ */
 import { clone } from '@antv/util';
-import { ICommandExeData } from '../../typings/index';
+import { ICmd } from '../../typings/custom';
+import { IGraph } from '../interface/graph';
 
 class Command {
-  graph: Graph;
+  graph: IGraph;
   commandCollection: any;
-  constructor(graph: Graph) {
+  constructor(graph: IGraph) {
     this.graph = graph;
     this.commandCollection = Object.create(null);
   }
@@ -14,7 +21,7 @@ class Command {
    * @param commandName
    * @param commanObj
    */
-  public registerCommand(commandName: string | number, commanObj: any): void {
+  public registerCommand(commandName: ICmd.ICommandName, commanObj: any): void {
     !this.commandCollection[commandName] && (this.commandCollection[commandName] = commanObj);
   }
 
@@ -23,13 +30,12 @@ class Command {
    * @param commandName{String}
    * @param dataObject{Object} model(数据模型)，itemType：‘group’，‘node’，‘edge’，item（当前操作的对象），targetItem，
    */
-  public executeCommand(commandName: any, dataObject: ICommandExeData) {
-    // const { itemType, model } = dataObject;
+  public executeCommand(commandName: ICmd.ICommandName, dataObject: ICmd.ICommandEvent) {
     const commander = clone(this.commandCollection[commandName]);
     if (commander) {
       commander.graph = this.graph;
-      return Promise.resolve(commander)
-        .then(commander.enable.bind(this))
+      return Promise.resolve(dataObject)
+        .then(commander.enable.bind(commander))
         .then((enable) => {
           if (enable) {
             return commander.execute(dataObject);
