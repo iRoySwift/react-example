@@ -1,0 +1,12 @@
+.editor-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.editor {
+  flex: 1;
+  font-family: 'Fira Code', monospace !important;
+  font-size: 14px;
+  line-height: 1.5;
+  height: 100%;
+}

@@ -1,17 +1,20 @@
 import React, { forwardRef, ForwardRefRenderFunction, MutableRefObject, useCallback, useEffect, useImperativeHandle, useRef } from 'react';
-import Graphin, { IG6GraphEvent } from '@suning/uxcool-graphin';
-import { cloneDeep, each } from 'lodash';
-import './index.css';
-import { formDataTransfer } from './utils/formatData';
-import DragAndDrop from './plugins/dnd';
 import $Bus from '@/utils/$Bus';
+import Graphin from '@suning/uxcool-graphin';
+import { IG6GraphEvent } from '@suning/uxcool-graphin/typings/graph';
+import { cloneDeep, each } from 'lodash';
+import { formDataTransfer } from './utils/formatData';
 import { drop } from './events/dnd';
-import { toolbar } from './plugins/index';
+import { toolbar, tooltip } from './plugins/index';
 import * as commands from './command';
-import Graph from '@suning/uxcool-graphin/lib/graph/index';
-import { nodeClick, nodeDrop, nodeMouseEnter, nodeMouseOut } from './events/node';
-import nodeUpdate from './events/nodeUpdate';
+import { nodeUpdateModel } from './utils/nodeUpdate';
+import { nodeClick, nodeDrop, nodeMouseEnter } from './events/node';
+import { edgeClick, edgeDragEnd, edgeDragStart } from './events/edge';
+import { IGraph } from '@suning/uxcool-graphin/lib/interface/graph';
+import edgeUpdateModel from './utils/edgeUpdate';
+import { compTypes } from './model/menu';
 import { iGraphData } from './typings';
+import './index.css';
 
 interface Props {
   ref?: React.Ref<unknown> | undefined;
@@ -21,23 +24,7 @@ interface Props {
 
 const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel, TopoData }, ref) => {
   let topoRef = useRef<HTMLDivElement>(null);
-  let graph: MutableRefObject<Graph | undefined> = useRef<Graph>();
-
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const compTypes = [
-    { searchValue: null, createBy: 'admim', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 1, name: '负载均衡', modelCode: 'lb', compGroupId: 1, showLocation: null, connComp: '', icon: '/icon/lb.svg', description: '', dependIpFlag: 1, status: 0, delFlag: 0 },
-    { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 2, name: '域名', modelCode: 'dns', compGroupId: 1, showLocation: null, connComp: '', icon: '/icon/dns.svg', description: '', dependIpFlag: 1, status: 0, delFlag: 0 },
-    { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 3, name: 'Tomcat', modelCode: 'tomcat', compGroupId: 2, showLocation: null, connComp: '', icon: '/icon/tomcat.svg', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
-    { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 6, name: 'xxl-job', modelCode: 'xxljob', compGroupId: 3, showLocation: null, connComp: '', icon: '/icon/tomcat.svg', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
-    { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 7, name: 'MySQL', modelCode: 'mysql', compGroupId: 4, showLocation: null, connComp: '', icon: '/icon/mysql.svg', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
-    { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 8, name: 'Redis', modelCode: 'redis', compGroupId: 4, showLocation: null, connComp: '', icon: '/icon/redis.svg', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
-    { searchValue: null, createBy: 'admin', createTime: '2022-04-11 09:03:47', updateBy: '', updateTime: null, remark: null, params: {}, id: 9, name: '自定义', modelCode: 'custom', compGroupId: 5, showLocation: null, connComp: '', icon: '/icon/zidingyi.svg', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
-    { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 10, name: 'OpenJDK', modelCode: 'openjdk', compGroupId: 2, showLocation: null, connComp: '', icon: '', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
-    { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 11, name: 'Nginx Web服务器', modelCode: 'nginx', compGroupId: 2, showLocation: null, connComp: '', icon: '', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
-    { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 12, name: '分布式消息队列', modelCode: 'rocketmq', compGroupId: 3, showLocation: null, connComp: '', icon: '', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
-    { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 13, name: '分布式服务发现和配置管理平台', modelCode: 'nacos', compGroupId: 3, showLocation: null, connComp: '', icon: '', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
-    { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 14, name: '应用防火墙', modelCode: 'waf', compGroupId: 1, showLocation: null, connComp: '', icon: '', description: '', dependIpFlag: 0, status: 0, delFlag: 0 }
-  ];
+  let graph: MutableRefObject<IGraph | undefined> = useRef<IGraph>();
 
   useImperativeHandle(ref, () => ({
     getGraph: () => graph.current
@@ -47,8 +34,7 @@ const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel, TopoData },
    * 注册插件
    */
   const addPlugins = useCallback(() => {
-    const dnd: any = new DragAndDrop();
-    graph.current!.addPlugin(dnd);
+    graph.current!.addPlugin(tooltip);
   }, []);
 
   /**
@@ -61,38 +47,64 @@ const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel, TopoData },
   };
 
   /**
+   * 展示V模式
+   */
+  const modelVisible = useCallback(() => {
+    graph.current!.on('node:mouseenter', (e: IG6GraphEvent) => {
+      nodeMouseEnter.call({ editModel, $Bus }, e);
+    });
+    // graph.current!.on('node:mouseout', (e) => {
+    //   nodeMouseOut.call({ editModel, $Bus }, e);
+    // });
+  }, [editModel]);
+
+  /**
+   * 编辑C模式
+   */
+  const modelCreate = useCallback(() => {
+    graph.current!.on('edge:click', (e) => {
+      edgeClick.call({ editModel, graph: graph.current, $Bus }, e);
+    });
+    graph.current!.on('edge:dragstart', (e) => {
+      edgeDragStart.call({ editModel, graph: graph.current, $Bus }, e);
+    });
+    graph.current!.on('edge:dragend', (e) => {
+      edgeDragEnd.call({ editModel, graph: graph.current, $Bus }, e);
+    });
+  }, [editModel]);
+
+  /**
    * 事件注册
    */
   const GraphOn = useCallback(() => {
     graph.current!.on('node:click', (e: IG6GraphEvent) => {
       nodeClick.call({ editModel, graph: graph.current, $Bus }, e);
     });
-    if (editModel === 'V') {
-      graph.current!.on('node:mouseenter', (e: IG6GraphEvent) => {
-        nodeMouseEnter.call({ editModel, $Bus }, e);
-      });
-      graph.current!.on('node:mouseout', (e) => {
-        nodeMouseOut.call({ editModel, $Bus }, e);
-      });
-    }
     graph.current!.on('node:drop', (e) => {
       nodeDrop.call({ editModel, graph: graph.current, $Bus }, e);
     });
+    if (editModel === 'V') {
+      modelVisible();
+    }
+    if (editModel === 'C') {
+      modelCreate();
+    }
+
     registerCommand();
-  }, [editModel]);
+  }, [editModel, modelCreate, modelVisible]);
 
   // @ts-ignore
   const initInstsance = useCallback(() => {
     const container = topoRef.current;
-    const width = topoRef.current?.scrollWidth || 900;
-    const height = topoRef.current?.scrollHeight || 500;
+    const width = container!.scrollWidth || 900;
+    const height = container!.scrollHeight || 500;
 
     const options: any = {
       container,
       width,
       height,
       fitCenter: true,
-      renderer: 'svg',
+      // renderer: 'svg',
       fitView: true,
       enabledStack: true,
       plugins: [toolbar],
@@ -110,13 +122,19 @@ const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel, TopoData },
           'zoom-canvas'
         ],
         create: [
+          'setCursor',
           'removeNode',
           'removeEdge',
+          'click-select',
           {
-            type: 'drag-node',
+            type: 'dragNode',
             shouldBegin: (e) => {
               if (e.target.get('isAnchorPoint')) return false;
               return true;
+            },
+            enableDelegate: true,
+            delegateStyle: {
+              radius: 45
             }
           },
           {
@@ -150,7 +168,7 @@ const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel, TopoData },
           show: true,
           width: 60,
           height: 60,
-          fill: '#d3dbe1',
+          // fill: '#d3dbe1',
           img: ''
         },
         style: {
@@ -164,23 +182,22 @@ const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel, TopoData },
         sourceAnchor: 1,
         targetAnchor: 0,
         style: {
-          lineAppendWidth: 10,
+          lineAppendWidth: 20,
           lineWidth: 2,
-          cursor: 'pointer',
           endArrow: true,
           stroke: '#ccc'
         }
         // 其他配置
       },
       minZoom: 0.2,
-      maxZoom: 6
+      maxZoom: 1
     };
     graph.current = new Graphin.Graph(options);
     const editModelMap = {
       C: 'create',
       V: 'default'
     };
-    if (editModel === 'V') {
+    if (editModel === 'C') {
       addPlugins();
     }
     graph.current!.setMode(editModelMap[editModel]);
@@ -195,13 +212,31 @@ const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel, TopoData },
     graph.current?.render();
     graph.current!.fitCenter();
     graph.current!.changeData();
-  }, [compTypes]);
+  }, [TopoData]);
 
   // @ts-ignore
-  const DropOn = useCallback((args: any) => {
-    const { x, y } = graph.current!.getPointByClient(args?.x || 0, args?.y || 0);
-    drop(graph.current, { ...args, x, y });
+  const DropOn = useCallback((e: any) => {
+    drop(graph.current, e);
   }, []);
+
+  /**
+   * 保存更新
+   */
+  const nodeUpdate = useCallback(
+    (data) => {
+      nodeUpdateModel.call({ editModel, graph: graph.current }, data);
+    },
+    [editModel]
+  );
+  /**
+   * 保存更新
+   */
+  const edgeUpdate = useCallback(
+    (data) => {
+      edgeUpdateModel.call({ editModel, graph: graph.current }, data);
+    },
+    [editModel]
+  );
 
   useEffect(() => {
     if (!graph.current) {
@@ -213,13 +248,20 @@ const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel, TopoData },
   useEffect(() => {
     if (editModel === 'C') {
       $Bus.on('drop', DropOn);
-      $Bus.on('node:update', (nodeId) => nodeUpdate.call({ editModel, graph: graph.current }, nodeId));
+      $Bus.on('node:update', nodeUpdate);
+      $Bus.on('node:edge', edgeUpdate);
     }
     return () => {
       $Bus.off('drop', DropOn);
+      $Bus.off('node:update', nodeUpdate);
+      $Bus.off('node:edge', edgeUpdate);
     };
-  }, [DropOn, editModel]);
+  }, [DropOn, edgeUpdate, editModel, nodeUpdate]);
 
-  return <div className="graphin-core" ref={topoRef}></div>;
+  return (
+    <div>
+      <div className="graphin-core" ref={topoRef}></div>
+    </div>
+  );
 };
 export default forwardRef(Topo);

@@ -1,3 +1,10 @@
+/*
+ * @Author: Roy
+ * @Date: 2022-06-15 17:07:59
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-22 15:30:18
+ * @Description: 请填写简介
+ */
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import '@/utils/i18n';
@@ -10,9 +17,9 @@ console.info(`%c react-devtools %c Detected React v${React.version} %c`, 'backgr
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  // <React.StrictMode>
+  <App />
+  // </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

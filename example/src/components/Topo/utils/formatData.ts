@@ -1,16 +1,14 @@
-// 网络：
-// 负载均衡、域名
-// 运行时：
-// Tomcat、Node.js、Python
-// 基础组件：
-// xxl-job
-// 数据库：
-// MySQL、Redis
-// 自定义：
-// xxxxx
+/*
+ * @Author: Roy
+ * @Date: 2022-04-14 01:02:45
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-18 17:17:22
+ * @Description: topo数据格式化
+ */
 
 import { sortedUniq, uniq } from 'lodash';
-import { iGraphData, iNodeConfig } from './../typings/index';
+import { statusMap } from '../model/config';
+import { iEdgeConfig, iGraphData, iNodeConfig } from './../typings/index';
 type iGroupType = {
   [key: string | number]: any[];
 };
@@ -28,20 +26,19 @@ const formDataTransfer: (topoData: iGraphData, _: any, compTypes: any) => iGraph
     groupObj[item] = [];
   });
   topoData.nodes?.forEach((item: iNodeConfig) => {
-    const groupId = item.model.groupId || 1;
-    groupObj[groupId] = groupObj[groupId] || [];
+    const groupId = item.model.compGroupId || 1;
     groupObj[groupId].push(item);
   });
-  newTopo.edges = topoData.edges;
   newTopo.combos = topoData.combos;
-  newTopo.nodes = [];
-  let nodesObj = groupObj;
   if (isErrorData(topoData.nodes)) {
-    nodesObj = calcCoodXY(groupObj);
+    calcCoodXY(groupObj);
   }
-  Object.keys(nodesObj).forEach((item: any) => {
-    nodesObj[item].forEach((el: any) => {
-      el.isSaved = !!el.instanceCode;
+  topoData.edges.forEach((item) => {
+    newTopo.edges.push(setEdgeStatus(item));
+  });
+  Object.keys(groupObj).forEach((item: any) => {
+    groupObj[item].forEach((el: any) => {
+      el.model.isSaved = !!el.instanceCode;
       newTopo.nodes?.push(setNodeStatus(el));
     });
   });
@@ -60,7 +57,6 @@ const calcCoodXY = (groupObj: iGroupType) => {
       el.y = i * 150;
     });
   });
-  return groupObj;
 };
 
 /**
@@ -69,19 +65,16 @@ const calcCoodXY = (groupObj: iGroupType) => {
  * @returns
  */
 const setNodeStatus: (node: iNodeConfig) => iNodeConfig = (node: iNodeConfig) => {
-  const status: { [key: string]: string } = {
-    0: '#DDDDDD', //'未配置',
-    1: '#3F52B4', //'部署中',
-    2: '#7DC856', //'部署成功',
-    3: '#FF093E', //'部署失败',
-    4: '#7DC856' //'已录入'
-  };
-
   node.icon = {};
   node.style = {};
   node.icon.img = node.model.icon;
-  node.style.stroke = status[node.model!.status || 0];
+  node.style.stroke = statusMap[node.model!.status || 0];
   return node;
 };
 
-export { formDataTransfer, setNodeStatus };
+const setEdgeStatus: (edge: iEdgeConfig) => iEdgeConfig = (edge: iEdgeConfig) => {
+  edge.iconColor = statusMap[edge!.status || 0];
+  return edge;
+};
+
+export { formDataTransfer, setNodeStatus, setEdgeStatus };

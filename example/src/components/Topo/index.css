@@ -4,3 +4,8 @@
   min-height: 500px;
   position: relative;
 }
+
+.g6-component-tooltip {
+  background: #04102acc;
+  color: #fff;
+}

@@ -1,12 +1,51 @@
+/*
+ * @Author: Roy
+ * @Date: 2022-04-13 23:05:51
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-19 10:37:08
+ * @Description: 模拟数据
+ */
 export const allMenuInfo = [
   {
     groupId: 2,
     groupName: '运行时',
     groupCode: 'runtime',
     modelResVoList: [
-      { modelId: 3, modelName: 'Tomcat', modelCode: 'tomcat', compGroupId: 2, showLocation: 0, icon: '/icon/tomcat.svg', oneClickFlag: 0 },
-      { modelId: 10, modelName: 'JDK', modelCode: 'jdk', compGroupId: 2, showLocation: 1, icon: '/icon/jdk.svg', oneClickFlag: 0 },
-      { modelId: 11, modelName: 'Nginx', modelCode: 'nginx', compGroupId: 2, showLocation: 2, icon: '/icon/nginx.svg', oneClickFlag: 0 }
+      {
+        modelId: 3,
+        modelName: 'Tomcat',
+        modelCode: 'tomcat',
+        compGroupId: 2,
+        showLocation: 0,
+        icon: '/icon/tomcat.svg',
+        connectedObject: {
+          mysql_aliyun: 1
+        },
+        oneClickFlag: 0,
+        connComp: '{"mysql_aliyun":1}'
+      },
+      {
+        modelId: 10,
+        modelName: 'JDK',
+        modelCode: 'jdk',
+        compGroupId: 2,
+        showLocation: 1,
+        icon: '/icon/jdk.svg',
+        connectedObject: {},
+        oneClickFlag: 0,
+        connComp: ''
+      },
+      {
+        modelId: 11,
+        modelName: 'Nginx',
+        modelCode: 'nginx',
+        compGroupId: 2,
+        showLocation: 2,
+        icon: '/icon/nginx.svg',
+        connectedObject: {},
+        oneClickFlag: 0,
+        connComp: ''
+      }
     ]
   },
   {
@@ -14,10 +53,50 @@ export const allMenuInfo = [
     groupName: '数据服务',
     groupCode: 'database',
     modelResVoList: [
-      { modelId: 38, modelName: '阿里云数据库MySQL', modelCode: 'mysql-aliyun', compGroupId: 4, showLocation: 0, icon: '/icon/mysql.svg', oneClickFlag: 0 },
-      { modelId: 37, modelName: '阿里云数据库Redis', modelCode: 'redis-aliyun', compGroupId: 4, showLocation: 0, icon: '/icon/redis.svg', oneClickFlag: 0 },
-      { modelId: 8, modelName: 'Redis', modelCode: 'redis', compGroupId: 4, showLocation: 3, icon: '/icon/redis.svg', oneClickFlag: 0 },
-      { modelId: 7, modelName: 'MySQL', modelCode: 'mysql', compGroupId: 4, showLocation: 4, icon: '/icon/mysql.svg', oneClickFlag: 0 }
+      {
+        modelId: 37,
+        modelName: '阿里云数据库Redis',
+        modelCode: 'redis_aliyun',
+        compGroupId: 4,
+        showLocation: 0,
+        icon: '/icon/redis.svg',
+        connectedObject: {},
+        oneClickFlag: 1,
+        connComp: ''
+      },
+      {
+        modelId: 38,
+        modelName: '阿里云数据库MySQL',
+        modelCode: 'mysql_aliyun',
+        compGroupId: 4,
+        showLocation: 0,
+        icon: '/icon/mysql.svg',
+        connectedObject: {},
+        oneClickFlag: 1,
+        connComp: ''
+      },
+      {
+        modelId: 8,
+        modelName: 'Redis',
+        modelCode: 'redis',
+        compGroupId: 4,
+        showLocation: 3,
+        icon: '/icon/redis.svg',
+        connectedObject: {},
+        oneClickFlag: 0,
+        connComp: ''
+      },
+      {
+        modelId: 7,
+        modelName: 'MySQL',
+        modelCode: 'mysql',
+        compGroupId: 4,
+        showLocation: 4,
+        icon: '/icon/mysql.svg',
+        connectedObject: {},
+        oneClickFlag: 0,
+        connComp: ''
+      }
     ]
   },
   {
@@ -25,9 +104,39 @@ export const allMenuInfo = [
     groupName: '基础服务',
     groupCode: 'baseComponent',
     modelResVoList: [
-      { modelId: 6, modelName: 'xxl-job', modelCode: 'xxljob', compGroupId: 3, showLocation: 7, icon: '/icon/xxljob.svg', oneClickFlag: 0 },
-      { modelId: 12, modelName: 'RocketMq', modelCode: 'rocketmq', compGroupId: 3, showLocation: 8, icon: '/icon/rocketmq.svg', oneClickFlag: 0 },
-      { modelId: 13, modelName: 'Nacos', modelCode: 'nacos', compGroupId: 3, showLocation: 9, icon: '/icon/nacos.svg', oneClickFlag: 0 }
+      {
+        modelId: 6,
+        modelName: 'xxl-job',
+        modelCode: 'xxljob',
+        compGroupId: 3,
+        showLocation: 7,
+        icon: '/icon/xxljob.svg',
+        connectedObject: {},
+        oneClickFlag: 0,
+        connComp: ''
+      },
+      {
+        modelId: 12,
+        modelName: 'RocketMq',
+        modelCode: 'rocketmq',
+        compGroupId: 3,
+        showLocation: 8,
+        icon: '/icon/rocketmq.svg',
+        connectedObject: {},
+        oneClickFlag: 0,
+        connComp: ''
+      },
+      {
+        modelId: 13,
+        modelName: 'Nacos',
+        modelCode: 'nacos',
+        compGroupId: 3,
+        showLocation: 9,
+        icon: '/icon/nacos.svg',
+        connectedObject: {},
+        oneClickFlag: 0,
+        connComp: ''
+      }
     ]
   }
 ];
@@ -1053,3 +1162,19 @@ export const allMenuMap = {
     }
   }
 };
+
+// eslint-disable-next-line react-hooks/exhaustive-deps
+export const compTypes = [
+  { searchValue: null, createBy: 'admim', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 1, name: '负载均衡', modelCode: 'lb', compGroupId: 1, showLocation: null, connComp: '', icon: '/icon/lb.svg', description: '', dependIpFlag: 1, status: 0, delFlag: 0 },
+  { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 2, name: '域名', modelCode: 'dns', compGroupId: 1, showLocation: null, connComp: '', icon: '/icon/dns.svg', description: '', dependIpFlag: 1, status: 0, delFlag: 0 },
+  { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 3, name: 'Tomcat', modelCode: 'tomcat', compGroupId: 2, showLocation: null, connComp: '', icon: '/icon/tomcat.svg', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
+  { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 6, name: 'xxl-job', modelCode: 'xxljob', compGroupId: 3, showLocation: null, connComp: '', icon: '/icon/tomcat.svg', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
+  { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 7, name: 'MySQL', modelCode: 'mysql', compGroupId: 4, showLocation: null, connComp: '', icon: '/icon/mysql.svg', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
+  { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 8, name: 'Redis', modelCode: 'redis', compGroupId: 4, showLocation: null, connComp: '', icon: '/icon/redis.svg', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
+  { searchValue: null, createBy: 'admin', createTime: '2022-04-11 09:03:47', updateBy: '', updateTime: null, remark: null, params: {}, id: 9, name: '自定义', modelCode: 'custom', compGroupId: 5, showLocation: null, connComp: '', icon: '/icon/zidingyi.svg', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
+  { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 10, name: 'OpenJDK', modelCode: 'openjdk', compGroupId: 2, showLocation: null, connComp: '', icon: '', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
+  { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 11, name: 'Nginx Web服务器', modelCode: 'nginx', compGroupId: 2, showLocation: null, connComp: '', icon: '', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
+  { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 12, name: '分布式消息队列', modelCode: 'rocketmq', compGroupId: 3, showLocation: null, connComp: '', icon: '', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
+  { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 13, name: '分布式服务发现和配置管理平台', modelCode: 'nacos', compGroupId: 3, showLocation: null, connComp: '', icon: '', description: '', dependIpFlag: 0, status: 0, delFlag: 0 },
+  { searchValue: null, createBy: 'admin', createTime: '2022-04-11 03:45:46', updateBy: '', updateTime: null, remark: null, params: {}, id: 14, name: '应用防火墙', modelCode: 'waf', compGroupId: 1, showLocation: null, connComp: '', icon: '', description: '', dependIpFlag: 0, status: 0, delFlag: 0 }
+];

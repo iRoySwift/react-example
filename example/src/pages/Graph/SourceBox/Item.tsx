@@ -26,7 +26,7 @@ interface Props {
   data: any;
 }
 const Item: React.FC<Props> = ({ name, showCopyIcon, data }) => {
-  const [{ opacity, handlerId }, drag, dragPreview] = useDrag(() => ({
+  const [{ opacity, handlerId }, _, dragPreview] = useDrag(() => ({
     type: ItemTypes.DRAGITEM,
     item: { data },
     options: {
@@ -54,11 +54,19 @@ const Item: React.FC<Props> = ({ name, showCopyIcon, data }) => {
     })
   }));
 
+  const onDragStart = (e: any): void => {
+    // e.preventDefault();
+    e.stopPropagation();
+    e.persist();
+    e.dataTransfer.setData('data', JSON.stringify(data));
+    e.dataTransfer.setDragImage(e.target.children[0], 0, 0);
+  };
+
   return (
     <>
       <DragPreviewImage connect={dragPreview} src={boxImage} />
-      <ListItem disablePadding ref={drag} sx={{ opacity, height: 48 }} data-handler-id={handlerId}>
-        <ListItemButton sx={{ ...style }}>
+      <ListItem disablePadding sx={{ opacity, height: 48 }} data-handler-id={handlerId}>
+        <ListItemButton sx={{ ...style }} draggable="true" onDragStart={onDragStart}>
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>

@@ -1,3 +1,10 @@
+/*
+ * @Author: Roy
+ * @Date: 2022-07-06 11:43:33
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-09-20 11:07:58
+ * @Description: 请填写简介
+ */
 import React, { useEffect } from 'react';
 import '@/components/NativeJs/SlideVerify/index.css';
 import SlideVerify from '@/components/NativeJs/SlideVerify/index.js';
@@ -9,11 +16,10 @@ const SlideVerifyComp: React.FC<Props> = () => {
     new SlideVerify({
       renderTo: 'captcha',
       captchaMode: 'float', // float embed popup
-      data: 'https://picsum.photos/id/587/310/155',
+      // data: 'https://picsum.photos/id/587/310/155',
       width: 343,
       height: 200,
-      // data: '/itaas/getSlideImage',
-      // data: 'https://i.picsum.photos/id/0/5616/3744.jpg?hmac=3GAAioiQziMGEtLbfrdbcoenXoWAW-zlyEAMkfEdBzQ',
+      data: 'http://localhost:3000/sliderImage',
       onSucess: () => {},
       onError: () => {}
     });

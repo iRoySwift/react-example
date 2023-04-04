@@ -1,4 +1,12 @@
-import G6 from '@antv/g6';
+/*
+ * @Author: Roy
+ * @Date: 2022-07-28 11:08:02
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-12 11:45:58
+ * @Description: tooltip
+ */
+
+import { G6 } from '@suning/uxcool-graphin';
 
 const toolbar = new G6.ToolBar({
   getContent: () => {
@@ -90,6 +98,6 @@ const toolbar = new G6.ToolBar({
   //   // } else if (code === 'zoomOut') {
   //   //   toolbar.zoomOut();
   //   // }
-    // }
+  // }
 });
 export default toolbar;

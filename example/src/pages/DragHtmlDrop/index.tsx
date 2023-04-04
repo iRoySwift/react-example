@@ -1,3 +1,10 @@
+/*
+ * @Author: Roy
+ * @Date: 2022-05-03 10:02:40
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-16 17:25:22
+ * @Description: 请填写简介
+ */
 import React from 'react';
 import './index.css';
 
@@ -6,7 +13,7 @@ const App: React.FC<Props> = () => {
   const onDragStart = (e: any): void => {
     // e.preventDefault();
     e.stopPropagation();
-    e.dataTransfer.setData('Text', e.target.id);
+    e.dataTransfer.setData('data', e.target.id);
   };
 
   // const onDrag = (e: React.DragEvent<HTMLSpanElement>): void => {
@@ -29,8 +36,6 @@ const App: React.FC<Props> = () => {
     e.preventDefault();
     e.stopPropagation();
     e.persist();
-    // @ts-ignore
-    const data = e.dataTransfer.getData('service');
   };
 
   // const onDragLeave = (e: React.DragEvent<HTMLDivElement>): any => {
@@ -43,7 +48,8 @@ const App: React.FC<Props> = () => {
     e.preventDefault();
     e.stopPropagation();
     const pattern1 = /^box/;
-    const data = e.dataTransfer.getData('Text');
+    const data = e.dataTransfer.getData('data');
+
     if (pattern1.test(e.target.id)) {
       e.target.appendChild(document.getElementById(data));
       e.preventDefault();

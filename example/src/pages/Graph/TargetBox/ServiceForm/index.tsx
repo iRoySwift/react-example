@@ -1,3 +1,10 @@
+/*
+ * @Author: Roy
+ * @Date: 2022-07-25 14:16:04
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-17 17:38:04
+ * @Description: 弹窗
+ */
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -17,6 +24,8 @@ import { Button } from '@mui/material';
 export default function TemporaryDrawer() {
   const [show, setShow] = React.useState(false);
   const [nodeId, setNodeId] = React.useState('');
+  const [type, setType] = React.useState('');
+
   const anchor = 'right';
 
   const toggleDrawer = () => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -57,20 +66,28 @@ export default function TemporaryDrawer() {
   );
 
   const submit = () => {
-    $Bus.emit('node:update', { nodeId, formData: { name: 'test' } });
+    if (type === 'node') {
+      $Bus.emit('add:node:success', { nodeId, formData: { name: 'testxssdfefefsfafawfregfrg' } });
+    }
+    if (type === 'edge') {
+      $Bus.emit('add:edge:success', { nodeId, formData: { name: 'testxssdfefefsfafawfregfrg' } });
+    }
   };
 
-  const showServiceForm = (e) => {
-    const id = e.item.get('id');
-    setNodeId(id);
-    setShow(true);
-  };
+  const showServiceForm = React.useCallback(
+    (e: any) => {
+      setNodeId(e.id);
+      setShow(true);
+      setType(e.type);
+    },
+    [setType]
+  );
   React.useEffect(() => {
     $Bus.on('show:ServiceForm', showServiceForm);
     return () => {
       $Bus.off('show:ServiceForm', showServiceForm);
     };
-  }, []);
+  }, [showServiceForm]);
 
   return (
     <React.Fragment key={anchor}>

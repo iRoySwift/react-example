@@ -1,3 +1,10 @@
+/*
+ * @Author: Roy
+ * @Date: 2022-07-22 18:01:35
+ * @LastEditors: Roy
+ * @LastEditTime: 2022-08-25 10:34:51
+ * @Description: 节点 事件处理方法
+ */
 import { IG6GraphEvent } from '@suning/uxcool-graphin';
 
 function nodeClick(this, e: IG6GraphEvent) {
@@ -36,16 +43,14 @@ function nodeDrop(this, e: IG6GraphEvent) {
   this.$Bus.emit('node:drop', { e, graph });
 }
 
-function nodeMouseEnter(this, e: IG6GraphEvent) {
-  console.log(this, e);
-}
+function nodeMouseEnter(this, _e: IG6GraphEvent) {}
 
 function nodeMouseOut() {
-  let tooltipDom = document.querySelectorAll('.g6-component-tooltip');
-  if (tooltipDom.length) {
-    //@ts-ignore
-    tooltipDom[0].style.visibility = 'hidden';
-  }
+  // let tooltipDom = document.querySelectorAll('.g6-component-tooltip');
+  // if (tooltipDom.length) {
+  //   //@ts-ignore
+  //   tooltipDom[0].style.visibility = 'hidden';
+  // }
 }
 
 export { nodeClick, nodeDrop, nodeMouseEnter, nodeMouseOut };

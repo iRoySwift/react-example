@@ -10,8 +10,8 @@ const MessageComp: React.FC<Props> = () => {
     messageRef.current = new Message();
   }, []);
   const show = () => {
-    messageRef!.current!.error('sse');
-    messageRef!.current!.error({ content: '错误！', duration: 20000, closeable: true });
+    messageRef!.current!.success('sse');
+    // messageRef!.current!.error({ content: '错误！', duration: 20000, closeable: true });
   };
   return (
     <div>
