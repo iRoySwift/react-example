@@ -1,34 +1,47 @@
 // import { python } from '@codemirror/lang-python';
 import { useEffect, useState } from 'react';
+import { indentWithTab } from '@codemirror/commands';
+import { indentUnit } from '@codemirror/language';
 // import { basicSetup, minimalSetup } from 'codemirror';
 import { EditorState, StateEffect } from '@codemirror/state';
-import { EditorView } from '@codemirror/view';
+import { EditorView, keymap, ViewUpdate, placeholder } from '@codemirror/view';
 
 import { oneDark } from '@codemirror/theme-one-dark';
-
+// import { indentationMarkers } from '@replit/codemirror-indentation-markers';
 import { ReactCodeMirrorProps } from '..';
 import { basicSetup } from '../extensions/basic-setup';
-// import { basicSetup } from 'codemirror';
+import { getStatistics } from '../utils';
+import { indentationMarkers } from '../extensions/indentation-markets';
 
 interface iUseCodeMirror extends ReactCodeMirrorProps {
   container?: HTMLDivElement | null;
 }
-const useCodeMirror = (props: iUseCodeMirror) => {
+export function useCodeMirror(props: iUseCodeMirror) {
   const {
     value,
+    selection,
+    onChange,
+    onStatistics,
+    onCreateEditor,
+    onUpdate,
+    extensions = [],
+    autoFocus,
     theme = 'light',
     height = '',
     minHeight = '',
     maxHeight = '',
+    placeholder: placeholderStr = '',
     width = '',
     minWidth = '',
     maxWidth = '',
+    tabSize,
     editable = true,
-    extensions = [],
+    readOnly = false,
+    indentWithTab: defaultIndentWithTab = true,
     basicSetup: defaultBasicSetup = true,
+    root,
     initialState
   } = props;
-  console.log('🚀 ~ file: useCodeMirror.ts:4 ~ useCodeMirror ~ props:', theme);
   const [container, setContainer] = useState<HTMLDivElement>();
   const [view, setView] = useState<EditorView>();
   const [state, setState] = useState<EditorState>();
@@ -52,17 +65,19 @@ const useCodeMirror = (props: iUseCodeMirror) => {
       maxWidth
     }
   });
-  let getExtensions = [
-    defaultThemeOption
-    // basicSetup,
-    // minimalSetup
-    // language.of(python()),
-    // tabSize.of(EditorState.tabSize.of(8)),
-    // keymap.of([indentWithTab, { key: 'Alt-l', run: moveToLine }]),
-    // keymap.of(defaultKeymap)
-  ];
-  useEffect(() => setContainer(props.container!), [props.container]);
+  const updateListener = EditorView.updateListener.of((vu: ViewUpdate) => {
+    if (vu.docChanged && typeof onChange === 'function') {
+      const doc = vu.state.doc;
+      const value = doc.toString();
+      onChange(value, vu);
+    }
+    onStatistics && onStatistics(getStatistics(vu));
+  });
 
+  let getExtensions = [updateListener, indentationMarkers(), defaultThemeOption];
+  if (defaultIndentWithTab) {
+    getExtensions.unshift(keymap.of([indentWithTab]));
+  }
   if (defaultBasicSetup) {
     if (typeof defaultBasicSetup === 'boolean') {
       getExtensions.unshift(basicSetup());
@@ -71,7 +86,10 @@ const useCodeMirror = (props: iUseCodeMirror) => {
     }
   }
 
-  console.log('🚀 ~ file: useCodeMirror.ts:63 ~ useCodeMirror ~ theme:', theme);
+  if (placeholderStr) {
+    getExtensions.unshift(placeholder(placeholderStr));
+  }
+
   switch (theme) {
     case 'light':
       getExtensions.push(defaultLightThemeOption);
@@ -87,33 +105,47 @@ const useCodeMirror = (props: iUseCodeMirror) => {
   if (editable === false) {
     getExtensions.push(EditorView.editable.of(false));
   }
+  if (readOnly) {
+    getExtensions.push(EditorState.readOnly.of(true));
+  }
 
+  if (onUpdate && typeof onUpdate === 'function') {
+    getExtensions.push(EditorView.updateListener.of(onUpdate));
+  }
+  if (tabSize) {
+    getExtensions.push(EditorState.tabSize.of(tabSize));
+    getExtensions.push(indentUnit.of(' '.repeat(tabSize)));
+  }
   getExtensions = getExtensions.concat(extensions);
 
   useEffect(() => {
-    console.log('🚀 ~ file: useCodeMirror.ts:21 ~ useEffect ~ container:', container);
     if (container && !state) {
       const config = {
         doc: value,
+        selection,
         extensions: getExtensions
       };
-      let stateCurrent = initialState ? EditorState.fromJSON(initialState.json, config, initialState.fields) : EditorState.create(config);
+      const stateCurrent = initialState ? EditorState.fromJSON(initialState.json, config, initialState.fields) : EditorState.create(config);
       setState(stateCurrent);
       if (!view) {
         const viewCurrent = new EditorView({
+          state: stateCurrent,
           parent: container,
-          state: stateCurrent
+          root
         });
         setView(viewCurrent);
+        onCreateEditor && onCreateEditor(viewCurrent, stateCurrent);
       }
     }
     return () => {
       if (view) {
-        setView(undefined);
         setState(undefined);
+        setView(undefined);
       }
     };
-  }, [container, value, state]);
+  }, [container, state]);
+
+  useEffect(() => setContainer(props.container!), [props.container]);
 
   useEffect(
     () => () => {
@@ -126,10 +158,34 @@ const useCodeMirror = (props: iUseCodeMirror) => {
   );
 
   useEffect(() => {
+    if (autoFocus && view) {
+      view.focus();
+    }
+  }, [autoFocus, view]);
+
+  useEffect(() => {
     if (view) {
       view.dispatch({ effects: StateEffect.reconfigure.of(getExtensions) });
     }
-  }, [theme, extensions, height, minHeight, maxHeight, width, minWidth, maxWidth, defaultBasicSetup]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    theme,
+    extensions,
+    height,
+    minHeight,
+    maxHeight,
+    tabSize,
+    width,
+    minWidth,
+    maxWidth,
+    placeholderStr,
+    editable,
+    readOnly,
+    defaultIndentWithTab,
+    defaultBasicSetup,
+    onChange,
+    onUpdate
+  ]);
 
   useEffect(() => {
     const currentValue = view ? view.state.doc.toString() : '';
@@ -140,7 +196,5 @@ const useCodeMirror = (props: iUseCodeMirror) => {
     }
   }, [value, view]);
 
-  return [view, setView, view, setView, container, setContainer];
-};
-
-export { useCodeMirror };
+  return { state, setState, view, setView, container, setContainer };
+}
