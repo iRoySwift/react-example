@@ -1,7 +1,9 @@
 import { useRoutes } from 'react-router-dom';
-// import LoginRoutes from "./LoginRoute";
 import MainRoute from './MainRoute';
+import Components from './Components';
+
+export let routes = [MainRoute, Components];
 
 export default function Routes() {
-  return useRoutes([MainRoute]);
+  return useRoutes(routes);
 }

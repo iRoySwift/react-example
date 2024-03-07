@@ -139,24 +139,38 @@ const Xterm: React.FC<Props> = ({ tabs, active, setActive, setList }) => {
 
   return (
     <>
-      {tabs.length ? (
+      {tabs?.length ? (
         <Container>
           <Tabs className="tabs">
             {tabs.map((tab) => (
-              <div key={tab.pid} className={active === tab.pid ? 'tab active' : 'tab'} onClick={() => switchTo(tab.pid)}>
+              <div
+                key={tab.pid}
+                className={active === tab.pid ? 'tab active' : 'tab'}
+                onClick={() => switchTo(tab.pid)}>
                 <TerminalIcon sx={{ fontSize: 16, marginRight: 1 }} />
                 <span>{tab.name}</span>
-                <CancelPresentationIcon sx={{ fontSize: 16, marginLeft: 1 }} onClick={() => close(tab.pid)} />
+                <CancelPresentationIcon
+                  sx={{ fontSize: 16, marginLeft: 1 }}
+                  onClick={() => close(tab.pid)}
+                />
               </div>
             ))}
 
-            <div className="resizer" onMouseDown={dragStart} onTouchStart={dragStart}>
+            <div
+              className="resizer"
+              onMouseDown={dragStart}
+              onTouchStart={dragStart}>
               <UnfoldMoreIcon sx={{ fontSize: 16 }} />
             </div>
           </Tabs>
           {tabs.map((tab) => (
-            <Content key={tab.pid} className={active === tab.pid ? 'body active' : 'body'}>
-              <Shell termHeight={termHeight} tab={tab} />
+            <Content
+              key={tab.pid}
+              className={active === tab.pid ? 'body active' : 'body'}>
+              <Shell
+                termHeight={termHeight}
+                tab={tab}
+              />
             </Content>
           ))}
         </Container>
