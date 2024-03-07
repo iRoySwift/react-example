@@ -9,7 +9,7 @@
     "bootstrap": "lerna bootstrap",
     "clean": "lerna clean",
     "upgrade": "cd packages/graphin && yarn upgrade-interactive --latest",
-    "start": "cd example && yarn start",
+    "start": "cd example && npm start",
     "build": "lerna run build",
     "build:graph": "npm run build  --scope=@suning/uxcool-graphin"
   },

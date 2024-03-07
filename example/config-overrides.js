@@ -1,5 +1,13 @@
 const path = require('path');
-const { override, fixBabelImports, addBabelPreset, addDecoratorsLegacy, addWebpackAlias, overrideDevServer, setWebpackPublicPath } = require('customize-cra');
+const {
+  override,
+  fixBabelImports,
+  addBabelPreset,
+  addDecoratorsLegacy,
+  addWebpackAlias,
+  overrideDevServer,
+  setWebpackPublicPath
+} = require('customize-cra');
 
 // 跨域配置
 const devServerConfig = () => (config) => {
@@ -8,11 +16,11 @@ const devServerConfig = () => (config) => {
     // 服务开启gzip
     compress: true,
     proxy: {
-      '/itaas': {
-        target: 'http://192.168.137.1:8080',
+      '/jsonplaceholder': {
+        target: 'https://jsonplaceholder.typicode.com',
         changeOrigin: true,
         pathRewrite: {
-          '^/itaas': '/itaas'
+          '^/jsonplaceholder': '/'
         }
       }
     }
