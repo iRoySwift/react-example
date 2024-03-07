@@ -1,29 +1,42 @@
 {
-    "translation": {
-        "menu": {
-            "navigation": "Navigation",
-            "dashboard": "Dashboard",
-            "authentication": "Authentication",
-            "login": "Login",
-            "register": "Register",
-            "utilities": "Utilities",
-            "typography": "Typography",
-            "colors": "Colors",
-            "shadow": "Shadow",
-            "muiicon": "Mui Icons"
-        },
-        "greeting": {
-            "hello": "Hello"
-        },
-        "navBar": {
-            "home": "Home",
-            "language_en": "EN",
-            "language_zh": "简体中文"
-        },
-        "home": {
-            "learn": "Learn",
-            "edit": "Edit",
-            "andSaveToReload": "and save to reload."
-        }
+  "translation": {
+    "menu": {
+      "navigation": "Navigation",
+      "dashboard": "Dashboard",
+      "authentication": "Authentication",
+      "login": "Login",
+      "register": "Register",
+      "utilities": "Utilities",
+      "typography": "Typography",
+      "colors": "Colors",
+      "shadow": "Shadow",
+      "muiicon": "Mui Icons",
+      "graph": "Graph",
+      "xterm": "Xterm",
+      "draghtmldrop": "DragHtmlDrop",
+      "dragjsplumbmenu": "DragJsplumbMenu",
+      "nativejsldemo": "NativeJsLDemo",
+      "blocklydemo": "BlocklyDemo",
+      "editordemo": "EditorDemo",
+      "openlayers": "Openlayers",
+      "baidu": "Baidu",
+      "amap": "Amap",
+      "video": "Video",
+      "axios": "Axios",
+      "notfoundpage": "NotFoundPage"
+    },
+    "greeting": {
+      "hello": "Hello"
+    },
+    "navBar": {
+      "home": "Home",
+      "language_en": "EN",
+      "language_zh": "简体中文"
+    },
+    "home": {
+      "learn": "Learn",
+      "edit": "Edit",
+      "andSaveToReload": "and save to reload."
     }
+  }
 }
