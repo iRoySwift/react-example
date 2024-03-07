@@ -12,6 +12,18 @@
       "learn": "Learn",
       "edit": "Edit",
       "andSaveToReload": "and save to reload."
+    },
+    "menu": {
+      "navigation": "Navigation",
+      "dashboard": "Dashboard",
+      "authentication": "Authentication",
+      "login": "Login",
+      "register": "Register",
+      "utilities": "Utilities",
+      "typography": "Typography",
+      "color": "Color",
+      "shadow": "Shadow",
+      "muiIcon": "Mui Icons"
     }
   }
 }

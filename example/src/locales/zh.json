@@ -12,6 +12,18 @@
       "learn": "学习",
       "edit": "编辑",
       "andSaveToReload": "并保存以重新加载。"
+    },
+    "menu": {
+      "navigation": "导航",
+      "dashboard": "面板",
+      "authentication": "授权",
+      "login": "登录",
+      "register": "注册",
+      "utilities": "工具",
+      "typography": "排版",
+      "color": "色彩",
+      "shadow": "阴影",
+      "muiIcon": "图标"
     }
   }
 }

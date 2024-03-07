@@ -5,7 +5,7 @@ import overrides from './overrides';
 // ** Theme
 import themeOptions from './ThemeOptions';
 import * as locales from '@mui/material/locale';
-// import { useLayoutState } from "@/content/withLayoutContent";
+import { useLayoutState } from '@/content/withLayoutContent';
 import { useMemo } from 'react';
 
 interface Props {
@@ -13,7 +13,7 @@ interface Props {
 }
 
 const ThemeCustomization: React.FC<Props> = ({ children }) => {
-  // const { language } = useLayoutState();
+  const { language } = useLayoutState();
 
   // ** Merged ThemeOptions of Core and User
   const coreThemeConfig = themeOptions();
@@ -21,14 +21,14 @@ const ThemeCustomization: React.FC<Props> = ({ children }) => {
 
   const themeWithLocale = useMemo(() => {
     // ** Pass ThemeOptions to CreateTheme Function to create partial theme without component overrides
-    let theme = createTheme(coreThemeConfig, locales['zhCN']);
+    let theme = createTheme(coreThemeConfig, locales[language]);
     // themes.components = componentsOverride(themes);
     // ** Continue theme creation and pass merged component overrides to CreateTheme function
     theme = createTheme(theme, {
       components: { ...overrides(theme) }
     });
     return theme;
-  }, [coreThemeConfig]);
+  }, [language, coreThemeConfig]);
 
   return (
     <StyledEngineProvider injectFirst>
