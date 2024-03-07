@@ -41,7 +41,7 @@ const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel, TopoData },
    * 命令注册
    */
   const registerCommand = () => {
-    each(commands, (command, type) => {
+    each(commands, (command, type: any) => {
       graph && graph.current!.cmd.registerCommand && graph.current!.cmd.registerCommand(type, command);
     });
   };
@@ -260,7 +260,9 @@ const Topo: ForwardRefRenderFunction<unknown, Props> = ({ editModel, TopoData },
 
   return (
     <div>
-      <div className="graphin-core" ref={topoRef}></div>
+      <div
+        className="graphin-core"
+        ref={topoRef}></div>
     </div>
   );
 };
