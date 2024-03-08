@@ -9,7 +9,9 @@ const OpenButton = () => {
   const dispatch = useDrawerDispatch();
 
   const toggleDrawer = () => () => {
+    console.time();
     dispatch(openDrawer());
+    console.timeEnd();
   };
   return <Button onClick={toggleDrawer()}>Open drawer with Context</Button>;
 };
@@ -20,7 +22,9 @@ const ContextDemo = withProvider(() => {
   const dispatch = useDrawerDispatch();
 
   const toggleDrawer = () => () => {
+    console.time();
     dispatch(closeDrawer());
+    console.timeEnd();
   };
   return (
     <div>

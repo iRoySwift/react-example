@@ -13,7 +13,9 @@ const OpenButton = () => {
 
   const toggleDrawer = () => () => {
     // dispatch(openDrawer(true));
+    console.time();
     setDrawer(true);
+    console.timeEnd();
   };
   return <Button onClick={toggleDrawer()}>Open drawer with Jotai</Button>;
 };
@@ -27,7 +29,9 @@ const JotaiDemo = withProvider(() => {
 
   const toggleDrawer = () => () => {
     // dispatch(closeDrawer(false));
+    console.time();
     setDrawer(false);
+    console.timeEnd();
   };
   return (
     <div>

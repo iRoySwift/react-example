@@ -12,7 +12,9 @@ const OpenButton = () => {
 
   const toggleDrawer = () => () => {
     // dispatch(openDrawer(true));
+    console.time();
     openDrawer();
+    console.timeEnd();
   };
   return <Button onClick={toggleDrawer()}>Open drawer with Zustand</Button>;
 };
@@ -26,7 +28,9 @@ const ZustandDemo = () => {
 
   const toggleDrawer = () => () => {
     // dispatch(closeDrawer(false));
+    console.time();
     closeDrawer();
+    console.timeEnd();
   };
   return (
     <div>

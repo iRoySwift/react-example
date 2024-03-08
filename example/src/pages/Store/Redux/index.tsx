@@ -9,7 +9,9 @@ const OpenButton = () => {
   const dispatch = useDrawerDispatch();
 
   const toggleDrawer = () => () => {
+    console.time();
     dispatch(openDrawer(true));
+    console.timeEnd();
   };
   return <Button onClick={toggleDrawer()}>Open drawer with Redux</Button>;
 };
@@ -20,7 +22,9 @@ const ReduxDemo = withProvider(() => {
   const dispatch = useDrawerDispatch();
 
   const toggleDrawer = () => () => {
+    console.time();
     dispatch(closeDrawer(false));
+    console.timeEnd();
   };
   return (
     <div>
