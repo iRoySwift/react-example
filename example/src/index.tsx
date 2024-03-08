@@ -5,6 +5,8 @@ import '@amap/amap-jsapi-types';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from 'react-redux';
+import store from './store';
 
 console.info('%c%s', 'color: rgb(120, 187, 120); font-size: 24px;', 'Project is running!');
 console.info(
@@ -17,9 +19,11 @@ console.info(
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <App />
+      </Router>
+    </Provider>
   </React.StrictMode>
 );
 

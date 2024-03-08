@@ -1,17 +1,16 @@
 {
-  "extends": "./paths.json",
   "compilerOptions": {
-    "target": "es6",
+    "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
-    "jsxImportSource": "@emotion/react",
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "strict": false,
-    "forceConsistentCasingInFileNames": true,
-    "module": "esnext",
+    "strict": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "resolveJsonModule": true,
-    "isolatedModules": true,
+    "esModuleInterop": true,
+    "allowImportingTsExtensions": true,
     "noEmit": true,
+    "verbatimModuleSyntax": false,
+    "forceConsistentCasingInFileNames": true,
     "alwaysStrict": true,
     "experimentalDecorators": true,
     "noImplicitAny": false,
@@ -25,10 +24,12 @@
     "preserveConstEnums": true,
     "allowJs": false,
     "allowSyntheticDefaultImports": true,
+    "allowArbitraryExtensions": true,
     "skipLibCheck": true,
     "jsx": "react-jsx",
     "noFallthroughCasesInSwitch": true
   },
   "include": ["src"],
-  "exclude": ["node_modules", ".vscode"]
+  "exclude": ["node_modules", ".vscode"],
+  "extends": "./tsconfig.paths.json"
 }

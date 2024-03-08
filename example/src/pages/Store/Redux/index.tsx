@@ -9,18 +9,18 @@ const OpenButton = () => {
   const dispatch = useDrawerDispatch();
 
   const toggleDrawer = () => () => {
-    dispatch(openDrawer());
+    dispatch(openDrawer(true));
   };
-  return <Button onClick={toggleDrawer()}>Open drawer with Context</Button>;
+  return <Button onClick={toggleDrawer()}>Open drawer with Redux</Button>;
 };
 
 // Drawer
-const ContextDemoe = withProvider(() => {
-  const { drawer } = useDrawerState();
+const ReduxDemoe = withProvider(() => {
+  const { drawer } = useDrawerState((state) => state.menuSlice);
   const dispatch = useDrawerDispatch();
 
   const toggleDrawer = () => () => {
-    dispatch(closeDrawer());
+    dispatch(closeDrawer(false));
   };
   return (
     <div>
@@ -35,4 +35,4 @@ const ContextDemoe = withProvider(() => {
   );
 });
 
-export default ContextDemoe;
+export default ReduxDemoe;
