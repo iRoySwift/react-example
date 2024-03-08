@@ -15,7 +15,7 @@ const OpenButton = () => {
 };
 
 // Drawer
-const ContextDemoe = withProvider(() => {
+const ContextDemo = withProvider(() => {
   const { drawer } = useDrawerState();
   const dispatch = useDrawerDispatch();
 
@@ -35,4 +35,4 @@ const ContextDemoe = withProvider(() => {
   );
 });
 
-export default ContextDemoe;
+export default ContextDemo;

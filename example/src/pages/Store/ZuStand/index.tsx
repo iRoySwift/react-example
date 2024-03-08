@@ -18,7 +18,7 @@ const OpenButton = () => {
 };
 
 // Drawer
-const ZustandDemoe = () => {
+const ZustandDemo = () => {
   // const { drawer } = useStoreState((state) => state.menuSlice);
   // const dispatch = useStoreDispatch();
 
@@ -41,4 +41,4 @@ const ZustandDemoe = () => {
   );
 };
 
-export default ZustandDemoe;
+export default ZustandDemo;

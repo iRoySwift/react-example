@@ -15,7 +15,7 @@ const OpenButton = () => {
 };
 
 // Drawer
-const ReduxDemoe = withProvider(() => {
+const ReduxDemo = withProvider(() => {
   const { drawer } = useDrawerState((state) => state.menuSlice);
   const dispatch = useDrawerDispatch();
 
@@ -35,4 +35,4 @@ const ReduxDemoe = withProvider(() => {
   );
 });
 
-export default ReduxDemoe;
+export default ReduxDemo;

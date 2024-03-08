@@ -1,17 +1,17 @@
 import React from 'react';
-import ContextDemoe from './Context';
-import ReduxDemoe from './Redux';
-import ZustandDemoe from './ZuStand';
-import JotaiDemoe from './Jotai';
+import ContextDemo from './Context';
+import ReduxDemo from './Redux';
+import ZustandDemo from './ZuStand';
+import JotaiDemo from './Jotai';
 
 interface Props {}
 const Store: React.FC<Props> = () => {
   return (
     <div>
-      <ContextDemoe />
-      <ReduxDemoe />
-      <ZustandDemoe />
-      <JotaiDemoe />
+      <ContextDemo />
+      <ReduxDemo />
+      <ZustandDemo />
+      <JotaiDemo />
     </div>
   );
 };

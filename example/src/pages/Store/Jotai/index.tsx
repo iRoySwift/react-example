@@ -19,7 +19,7 @@ const OpenButton = () => {
 };
 
 // Drawer
-const JotaiDemoe = withProvider(() => {
+const JotaiDemo = withProvider(() => {
   // const { drawer } = useDrawerState((state) => state.menuSlice);
   // const dispatch = useDrawerDispatch();
 
@@ -42,4 +42,4 @@ const JotaiDemoe = withProvider(() => {
   );
 });
 
-export default JotaiDemoe;
+export default JotaiDemo;
