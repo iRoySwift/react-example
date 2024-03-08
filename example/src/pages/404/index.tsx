@@ -1,8 +1,6 @@
 import React from 'react';
 import { styled } from '@mui/material/styles';
 import Mobile404Image from '@/assets/404/mobile_404.png';
-import Content from '@/components/Content';
-import Page from '@/components/Page';
 
 interface Props {}
 
@@ -32,13 +30,9 @@ const NotFoundImage = styled('img')`
 `;
 const NotFoundPage: React.FC<Props> = () => {
   return (
-    <Page>
-      <Content>
-        <NoFoundPanel>
-          <NotFoundImage src={Mobile404Image}></NotFoundImage>
-        </NoFoundPanel>
-      </Content>
-    </Page>
+    <NoFoundPanel>
+      <NotFoundImage src={Mobile404Image}></NotFoundImage>
+    </NoFoundPanel>
   );
 };
 export default NotFoundPage;
