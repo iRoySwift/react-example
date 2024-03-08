@@ -18,6 +18,7 @@ const Openlayers = Loadable(lazy(() => import('@/pages/Map/Openlayers')));
 const Baidu = Loadable(lazy(() => import('@/pages/Map/Baidu')));
 const Amap = Loadable(lazy(() => import('@/pages/Map/Amap')));
 const Video = Loadable(lazy(() => import('@/pages/Video')));
+const Store = Loadable(lazy(() => import('@/pages/Store')));
 
 const MainRoute: RouteObject | any = {
   path: '/',
@@ -99,6 +100,7 @@ const MainRoute: RouteObject | any = {
     { path: '/amap', element: <Amap />, name: 'Amap', icon: Window, type: 'item', breadcrumbs: true },
     { path: '/video', element: <Video />, name: 'Video', icon: Window, type: 'item', breadcrumbs: true },
     { path: '/axios', element: <Axios />, name: 'Axios', icon: Window, type: 'item', breadcrumbs: true },
+    { path: '/store', element: <Store />, name: 'Store', icon: Window, type: 'item', breadcrumbs: true },
     { path: '/404', element: <NotFoundPage />, name: 'NotFoundPage', icon: Window, type: 'item', breadcrumbs: true },
     { path: '*', element: <Navigate to="/404" />, name: 'Navigate', icon: Window, type: 'item', breadcrumbs: true }
   ]

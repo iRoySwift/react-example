@@ -51,11 +51,11 @@ const handleChangeLanguage = (v: iLan) => ({
   type: LayoutAction.CHANGE_LANGUAGE,
   language: v
 });
-const LayoutContent = createContext({
+const LayoutContext = createContext({
   state: initialState,
   dispatch: console.info
 });
-const withLayoutContent =
+const withLayoutContext =
   (Component): React.FC<Props> =>
   (props) => {
     const [state, dispatch] = useReducer(reducer, initialState);
@@ -64,14 +64,14 @@ const withLayoutContent =
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     return (
-      <LayoutContent.Provider value={{ state, dispatch }}>
+      <LayoutContext.Provider value={{ state, dispatch }}>
         <Component {...props} />
-      </LayoutContent.Provider>
+      </LayoutContext.Provider>
     );
   };
 
-const useLayoutState = () => useContext(LayoutContent).state;
-const useLayoutDispatch = () => useContext(LayoutContent).dispatch;
+const useLayoutState = () => useContext(LayoutContext).state;
+const useLayoutDispatch = () => useContext(LayoutContext).dispatch;
 
 export { useLayoutState, useLayoutDispatch, activeItem, openDrawer, closeDrawer, handleChangeLanguage };
-export default withLayoutContent;
+export default withLayoutContext;
