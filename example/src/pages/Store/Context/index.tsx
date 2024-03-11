@@ -3,6 +3,7 @@ import Drawer from '@mui/material/Drawer';
 import Button from '@mui/material/Button';
 import { Box } from '@mui/material';
 import withProvider, { closeDrawer, openDrawer, useDrawerDispatch, useDrawerState } from './Store';
+import Test from './Test';
 
 // Button
 const OpenButton = () => {
@@ -35,6 +36,7 @@ const ContextDemo = withProvider(() => {
         onClose={toggleDrawer()}>
         <Box sx={{ display: 'flex', width: 250, height: '100%', alignItems: 'center', justifyContent: 'center' }}> test store</Box>
       </Drawer>
+      <Test />
     </div>
   );
 });

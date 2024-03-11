@@ -14,7 +14,8 @@ const closeDrawer = () => ({
 
 // state
 const initialState = {
-  drawer: false
+  drawer: false,
+  test: false
 };
 
 // reducers

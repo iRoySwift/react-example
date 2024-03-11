@@ -37,6 +37,7 @@ export default function ReContext() {
       </div>
       <button onClick={() => setColor('red')}>红色</button>
       <button onClick={() => setColor('green')}>绿色</button>
+      {/* let 字面量对象 {} */}
       <Theme.Provider value={{ color }}>
         <Con />
         <Side />

@@ -4,7 +4,8 @@ import { Provider, TypedUseSelectorHook, useDispatch, useSelector } from 'react-
 
 // state
 const initialState = {
-  drawer: false
+  drawer: false,
+  test: false
 };
 
 // slice
