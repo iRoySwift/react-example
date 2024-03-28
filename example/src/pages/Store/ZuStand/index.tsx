@@ -24,7 +24,7 @@ const ZustandDemo = () => {
   // const { drawer } = useStoreState((state) => state.menuSlice);
   // const dispatch = useStoreDispatch();
 
-  const { drawer, closeDrawer } = useDrawerStore((state: any) => state);
+  const { drawer, closeDrawer } = useDrawerStore();
   console.log('🚀 ~ ZustandDemo ~ drawer:', drawer);
 
   const toggleDrawer = () => () => {
