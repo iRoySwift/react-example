@@ -26,6 +26,7 @@ const JotaiDemo = withProvider(() => {
   // const dispatch = useDrawerDispatch();
 
   const [drawer, setDrawer] = useAtom(drawerAtom);
+  console.log('🚀 ~ JotaiDemo ~ drawer:', drawer);
 
   const toggleDrawer = () => () => {
     // dispatch(closeDrawer(false));

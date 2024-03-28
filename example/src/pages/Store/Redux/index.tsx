@@ -20,6 +20,7 @@ const OpenButton = () => {
 // Drawer
 const ReduxDemo = withProvider(() => {
   const { drawer } = useDrawerState((state) => state.menuSlice);
+  console.log('🚀 ~ ReduxDemo ~ drawer:', drawer);
   const dispatch = useDrawerDispatch();
 
   const toggleDrawer = () => () => {

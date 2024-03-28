@@ -20,6 +20,7 @@ const OpenButton = () => {
 // Drawer
 const ContextDemo = withProvider(() => {
   const { drawer } = useDrawerState();
+  console.log('🚀 ~ ContextDemo ~ drawer:', drawer);
   const dispatch = useDrawerDispatch();
 
   const toggleDrawer = () => () => {
